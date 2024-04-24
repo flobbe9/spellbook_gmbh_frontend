@@ -1,0 +1,16 @@
+{
+  "short_name": "spellbook_ug",
+  "name": "Spellbook UG",
+  "icons": [
+    {
+        "src": "images/favicon.png",
+        "type": "image/webp",
+        "sizes": "512x512"
+    }
+
+  ],
+  "start_url": "https://spellbook-ug.de",
+  "display": "standalone",
+  "theme_color": "#ffe4c4",
+  "background_color": "#ffffff"
+}
