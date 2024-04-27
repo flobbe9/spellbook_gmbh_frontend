@@ -11,9 +11,9 @@ interface Props extends DefaultProps {
  * 
  * @since 0.0.1
  */
-export default function DefaultComponent({...otherProps}: Props) {
+export default function Image({...otherProps}: Props) {
 
-    const { id, className, style, children } = getCleanDefaultProps(otherProps, "DefaultComponent");
+    const { id, className, style, children } = getCleanDefaultProps(otherProps, "Image");
 
     return (
         <div 

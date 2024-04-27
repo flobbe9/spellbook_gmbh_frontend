@@ -1,0 +1,22 @@
+.NavBar {
+    background-color: rgb(97, 97, 97);
+    border: 5px solid var(--themeColor);
+    border-radius: var(--borderRadius);
+    color: rgb(204, 202, 202);
+    font-size: 20px;
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+
+    .navHeading {
+        font-size: 35px;
+    }
+
+    .navItem {
+        margin: 0 70px;
+    }
+
+    .spellbookUGTransparent {
+        filter: invert(1);
+    }
+}

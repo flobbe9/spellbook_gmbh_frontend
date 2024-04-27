@@ -1,4 +1,5 @@
 import React from "react";
+import "../assets/styles/Home.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 
 
@@ -9,11 +10,11 @@ interface Props extends DefaultProps {
 
 /**
  * 
- * @since 0.0.1
+ * @returns @since 0.0.1
  */
-export default function DefaultComponent({...otherProps}: Props) {
+export default function Home({...otherProps}: Props) {
 
-    const { id, className, style, children } = getCleanDefaultProps(otherProps, "DefaultComponent");
+    const { id, className, style, children } = getCleanDefaultProps(otherProps, "Home");
 
     return (
         <div 
@@ -21,7 +22,7 @@ export default function DefaultComponent({...otherProps}: Props) {
             className={className}
             style={style}
             >
-                
+                <p>content here...</p>
             {children}
         </div>
     )
