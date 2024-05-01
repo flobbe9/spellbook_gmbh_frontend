@@ -1,6 +1,8 @@
 :root {
-    --borderRadius: 3px;
     --backgroundColor: white;
+    --borderRadius: 3px;
+    --color: black;
+    --contentWidth: 800px;
     --themeColor: #a666f8;
 }
 
@@ -8,8 +10,24 @@
     background-color: var(--backgroundColor);
     position: relative;
 
+    /* wp adjustments */
+    code {
+        color: var(--color);
+    }
+
+    kbd {
+        background-color: var(--backgroundColor);
+        color: var(--color);
+    }
+
+    mark {
+        padding: 0;
+    }
+
+    /* other */
     .content {
         min-height: 100vh;
+        width: var(--contentWidth);
     }
 
     /* Buttons */

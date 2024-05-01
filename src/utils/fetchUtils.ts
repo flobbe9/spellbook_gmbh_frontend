@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { equalsIgnoreCaseTrim, isBlank, log, logApiResponse, logError, logWarn } from "./genericUtils";
 import { ApiExceptionFormat } from './../abstract/ApiExceptionFormat';
 import { WORDPRESS_BASE_URL } from "./constants";

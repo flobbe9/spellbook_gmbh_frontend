@@ -3,7 +3,7 @@
   "name": "Spellbook UG",
   "icons": [
     {
-        "src": "images/favicon.jpg",
+        "src": "images/favicon.ico",
         "type": "image/webp",
         "sizes": "512x512"
     }

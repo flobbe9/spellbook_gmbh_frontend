@@ -18,7 +18,8 @@ export function log(text?: any, obj?: any, debug = false): void {
         }
     }
 
-    console.log(obj);
+    if (obj)
+        console.log(obj);
 }
 
 
@@ -440,7 +441,7 @@ export function replaceAtIndex(str: string, replacement: string, startIndex: num
  * @returns ```expected === actual``` after calling ```toLowerCase()``` on both values.
  *          Types wont be considered: ```"1" === 1 = true```
  */
-export function equalsIgnoreCase(expected: string | number, actual: string | number): boolean {
+export function equalsIgnoreCase(expected: string | number | undefined, actual: string | number | undefined): boolean {
 
     if (!expected || !actual)
         return expected === actual;

@@ -1,6 +1,7 @@
 import React from "react";
 import "../assets/styles/NavBar.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import Sanitized from './helpers/Sanitized';
 
 
 interface Props extends DefaultProps {
@@ -13,7 +14,7 @@ interface Props extends DefaultProps {
  */
 export default function NavBar({...otherProps}: Props) {
 
-    const { id, className, style, children } = getCleanDefaultProps(otherProps, "NavBar");
+    const { id, className, style, children } = getCleanDefaultProps(otherProps, "NavBar", true);
 
     return (
         <div 
@@ -38,7 +39,7 @@ export default function NavBar({...otherProps}: Props) {
                 </div>
                 <div className="flexCenter mt-1">
                     {/* quotient of width/height should be ~5.92 */}
-                    <img className="companyName" src="companyName.png" alt="Logo" height="30" width="177"/>
+                    <img className="companyName" src="companyName.png" alt="Company name" height="30" width="177"/>
                 </div>
             </div>
 

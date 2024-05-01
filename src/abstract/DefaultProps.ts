@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode } from "react";
+import { log } from "../utils/genericUtils";
 
 
 /**
@@ -16,15 +17,16 @@ export default interface DefaultProps {
 /**
  * @param props to clean up
  * @param componentName to prepend to id and className
- * @returns clean default props object with componentName prepended to id and className and no ```undefined``` values
+ * @param componentNameAsId if true, the ```componentName``` will be prepended to id
+ * @returns clean default props object with componentName prepended to className and optionally to id 
  */
-export function getCleanDefaultProps(props: DefaultProps, componentName?: string): DefaultProps {
+export function getCleanDefaultProps(props: DefaultProps, componentName?: string, componentNameAsId = false): DefaultProps {
 
     componentName = componentName || "";
 
     return {
-        id: componentName + (props.id || ""),
-        className: componentName + (props.className || ""),
+        id: props.id || componentNameAsId ? componentName + (props.id || "") : undefined,
+        className: (componentName || "") + " " + (props.className || ""),
         children: props.children || "",
         style: props.style || {},
     }
