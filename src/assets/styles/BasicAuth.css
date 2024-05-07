@@ -1,0 +1,24 @@
+.BasicAuth {
+    min-height: 50vh;
+
+    .headingContainer {
+        margin-bottom: 20px;
+    }
+
+    .formContainer {
+        width: 300px;
+        
+        .formInput {
+            border: 2px solid var(--themeColor);
+            border-radius: var(--borderRadius);
+            height: 50px;
+            padding: 3px 5px;
+            width: 100%;
+
+            &:focus {
+                box-shadow: 0px 0px 2px 1px var(--themeColor) inset;
+                outline: none;
+            }
+        }
+    }
+}

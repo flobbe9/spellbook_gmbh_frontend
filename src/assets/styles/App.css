@@ -3,6 +3,7 @@
     --borderRadius: 3px;
     --color: black;
     --contentWidth: 800px;
+    --fontFamily: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
     --themeColor: #a666f8;
 }
 
@@ -10,7 +11,7 @@
     background-color: var(--backgroundColor);
     position: relative;
 
-    /* wp adjustments */
+    /* WP adjustments */
     code {
         color: var(--color);
     }
@@ -24,10 +25,34 @@
         padding: 0;
     }
 
-    /* other */
+    h1, h2, h3, h4, h5, h6 {
+        font-size: revert;
+        font-weight: revert;
+        margin: revert;
+    }
+
+    /* Other */
     .content {
+        font-family: var(--fontFamily);
         min-height: 100vh;
         width: var(--contentWidth);
+    }
+
+    .rotating {
+        -webkit-animation: rotating 2s linear infinite;
+        -moz-animation: rotating 2s linear infinite;
+        -ms-animation: rotating 2s linear infinite;
+        -o-animation: rotating 2s linear infinite;
+        animation: rotating 2s linear infinite;
+    }
+
+    .dontMarkText {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
     }
 
     /* Buttons */
@@ -161,6 +186,10 @@
         justify-content: right;
     }
 
+    .flex1 {
+        flex: 1;
+    }
+
     /* Other */
     .textCenter {
         text-align: center;
@@ -220,6 +249,7 @@
     }
 
     .hover {
+        cursor: pointer;
         transition: opacity 0.2s;
 
         &:hover {
@@ -228,6 +258,7 @@
     }
 
     .hoverStrong {
+        cursor: pointer;
         transition: opacity 0.2s;
 
         &:hover {
@@ -269,11 +300,21 @@
     }
 
     .disabled {
-        opacity: 0.5;
-        cursor: default;
+        opacity: 0.5 !important;
+        cursor: default !important;
     }
 
     .fullWidth {
         width: 100%;
     }
+
+    .fullWindowWidth {
+        /* not doing 100 because the browser's scrollbar would not be considered */
+        width: 98vw;
+    }
+}
+
+@keyframes rotating {
+    from {transform: rotate(0deg)}
+    to {transform: rotate(360deg)} 
 }

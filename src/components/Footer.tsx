@@ -1,7 +1,5 @@
 import React from "react";
-import "../assets/styles/Home.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
-import { getCssConstant } from "../utils/genericUtils";
 
 
 interface Props extends DefaultProps {
@@ -11,11 +9,11 @@ interface Props extends DefaultProps {
 
 /**
  * 
- * @returns @since 0.0.1
+ * @since 0.0.1
  */
-export default function Home({...otherProps}: Props) {
+export default function Footer({...otherProps}: Props) {
 
-    const { id, className, style, children } = getCleanDefaultProps(otherProps, "Home");
+    const { id, className, style, children } = getCleanDefaultProps(otherProps, "Footer");
 
     return (
         <div 
@@ -23,7 +21,7 @@ export default function Home({...otherProps}: Props) {
             className={className}
             style={style}
             >
-                <p>content here...</p>
+                
             {children}
         </div>
     )

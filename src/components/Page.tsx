@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import WPPage from "../abstract/wp/WPPage";
 import Block from "./blocks/Block";
+import Flex from "./helpers/Flex";
+import { COMPANY_NAME } from "../utils/constants";
 
 
 interface Props extends DefaultProps {
@@ -10,6 +12,8 @@ interface Props extends DefaultProps {
 
 
 /**
+ * Component rendering one page designed with wp.
+ * 
  * @since 0.0.1
  */
 export default function Page({wpPage, ...otherProps}: Props) {
@@ -18,20 +22,22 @@ export default function Page({wpPage, ...otherProps}: Props) {
 
 
     useEffect(() => {
-        document.title = wpPage.post_title;
+        document.title = wpPage.post_title + " | " + COMPANY_NAME;
 
     }, []);
 
 
     return (
-        <div 
+        <Flex 
             id={id} 
             className={className}
             style={style}
-            >
+            verticalAlign="center"
+            flexDirection="column"
+        >
             <Block wpBlocks={wpPage.blocks} />
                 
             {children}
-        </div>
+        </Flex>
     )
 }

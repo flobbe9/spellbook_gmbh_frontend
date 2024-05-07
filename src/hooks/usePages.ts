@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import WPPage from "../abstract/wp/WPPage";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { WORDPRESS_BASE_URL, WORDPRESS_REQUEST_MAPPING } from "../utils/constants";
+import { WORDPRESS_BASE_URL, WORDPRESS_CUSTOM_PATH, WORDPRESS_REQUEST_MAPPING } from "../utils/constants";
 import { fetchAny, isHttpStatusCodeAlright } from "../utils/fetchUtils";
 import { log } from "../utils/genericUtils";
 
@@ -32,7 +32,7 @@ export function usePages(): WPPage[] {
 
     async function fetchPages(): Promise<WPPage[]> {
 
-        const url = `${WORDPRESS_BASE_URL}/${WORDPRESS_REQUEST_MAPPING}/custom/allPages`;
+        const url = `${WORDPRESS_BASE_URL}/${WORDPRESS_REQUEST_MAPPING}/${WORDPRESS_CUSTOM_PATH}/allPages`;
         
         const response = await fetchAny(url);
 

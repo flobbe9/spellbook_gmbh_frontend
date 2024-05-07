@@ -1,12 +1,19 @@
-import React from "react";
+import React, { forwardRef, LegacyRef, MutableRefObject } from "react";
 import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import { isBlank } from "../../utils/genericUtils";
-import { TextAlign } from "../../abstract/wp/WPBlockAttribute";
+import { FlexDirection, TextAlign } from "../../abstract/CSSTypes";
 
 
 interface Props extends DefaultProps {
-    horizontalAlign: TextAlign
-    verticalAlign?: TextAlign
+    /** Wont be set at all if ```undefined``` */
+    horizontalAlign?: TextAlign,
+    /** Wont be set at all if ```undefined``` */
+    verticalAlign?: TextAlign,
+    /** If true, dont set display to "flex". Default is false. */
+    disableFlex?: boolean,
+    /** Default is "row". See {@link FlexDirection} */
+    flexDirection?: FlexDirection,
+    onClick?: (event) => void
 }
 
 
@@ -18,7 +25,9 @@ interface Props extends DefaultProps {
  * 
  * @since 0.0.1
  */
-export default function Flex({horizontalAlign, verticalAlign, ...otherProps}: Props) {
+export default forwardRef(function(
+    {horizontalAlign, verticalAlign, disableFlex = false, flexDirection = "row", onClick, ...otherProps}: Props,
+    ref: LegacyRef<HTMLDivElement>) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "Flex");
 
@@ -29,12 +38,15 @@ export default function Flex({horizontalAlign, verticalAlign, ...otherProps}: Pr
             className={className}
             style={{
                 ...style,
-                display: "flex",
+                display: disableFlex ? "" : "flex",
+                flexDirection: flexDirection,
                 justifyContent: horizontalAlign,
                 alignItems: verticalAlign
             }}
+            ref={ref}
+            onClick={onClick}
             >
             {children}
         </div>
     )
-}
+})

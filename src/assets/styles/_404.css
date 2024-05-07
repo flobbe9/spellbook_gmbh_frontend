@@ -1,0 +1,12 @@
+._404 {
+    
+    .pendingContainer {
+        color: var(--themeColor);
+        height: 50vh;
+
+        .fa-spinner {
+            font-size: 80px;
+            opacity: 0.4;
+        }
+    }
+}

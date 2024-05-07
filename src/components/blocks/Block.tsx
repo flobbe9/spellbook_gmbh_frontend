@@ -5,8 +5,9 @@ import Sanitized from "../helpers/Sanitized";
 import { getRandomString } from "../../utils/genericUtils";
 import ParagraphBlock from "./ParagraphBlock";
 import ImageBlock from "./ImageBlock";
-import Columns from "./Columns";
-import Column from "./Column";
+import ColumnsBlock from "./ColumnsBlock";
+import ColumnBlock from "./ColumnBlock";
+import ImageSliderBlock from "./ImageSliderBlock";
 
 
 interface Props extends DefaultProps {
@@ -15,8 +16,6 @@ interface Props extends DefaultProps {
 
 
 // slider
-// columns
-// column
 
 
 /**
@@ -25,7 +24,6 @@ interface Props extends DefaultProps {
  */
 export default function Block({wpBlocks, ...otherProps}: Props) {
 
-    // TODO: pass these to outer div?
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "Block");
 
 
@@ -49,6 +47,9 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
         switch (wpBlock.blockName) {
             case "core/paragraph":
                 return <ParagraphBlock 
+                            id={id}
+                            className={className}
+                            style={style}
                             key={getRandomString()}
                             wpBlock={wpBlock} 
                             mainTagNames={["p"]}
@@ -56,6 +57,9 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
 
             case "core/heading":
                 return <ParagraphBlock 
+                            id={id}
+                            className={className}
+                            style={style}
                             key={getRandomString()} 
                             wpBlock={wpBlock} 
                             mainTagNames={["h1", "h2", "h3", "h4", "h5", "h6"]}
@@ -63,18 +67,42 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
 
             case "core/image":
                 return <ImageBlock 
+                            id={id}
+                            className={className}
+                            style={style}
                             key={getRandomString()} 
                             wpBlock={wpBlock} 
                             mainTagNames={["img"]}
                         />;
 
             case "core/columns":
-                return <Columns wpBlock={wpBlock} />
+                return <ColumnsBlock 
+                            id={id}
+                            className={className}
+                            style={style}
+                            key={getRandomString()} 
+                            wpBlock={wpBlock} 
+                        />;
 
             case "core/column":
-                return <Column wpBlock={wpBlock} />
+                return <ColumnBlock 
+                            id={id}
+                            className={className}
+                            style={style}
+                            key={getRandomString()} 
+                            wpBlock={wpBlock}
+                        />
 
-            // ... TODO
+            case "carbon-fields/image-slider":
+                return <ImageSliderBlock 
+                            id={id}
+                            className={className}
+                            style={style}
+                            wpBlock={wpBlock} 
+                            key={getRandomString()} 
+                            imageMarginRight="20px"
+                            slideAmount={200}
+                            />
 
             case null: 
                 return <br key={getRandomString()} />;

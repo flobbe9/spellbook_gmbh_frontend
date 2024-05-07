@@ -1,3 +1,4 @@
+import { TextAlign } from '../CSSTypes';
 import WPBlock from './WPBlock';
 
 
@@ -8,24 +9,39 @@ import WPBlock from './WPBlock';
  */
 export default class WPBlockAttribute {
 
-    align?: TextAlign;
+    align?: TextAlign | "full";
 
-    className?: string; // TODO: 
+    className?: string;
+
+    data?: object;
     
     height?: string;
 
     id?: number;
     
-    linkDestination?: string; // TODO: make this a type?
+    linkDestination?: string;
     
-    /** Estimates the size of the element (an image e.g.) */
-    sizeSlug?: string; // TODO: make this a type?
+    sizeSlug?: string;
 
     textAlign?: TextAlign;
 
-    width?: "auto" | "<length>" | "<percentage>" | "min-content" | "max-content" | "fit-content" | "fit-content(<length-percentage>)";
+    verticalAlignment?: TextAlign | string;
 
+    width?: string;
 }
 
 
-export type TextAlign = "start" | "end" | "left" | "right" | "center" | "justify" | "match-parent";
+/**
+ * Convert some wp "align" strings to valid css values.
+ * 
+ * @param align from wp to convert to {@link TextAlign}
+ * @return ```TextAlign``` equivalent for given string or just given string
+ */
+export function parseWPAlignString(align: string | TextAlign): TextAlign {
+
+    // might happen for "verticalAlign"
+    if (align === "bottom") 
+        return "end";
+    
+    return align as TextAlign;
+}

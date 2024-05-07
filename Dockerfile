@@ -27,4 +27,10 @@ COPY --from=0 /package.json .
 # install serve
 RUN npm i -g serve
 
+# TODO: add secrets via pipeline or compose file to build args and then insert them to .env file here
+# for envvar in "$@"
+# do
+#    echo "$envvar" >> .env
+# done
+
 ENTRYPOINT serve -s -L ./build -l ${PORT_ENV} -n --no-port-switching ;

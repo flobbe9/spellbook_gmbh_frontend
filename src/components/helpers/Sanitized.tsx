@@ -21,7 +21,7 @@ interface Props extends BlockProps {
  * 
  * @since 0.0.1
  */
-export default function Sanitized({dirtyHTML, mainTagNames, parseOptions, sanitizeOptions, ...otherProps}: Props) {
+export default function Sanitized({dirtyHTML, mainTagNames = ["div"], parseOptions, sanitizeOptions, ...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps);
 

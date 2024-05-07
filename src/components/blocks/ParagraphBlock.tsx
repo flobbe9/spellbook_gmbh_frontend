@@ -6,6 +6,7 @@ import Sanitized from "../helpers/Sanitized";
 import { log } from "../../utils/genericUtils";
 import BlockProps from "../../abstract/BlockProps";
 import Block from "./Block";
+import { TextAlign } from "../../abstract/CSSTypes";
 
 
 interface Props extends BlockProps {
@@ -25,6 +26,15 @@ export default function ParagraphBlock({wpBlock, mainTagNames, ...otherProps}: P
     const { align, textAlign } = wpBlock.attrs;
 
 
+    function getTextAlign(): TextAlign | undefined {
+
+        if (align === "full")
+            return textAlign;
+
+        return align || textAlign;
+    }
+
+
     return (
         <div 
             id={id} 
@@ -35,7 +45,7 @@ export default function ParagraphBlock({wpBlock, mainTagNames, ...otherProps}: P
             <Sanitized
                 dirtyHTML={wpBlock.innerHTML}
                 style={{
-                    textAlign: align || textAlign || "left"
+                    textAlign: getTextAlign()
                 }}
                 mainTagNames={mainTagNames}
             />

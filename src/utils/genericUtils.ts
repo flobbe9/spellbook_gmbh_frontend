@@ -114,13 +114,13 @@ export function getJQueryElementByClassName(className: string, debug = true): JQ
 }
 
 
-export function stringToNumber(str: string | number): number {
+export function stringToNumber(str: string | number | undefined): number {
 
     if (typeof str === "number")
         return str;
     
     try {
-        return Number.parseFloat(str);
+        return Number.parseFloat(str!);
 
     } catch (e) {
         logError(e);
@@ -147,10 +147,8 @@ export function isBooleanFalsy(bool: boolean | null | undefined) {
  */
 export function isBlank(str: string | undefined | null): boolean {
 
-    if (!str && str !== "") {
-        logError("Falsy input str: " + str);
+    if (!str && str !== "")
         return true;
-    }
 
     str = str.trim();
 
@@ -570,9 +568,13 @@ export function setCssConstant(variableName: string, value: string): void {
 }
 
 
+/**
+ * @param variableName the variable name without the double dashes in front
+ * @returns the value of the given css variable as defined in ```:root```
+ */
 export function getCssConstant(variableName: string): string {
 
-    return document.documentElement.style.getPropertyValue("--" + variableName);
+    return getComputedStyle(document.documentElement).getPropertyValue("--" + variableName);
 }
 
 
@@ -730,6 +732,93 @@ export function logReturnNothing(debug: boolean, message?: string): void {
 
     if (debug)
         logError(message || "No message");
+}
+
+
+export function dateEquals(d1: Date | undefined, d2: Date | undefined): boolean {
+    
+    // check undefined
+    if (!d1) {
+        if (d2)
+            return false;
+
+        return true;
+
+    } else if (!d2)
+        return false;
+
+    // copy to new object, dont consider time
+    const date1 = stripTimeFromDate(new Date(d1));
+    const date2 = stripTimeFromDate(new Date(d2));
+    
+    return date1.getTime() === date2.getTime();
+}
+
+
+/**
+ * @param date date that is supposedly before ```otherDate```
+ * @param otherDAte date that is supposedly after ```date```
+ * @returns true if ```date``` is before ```otherDate``` (not equal). Ignores time and uses only date
+ */
+export function isDateBefore(date: Date, otherDate: Date): boolean {
+
+    const date1 = stripTimeFromDate(new Date(date));
+    const date2 = stripTimeFromDate(new Date(otherDate));
+
+    return date1 < date2;
+}
+
+
+/**
+ * @param date date that is supposedly after ```otherDate```
+ * @param otherDAte date that is supposedly before ```date```
+ * @returns true if ```date``` is after ```otherDate``` (not equal). Ignores time and uses only date
+ */
+export function isDateAfter(date: Date, otherDate: Date): boolean {
+
+    const date1 = stripTimeFromDate(new Date(date));
+    const date2 = stripTimeFromDate(new Date(otherDate));
+
+    return date1 > date2;
+}
+
+
+export function datePlusYears(years: number, date = new Date()): Date {
+
+    if (isNumberFalsy(years))
+        return date;
+
+    const alteredDate = new Date(date);
+    const dateYears = alteredDate.getFullYear();
+    alteredDate.setFullYear(dateYears + years);
+
+    return alteredDate;
+}
+
+
+export function datePlusDays(days: number, date = new Date()): Date {
+
+    if (isNumberFalsy(days))
+        return date;
+
+    const alteredDate = new Date(date);
+    const dateDays = alteredDate.getDate();
+    alteredDate.setDate(dateDays + days);
+
+    return alteredDate;
+}
+
+
+export function stripTimeFromDate(d: Date): Date {
+
+    const date = new Date(d);
+
+    date.setMilliseconds(0);
+    date.setSeconds(0);
+    date.setMinutes(0);
+    date.setHours(0);
+
+    return date;
 }
 
 

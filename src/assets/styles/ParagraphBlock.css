@@ -1,4 +1,6 @@
 .ParagraphBlock {
+    width: 100%;
+    
     img {
         vertical-align: bottom;
     }
