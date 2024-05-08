@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "../assets/styles/Page.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import WPPage from "../abstract/wp/WPPage";
 import Block from "./blocks/Block";

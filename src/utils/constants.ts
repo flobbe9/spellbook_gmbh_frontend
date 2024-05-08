@@ -43,9 +43,16 @@ export const DEFAULT_HTML_SANTIZER_OPTIONS: sanitize.IOptions = {
         "bdo": ["lang", "dir", ...ALLOWED_TAG_ATTRIBUTES],
         "div": [...ALLOWED_TAG_ATTRIBUTES],
         "figure": [...ALLOWED_TAG_ATTRIBUTES],
+        "h1": [...ALLOWED_TAG_ATTRIBUTES],
+        "h2": [...ALLOWED_TAG_ATTRIBUTES],
+        "h3": [...ALLOWED_TAG_ATTRIBUTES],
+        "h4": [...ALLOWED_TAG_ATTRIBUTES],
+        "h5": [...ALLOWED_TAG_ATTRIBUTES],
+        "h6": [...ALLOWED_TAG_ATTRIBUTES],
         "img": ["src", "alt", ...ALLOWED_TAG_ATTRIBUTES],
         "mark": ["alt", "color", ...ALLOWED_TAG_ATTRIBUTES],
-        "span": [...ALLOWED_TAG_ATTRIBUTES]
+        "p": [...ALLOWED_TAG_ATTRIBUTES],
+        "span": [...ALLOWED_TAG_ATTRIBUTES],
     },
     parseStyleAttributes: false
 }

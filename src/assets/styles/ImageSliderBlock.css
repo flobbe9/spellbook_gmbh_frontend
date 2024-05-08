@@ -3,64 +3,71 @@
 }
 
 .ImageSliderBlock {
-    overflow: hidden;
-    position: relative;
+    border: 3px solid var(--themeColor);
+    border-radius: var(--borderRadius);
+    padding: 10px;
     width: 100%;
-
-    .SliderImage {
-        border-radius: 5px;
-    }
-
-    .imageContainer {
-        position: absolute;
-    }
-
-    /* Arrow Icon containers */
-    .leftArrowContainer, .rightArrowContainer {
-        background-color: white;
-        height: 55px;
-        position: absolute;
-        transition: opacity 0.2s;
+    
+    .imageSliderBlockContainer {
+        overflow-x: hidden;
+        position: relative;
+        width: 100%;
         
-        &:hover {
-            cursor: pointer;
+        .SliderImage {
+            border-radius: 5px;
+        }
+        
+        .imageContainer {
+            position: absolute;
+        }
+        
+        /* Arrow Icon containers */
+        .leftArrowContainer, .rightArrowContainer {
+            background-color: white;
+            height: 55px;
+            position: absolute;
+            transition: opacity 0.2s;
             
+            &:hover {
+                cursor: pointer;
+                
+                .leftArrow, .rightArrow {
+                    opacity: 0.5;
+                }
+            }
+            
+            &.disabled {
+                opacity: 0.7 !important;
+            }
+
+            /* Arrow Icons */
             .leftArrow, .rightArrow {
-                opacity: 0.5;
+                border-top-right-radius: 15px;
+                border-top-left-radius: 15px;
+                color: var(--themeColor);
+                font-size: var(--arrowFontSize);
+                transition: opacity 0.2s;
+            }
+            
+            .leftArrow {
+                transform: rotate(90deg);
+            }
+            
+            .rightArrow {
+                transform: rotate(270deg)
             }
         }
-
-        &.disabled {
-            opacity: 0.7 !important;
-        }
-
-        /* Arrow Icons */
-        .leftArrow, .rightArrow {
-            border-top-right-radius: 15px;
-            border-top-left-radius: 15px;
-            color: var(--themeColor);
-            font-size: var(--arrowFontSize);
-            transition: opacity 0.2s;
+        
+        .leftArrowContainer {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            left: 0;
         }
         
-        .leftArrow {
-            transform: rotate(90deg);
+        .rightArrowContainer {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            right: 0;
         }
-        
-        .rightArrow {
-            transform: rotate(270deg)
-        }
-    }
-
-    .leftArrowContainer {
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px;
-        left: 0;
-    }
-    
-    .rightArrowContainer {
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
-        right: 0;
     }
 }

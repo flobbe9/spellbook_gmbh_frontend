@@ -1,12 +1,16 @@
 ._404 {
+    color: var(--themeColor);
     
     .pendingContainer {
-        color: var(--themeColor);
         height: 50vh;
+        opacity: 0.4;
 
         .fa-spinner {
             font-size: 80px;
-            opacity: 0.4;
         }
+    }
+
+    .backToStartLink {
+        color: var(--themeColor)
     }
 }

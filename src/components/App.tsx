@@ -26,7 +26,8 @@ interface Props extends DefaultProps {
  */
 // TODO: seo
 // TODO: mobile
-// TODO: adding new page will result in 404 since pending condition relies on all pages
+// TODO: pipeline, Dockerfile
+
 // To disable login:
     // remove BasicAuth component from renderPages()
     // remove updateSession() from Initializer component
@@ -55,7 +56,6 @@ export default function App({...otherProps}: Props) {
     const wpPages = usePages();
 
 
-    // TODO: handle loading properly
     /**
      * Map all pages to a ```Route``` component. Combine wp content with existing content in case of "login".
      * 
@@ -75,8 +75,13 @@ export default function App({...otherProps}: Props) {
                             element={
                                 <Page wpPage={wpPage}>
                                     <BasicAuth />
-                                </Page>} />
+                                </Page>} 
+                        />
             }
+
+            // case: is home page
+            if (wpPage.path === "/12-2")
+                return <Route key={getRandomString()} path={"/"} element={<Page wpPage={wpPage} />} />
 
             return <Route key={getRandomString()} path={wpPage.path} element={<Page wpPage={wpPage} />} />
         });
@@ -149,10 +154,9 @@ export default function App({...otherProps}: Props) {
                     <Flex horizontalAlign="center" verticalAlign="end">
                         <div className="content">
                             <Routes>
-                                <Route path="/" element={<Home />} />
+                                {/* <Route path="/" element={<Home />} /> */}
                                 {renderPages()}
-                                {/* TODO: pending if current path does not exist */}
-                                <Route path="*" element={<_404 pending={!wpPages?.length} />} />
+                                <Route path="*" element={<_404 wpPages={wpPages} />} />
                             </Routes>
                         </div>
                     </Flex>

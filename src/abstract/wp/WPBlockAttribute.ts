@@ -18,6 +18,8 @@ export default class WPBlockAttribute {
     height?: string;
 
     id?: number;
+
+    isStackedOnMobile?: boolean;
     
     linkDestination?: string;
     

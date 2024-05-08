@@ -1,7 +1,10 @@
 import $ from "jquery";
 import { ApiExceptionFormat } from "../abstract/ApiExceptionFormat";
 import { fetchAnyReturnBlobUrl } from "./fetchUtils";
-import { ENV } from "./constants";
+import { DEFAULT_HTML_SANTIZER_OPTIONS, ENV } from "./constants";
+import { CSSProperties } from "react";
+import parse, { Element } from "html-react-parser";
+import sanitize from "sanitize-html";
 
 
 export function log(text?: any, obj?: any, debug = false): void {
@@ -819,6 +822,84 @@ export function stripTimeFromDate(d: Date): Date {
     date.setHours(0);
 
     return date;
+}
+
+
+/**
+ * Parse given css string to valid css object formatted for react. This means dashes in keys are replaced and keys
+ * will use camel case.
+ * 
+ * @param cssString string using css syntax like in .css files. E.g. "margin: 0; box-shadow: black"
+ * @returns css object for react
+ */
+export function parseCSSStringToJson(cssString: string): CSSProperties {
+
+    const cssObject = {};
+
+    // array with key value pairs like ["key": "value", "key2": "value2"]
+    const cssKeyValues = cssString.split(";");
+    for (let i = 0; i < cssKeyValues.length; i ++) {
+        const keyValue = cssKeyValues[i].split(":");
+        const key = keyValue[0];
+        const value = keyValue[1];
+
+        let newKey = "";
+        let newValue = value;
+
+        // iterate chars of key
+        for (let j = 0; j < key.length; j++) {
+            const char = key.charAt(j);
+            if (char === "-") {
+                // remove dash, set next char to upperCase
+                const nextChar = key.charAt(j + 1);
+                newKey = replaceAtIndex(key, nextChar.toUpperCase(), j, j + 2)
+            }
+        }
+
+        // clean up key and value
+        newKey = newKey.replace(":", "");
+        newValue = newValue.replace(";", "").trim();
+
+        cssObject[newKey] = newValue;
+    }
+
+    return cssObject;
+}
+
+    
+
+/**
+ * Parse given html string and retrieve some attribs.
+ * 
+ * @param dirtyHtml unsafe html to parse
+ * @returns some attributes of the innerHtml of the core/columns block
+ */
+export function getHTMLStringAttribs(dirtyHtml: string): {className: string, id: string, style: string} {
+
+    let className = "";
+    let id = "";
+    let style = "";
+
+    // parse html
+    parse(sanitize(dirtyHtml, DEFAULT_HTML_SANTIZER_OPTIONS), {
+        replace(domNode: Element) {
+
+            // get attributes
+            const attribs = domNode.attribs;
+            if (!attribs)
+                return;
+
+            className = attribs.class;
+            id = attribs.id;
+            style = attribs.style
+        }
+    })
+
+    return {
+        className,
+        id,
+        style
+    }
 }
 
 

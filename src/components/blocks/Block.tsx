@@ -24,7 +24,7 @@ interface Props extends DefaultProps {
  */
 export default function Block({wpBlocks, ...otherProps}: Props) {
 
-    const { id, className, style, children } = getCleanDefaultProps(otherProps, "Block");
+    const { id, className, style, children } = getCleanDefaultProps(otherProps);
 
 
     function renderBlocks(): JSX.Element[] {

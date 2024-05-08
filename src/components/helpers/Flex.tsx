@@ -29,7 +29,7 @@ export default forwardRef(function(
     {horizontalAlign, verticalAlign, disableFlex = false, flexDirection = "row", onClick, ...otherProps}: Props,
     ref: LegacyRef<HTMLDivElement>) {
 
-    const { id, className, style, children } = getCleanDefaultProps(otherProps, "Flex");
+    const { id, className, style, children } = getCleanDefaultProps(otherProps);
 
 
     return (

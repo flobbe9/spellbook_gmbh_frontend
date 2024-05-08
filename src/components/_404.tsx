@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../assets/styles/_404.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import WPPage from "../abstract/wp/WPPage";
-import { getCssConstant } from "../utils/genericUtils";
+import { getCssConstant, log } from "../utils/genericUtils";
 import Flex from "./helpers/Flex";
+import { ENV } from "../utils/constants";
+import { Link } from "react-router-dom";
 
 
 interface Props extends DefaultProps {
-    pending: boolean
+    wpPages: WPPage[]
 }
 
 
@@ -17,31 +19,51 @@ interface Props extends DefaultProps {
  * 
  * @since 0.0.1
  */
-export default function _404({pending, ...otherProps}: Props) {
+export default function _404({wpPages, ...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "_404", true);
 
+    const [content, setContent] = useState<JSX.Element>(<Pending />);
 
-    const pendingAnimation = (
-        <Flex className="pendingContainer" horizontalAlign="center" verticalAlign="center">
-            <div className="textCenter">
-                <i className="fa-solid fa-spinner rotating"
-                    style={{
-                        fontSize: "80px",
-                        opacity: 0.4,
-                        color: getCssConstant("themeColor")
-                    }}>
-                </i>
-                <p className="mt-3">Lade Kontent...</p>
+
+    useEffect(() => {
+        // give wpPages a bit time to load
+        setTimeout(updateContent, ENV === "dev" ? 0 : 3000);
+
+    }, [wpPages]);
+
+
+    function updateContent(): void {
+
+        setContent(!wpPages.length ? <Pending /> : <NotFound />)
+    }
+
+
+    function Pending() {
+        return (
+            <Flex className="pendingContainer" horizontalAlign="center" verticalAlign="center">
+                <div className="textCenter">
+                    <i className="fa-solid fa-spinner rotating"></i>
+                    <p className="mt-3">Suche Kontent...</p>
+                </div>
+            </Flex>
+        )
+    }
+
+
+    // IDEA: use wp page instead?
+    function NotFound() {
+
+        return (
+            <div className="textCenter mt-5">
+                <h1>404</h1>
+
+                <h3>Diese Seite konnte nicht gefunden zu werden.</h3>
+
+                <p><Link to="/" className="backToStartLink">Zurück zur Startseite</Link></p>
             </div>
-        </Flex>
-    )
-
-
-    // TODO: style
-    const notFound = (
-        <h1>Not found</h1>
-    )
+        );
+    }
 
 
     return (
@@ -49,8 +71,8 @@ export default function _404({pending, ...otherProps}: Props) {
             id={id} 
             className={className}
             style={style}
-            >
-            {pending ? pendingAnimation : notFound}
+        >
+            {content}
                 
             {children}
         </div>

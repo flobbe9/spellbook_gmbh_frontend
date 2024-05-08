@@ -8,9 +8,8 @@ import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persist
 
 const client = new QueryClient();
 
-// TODO: never clear from cache
 const persister = createSyncStoragePersister({
-    storage: localStorage,
+    storage: localStorage
 })
 
 

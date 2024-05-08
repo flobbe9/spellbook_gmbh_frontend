@@ -28,7 +28,9 @@ interface Props extends BlockProps {
 /**
  * @since 0.0.1
  */
-// TODO: wrap slider in some kind of container
+// TODO: change overflow to scroll for mobile, 
+    // make arrow buttons scroll instead of shift their position
+    // prevent arrows from scrolling
 export default function ImageSliderBlock({mainTagNames,
                                         wpBlock,
                                         height = "200px",
@@ -199,44 +201,50 @@ export default function ImageSliderBlock({mainTagNames,
 
 
     return (
-        <Flex 
+        <div 
             id={id} 
-            className={className}
+            className={className + (wpBlock.attrs.className || "")}
             style={{
-                height: height,
                 ...style,
             }}
-            verticalAlign="center"
             ref={imageSliderBlockRef}
             >
-            {/* Images */}
             <Flex 
-                className="imageContainer" 
-                ref={imageContainerRef}
-            >
-                {mapImages()}
-            </Flex>
-
-            {/* Arrow left */}
-            <Flex 
-                className={"leftArrowContainer " + (isLeftArrowDisabled && "disabled")} 
+                className="imageSliderBlockContainer"
+                style={{
+                    height: height
+                }}
                 verticalAlign="center"
-                onClick={handleLeftArrowClick}
             >
-                <i className={"fa-solid fa-chevron-down leftArrow textCenter " + (isLeftArrowDisabled && "disabled")}></i>
-            </Flex>
+                {/* Images */}
+                <Flex 
+                    className="imageContainer" 
+                    ref={imageContainerRef}
+                >
+                    {mapImages()}
+                </Flex>
 
-            {/* Arrow right */}
-            <Flex 
-                className={"rightArrowContainer " + (isRightArrowDisabled && "disabled")} 
-                verticalAlign="center"
-                onClick={handleRightArrowClick}
-            >
-                <i className={"fa-solid fa-chevron-down rightArrow textCenter " + (isRightArrowDisabled && "disabled")}></i>
+                {/* Arrow left */}
+                <Flex 
+                    className={"leftArrowContainer " + (isLeftArrowDisabled && "disabled")} 
+                    verticalAlign="center"
+                    onClick={handleLeftArrowClick}
+                >
+                    <i className={"fa-solid fa-chevron-down leftArrow textCenter " + (isLeftArrowDisabled && "disabled")}></i>
+                </Flex>
+
+                {/* Arrow right */}
+                <Flex 
+                    className={"rightArrowContainer " + (isRightArrowDisabled && "disabled")} 
+                    verticalAlign="center"
+                    onClick={handleRightArrowClick}
+                >
+                    <i className={"fa-solid fa-chevron-down rightArrow textCenter " + (isRightArrowDisabled && "disabled")}></i>
+                </Flex>
             </Flex>
 
             {children}
-        </Flex>
+        </div>
     )
 }
 
@@ -250,7 +258,11 @@ interface ImageProps extends DefaultProps {
     width?: number,
 }
 
-// TODO: retrieve alt and / or title from backend
+/**
+ * One Image in the slider. Pass the same height as for the container.
+ * 
+ * @since 0.0.1
+ */
 function SliderImage({src, alt, title, height, width, index, ...otherProps}: ImageProps) {
 
     const { id, className, style } = getCleanDefaultProps(otherProps, "SliderImage");

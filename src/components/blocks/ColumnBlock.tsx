@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import "../../assets/styles/ColumnBlock.css";
 import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import Flex from "../helpers/Flex";
@@ -6,8 +6,11 @@ import Sanitized from '../helpers/Sanitized';
 import WPBlock from "../../abstract/wp/WPBlock";
 import Block from "./Block";
 import { parseWPAlignString } from "../../abstract/wp/WPBlockAttribute";
-import { log } from "../../utils/genericUtils";
+import { getHTMLStringAttribs, log, parseCSSStringToJson } from "../../utils/genericUtils";
 import { TextAlign } from "../../abstract/CSSTypes";
+import sanitize from "sanitize-html";
+import parse, { Element } from "html-react-parser";
+import { DEFAULT_HTML_SANTIZER_OPTIONS } from "../../utils/constants";
 
 
 interface Props extends DefaultProps {
@@ -21,7 +24,7 @@ interface Props extends DefaultProps {
 export default function ColumnBlock({wpBlock, ...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "ColumnBlock");
-    const { verticalAlignment } = wpBlock.attrs;
+    const { verticalAlignment, width } = wpBlock.attrs;
 
 
     /**
@@ -68,16 +71,48 @@ export default function ColumnBlock({wpBlock, ...otherProps}: Props) {
     }
 
 
+
+    function getClassName(): string {
+
+        let newClassName = className || "";
+
+        newClassName += getHTMLStringAttribs(wpBlock.innerHTML).className || "";
+        
+        return newClassName;
+    }
+
+
+    function getId(): string {
+
+        let newId = id || "";
+
+        newId += getHTMLStringAttribs(wpBlock.innerHTML).id || "";
+
+        return newId;
+    }
+
+
+    function getFlex1(): string {
+
+        return width ? "" : " flex1"
+    }
+    
+
     return (
         <Flex 
-            id={id}
-            className={className + " flex1"}
-            style={style}
+            id={getId()}
+            className={className + getFlex1()}
+            style={{
+                ...style,
+                width: width
+            }}
             verticalAlign={parseWPAlignString(verticalAlignment || "")}
         > 
-            <Flex className="fullWidth" disableFlex={!isFlex()} flexDirection={isReverse() ? "row-reverse" : "row"}>
-                <Sanitized dirtyHTML={wpBlock.innerHTML} />
-
+            <Flex 
+                className={"fullWidth columnBlockContainer " + getClassName()} 
+                disableFlex={!isFlex()} 
+                flexDirection={isReverse() ? "row-reverse" : "row"}
+            >
                 <Block className="flex1" wpBlocks={wpBlock.innerBlocks} />
 
                 {children}

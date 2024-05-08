@@ -29,7 +29,7 @@ export default function Sanitized({dirtyHTML, mainTagNames = ["div"], parseOptio
     const defaultParserOptions: HTMLReactParserOptions = {
         replace(domNode) {
             return nodeToJSXElement(domNode as Element);
-        },
+        }
     }
 
 
@@ -73,11 +73,8 @@ export default function Sanitized({dirtyHTML, mainTagNames = ["div"], parseOptio
         const nodeProps = attributesToProps(node.attribs);
 
         // case: is not main tag
-        if (!isMainTagName(node))
-            return {
-                ...nodeProps,
-                key: getRandomString()
-            };
+        if (!isMainTagName(node)) 
+            return {...nodeProps, key: getRandomString()};
 
         // combine node and component properties
         return {

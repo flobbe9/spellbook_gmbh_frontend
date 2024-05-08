@@ -20,7 +20,8 @@ export function usePages(): WPPage[] {
     const { data } = useQuery<WPPage[]>({
         queryKey: QUERY_KEY_PAGES,
         queryFn: fetchPages,
-        initialData: queryClient.getQueryData(QUERY_KEY_PAGES)
+        gcTime: Infinity,
+        initialData: queryClient.getQueryData(QUERY_KEY_PAGES),
     });
 
     // update state on fetch complete
