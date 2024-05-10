@@ -15,6 +15,7 @@ import Toast, { ToastSevirity } from "./Toast";
 import Footer from "./Footer";
 import { JQueryEasing } from "../abstract/CSSTypes";
 import Initializer from "./Initializer";
+import { CRYPTO_ALG, ENV } from "../utils/constants";
 
 
 interface Props extends DefaultProps {
@@ -26,11 +27,13 @@ interface Props extends DefaultProps {
  */
 // TODO: seo
 // TODO: mobile
-// TODO: pipeline, Dockerfile
+// TODO: pipeline
+// TODO: https
 
 // To disable login:
     // remove BasicAuth component from renderPages()
     // remove updateSession() from Initializer component
+    // remove variables from Dockerfile
 export default function App({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "App", true);
@@ -56,6 +59,13 @@ export default function App({...otherProps}: Props) {
     const wpPages = usePages();
 
 
+    useEffect(() => {
+        log(ENV);
+        log(CRYPTO_ALG);
+
+    }, []);
+
+
     /**
      * Map all pages to a ```Route``` component. Combine wp content with existing content in case of "login".
      * 
@@ -69,6 +79,7 @@ export default function App({...otherProps}: Props) {
             // case: connect wp content with existing content
             if (equalsIgnoreCase("login", wpPage.post_title)) {
                 isLoginPagePresent = true;
+                // TODO: display Pending while login content is loading
                 return <Route 
                             key={getRandomString()} 
                             path={wpPage.path} 
