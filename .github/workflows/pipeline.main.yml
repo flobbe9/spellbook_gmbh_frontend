@@ -4,7 +4,7 @@ run-name: ${{ github.event.head_commit.message }}
 on: 
   push: 
     branches: 
-      - dev
+      - main
 
 jobs:
   build:
@@ -47,6 +47,7 @@ jobs:
             REACT_APP_CRYPTO_COUNTER=${{secrets.REACT_APP_CRYPTO_COUNTER}}
             REACT_APP_CRYPTO_ALG=${{secrets.REACT_APP_CRYPTO_ALG}}
             REACT_APP_CRYPTO_LENGTH=${{secrets.REACT_APP_CRYPTO_LENGTH}}
+            PORT=443
 
 #   deploy_to_server:
 #     runs-on: ubuntu-latest
