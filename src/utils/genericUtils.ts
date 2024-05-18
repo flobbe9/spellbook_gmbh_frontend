@@ -332,7 +332,7 @@ export function getElementWidthRelativeToWindow(width: string | number, unitDigi
  */
 export function confirmPageUnload(): void {
 
-    if (ENV === "dev")
+    if (ENV === "development")
         return;
 
     // confirm page refresh / tab close / window close
@@ -643,7 +643,7 @@ function matchString(str: string, regexp: RegExp): boolean {
  */
 export function confirmNavigateEvent(currentPath: string, pathsToConfirm: string[], event: any): void {
 
-    if (ENV === "dev")
+    if (ENV === "development")
         return;
 
     const confirmLeaveMessage = "Seite verlassen? \nVorgenommene Änderungen werden unter Umständen nicht gespeichert."
