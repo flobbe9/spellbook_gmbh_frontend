@@ -1,0 +1,8 @@
+.Footer {
+    background-color: var(--themeColor);
+    bottom: 0;
+    color: white;
+    padding: 20px;
+    position: absolute;
+    width: 100%;
+}
