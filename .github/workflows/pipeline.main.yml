@@ -68,7 +68,7 @@ jobs:
           debug: true
           # pull new image, remove left overs from old image, start microservice
           script: |
-            docker-compose pull frontend
+            docker compose pull frontend
             yes | docker rm $(docker container ls --all --filter=ancestor=$(docker images -f "dangling=true" -q) --format "{{.ID}}") --force
             yes | docker image rm $(docker images -f "dangling=true" -q)
-            docker-compose up -d
+            docker compose up -d
