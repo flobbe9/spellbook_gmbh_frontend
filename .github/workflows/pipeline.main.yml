@@ -4,25 +4,25 @@ run-name: ${{ github.event.head_commit.message }}
 on: 
   push: 
     branches: 
-      - main
+      - dev
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository 
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout repository 
+#         uses: actions/checkout@v4
 
-      - run: npm ci
+#       - run: npm ci
       
-      - run: npm run build
-        env: 
-          CI: ""
+#       - run: npm run build
+#         env: 
+#           CI: ""
 
   push_to_DockerHub:
     runs-on: ubuntu-latest
-    needs: build
+    # needs: build
 
     steps:
       - name: Set up QEMU
@@ -43,11 +43,17 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_ug_frontend:latest
           build-args: |
+            PORT=443
+            NODE_VERSION=${{vars.NODE_VERSION}}
             REACT_APP_CRYPTO_KEY=${{secrets.REACT_APP_CRYPTO_KEY}}
             REACT_APP_CRYPTO_COUNTER=${{secrets.REACT_APP_CRYPTO_COUNTER}}
             REACT_APP_CRYPTO_ALG=${{secrets.REACT_APP_CRYPTO_ALG}}
             REACT_APP_CRYPTO_LENGTH=${{secrets.REACT_APP_CRYPTO_LENGTH}}
-            PORT=443
+            HTTPS=true
+            SSL_KEY_PASSWORD=${{secrets.SSL_KEY_PASSWORD}}
+            SSL_CRT_FILE_NAME=${{vars.SSL_CRT_FILE_NAME}}
+            SSL_KEY_FILE_NAME=${{vars.SSL_KEY_FILE_NAME}}
+            SSL_DIR=src/assets/ssl/prod
 
 #   deploy_to_server:
 #     runs-on: ubuntu-latest

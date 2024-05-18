@@ -1,9 +1,10 @@
 import sanitize from "sanitize-html";
 import { isBlank, logWarn, stringToNumber } from "./genericUtils";
 import { CryptoHelper } from './../abstract/CryptoHelper';
+import { Env } from "../abstract/ENV";
 
 // App
-export const ENV = process.env.REACT_APP_ENV + "";
+export const ENV: Env = process.env.NODE_ENV as Env;
 export const PROTOCOL = process.env.REACT_APP_PROTOCOL + "";
 export const COMPANY_NAME = "Spellbook UG";
 
