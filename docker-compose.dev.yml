@@ -2,10 +2,16 @@ version: "3.3"
 
 services:
   frontend:
+    image: ${NAME}
     build: 
       context: .
       args:
-        - PORT=3000
+        - HTTPS=true
+        - NODE_VERSION=${NODE_VERSION}
+        - SSL_KEY_PASSWORD=password
+        - SSL_CRT_FILE_NAME=localhost.crt.pem
+        - SSL_KEY_FILE_NAME=localhost.key.pem
+        - SSL_DIR=src/assets/ssl/localhost
     container_name: frontend
     ports: 
       - 3000:3000

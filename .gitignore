@@ -2,3 +2,5 @@ node_modules
 build
 DefaultComponent.tsx
 .env.*
+*.csr
+*.p12

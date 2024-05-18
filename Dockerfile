@@ -1,4 +1,3 @@
-# these have to be overriden in prod
 ARG HTTPS
 ARG PORT
 ARG NODE_VERSION
@@ -8,14 +7,13 @@ ARG REACT_APP_CRYPTO_COUNTER
 ARG REACT_APP_CRYPTO_ALG
 ARG REACT_APP_CRYPTO_LENGTH
 
-ARG SSL_PASSWORD
-ARG SSL_KEYSTORE_FILE_NAME
+ARG SSL_KEY_PASSWORD
 ARG SSL_KEY_FILE_NAME
 ARG SSL_CRT_FILE_NAME
 ARG SSL_DIR
 
 
-######### Build
+##### Build
 FROM node:${NODE_VERSION}
 
 # copy all files
@@ -32,30 +30,12 @@ ENV REACT_APP_CRYPTO_COUNTER=${REACT_APP_CRYPTO_COUNTER}
 ENV REACT_APP_CRYPTO_ALG=${REACT_APP_CRYPTO_ALG}
 ENV REACT_APP_CRYPTO_LENGTH=${REACT_APP_CRYPTO_LENGTH}
 
-# SSL
-ARG HTTPS
-ARG SSL_KEYSTORE_FILE_NAME
-ARG SSL_PASSWORD
-ARG SSL_CRT_FILE_NAME
-ARG SSL_KEY_FILE_NAME
-ARG SSL_DIR
-
-# install openssl
-RUN yes | apt-get install libssl-dev
-
-# generate ssl files
-RUN if [ "$HTTPS" ]; then \
-        openssl pkcs12 -in ./${SSL_DIR}/${SSL_KEYSTORE_FILE_NAME} -out ./${SSL_DIR}/${SSL_CRT_FILE_NAME} -clcerts -nokeys -passin pass:${SSL_PASSWORD}; \
-        openssl pkcs12 -in ./${SSL_DIR}/${SSL_KEYSTORE_FILE_NAME} -out ./${SSL_DIR}/${SSL_KEY_FILE_NAME} -nocerts -nodes  -passin pass:${SSL_PASSWORD}; \
-    fi;
-
-
 # Install and build
 RUN npm i
 RUN npm run build
 
 
-######### Run
+##### Run
 FROM node:${NODE_VERSION}
 
 WORKDIR /app
@@ -66,6 +46,9 @@ ENV PORT=${PORT}
 
 ARG HTTPS
 ENV HTTPS=${HTTPS}
+
+ARG SSL_KEY_PASSWORD
+ENV SSL_KEY_PASSWORD=${SSL_KEY_PASSWORD}
 
 ARG SSL_DIR
 ENV SSL_DIR=${SSL_DIR}
@@ -87,8 +70,8 @@ COPY --from=0 /${SSL_DIR} ./${SSL_DIR}
 # install npm serve
 RUN npm i -g serve
 
-ENTRYPOINT if [ "$HTTPS" ]; then \
-                serve -s -L ./build -l ${PORT} -n --no-port-switching --ssl-cert ${SSL_CRT_FILE_NAME} --ssl-key ${SSL_KEY_FILE_NAME}; \
+ENTRYPOINT  if [ "$HTTPS = true" ]; then \
+                printf "${SSL_KEY_PASSWORD}" | serve -s -L ./build -l ${PORT} -n --no-port-switching --ssl-cert ${SSL_CRT_FILE_NAME} --ssl-key ${SSL_KEY_FILE_NAME} --ssl-pass /dev/stdin; \
             else \
                 serve -s -L ./build -l ${PORT} -n --no-port-switching; \
            fi
