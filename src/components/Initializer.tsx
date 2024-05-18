@@ -24,7 +24,7 @@ export default function Initializer({...otherProps}: Props) {
 
 
     useEffect(() => {
-        if (ENV !== "dev")
+        if (ENV !== "development")
             updateSession(setIsLoggedIn);
 
     }, []);

@@ -61,7 +61,7 @@ export default function useBasicAuth() {
         // redirect to "/"
         redirect(true);
 
-        if (ENV === "dev")
+        if (ENV === "development")
             log("Login successful");
 
         return jsonResponse;
