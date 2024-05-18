@@ -28,7 +28,7 @@ export default function _404({wpPages, ...otherProps}: Props) {
 
     useEffect(() => {
         // give wpPages a bit time to load
-        setTimeout(updateContent, ENV === "dev" ? 0 : 3000);
+        setTimeout(updateContent, ENV === "development" ? 0 : 3000);
 
     }, [wpPages]);
 
@@ -44,7 +44,7 @@ export default function _404({wpPages, ...otherProps}: Props) {
             <Flex className="pendingContainer" horizontalAlign="center" verticalAlign="center">
                 <div className="textCenter">
                     <i className="fa-solid fa-spinner rotating"></i>
-                    <p className="mt-3">Suche Kontent...</p>
+                    <p className="mt-3">Lade Kontent...</p>
                 </div>
             </Flex>
         )

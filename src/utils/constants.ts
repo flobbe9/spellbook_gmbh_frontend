@@ -1,12 +1,13 @@
 import sanitize from "sanitize-html";
 import { isBlank, logWarn, stringToNumber } from "./genericUtils";
 import { CryptoHelper } from './../abstract/CryptoHelper';
-import { Env } from "../abstract/ENV";
+import { Env } from "../abstract/Env";
 
 // App
 export const ENV: Env = process.env.NODE_ENV as Env;
 export const PROTOCOL = process.env.REACT_APP_PROTOCOL + "";
 export const COMPANY_NAME = "Spellbook UG";
+export const VERSION = process.env.REACT_APP_VERSION + "";
 
 // URLs
 export const WORDPRESS_BASE_URL = process.env.REACT_APP_WORDPRESS_BASE_URL + "";

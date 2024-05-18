@@ -31,6 +31,7 @@ interface Props extends BlockProps {
 // TODO: change overflow to scroll for mobile, 
     // make arrow buttons scroll instead of shift their position
     // prevent arrows from scrolling
+// TODO: cant slide if images start empty
 export default function ImageSliderBlock({mainTagNames,
                                         wpBlock,
                                         height = "200px",
