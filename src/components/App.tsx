@@ -27,8 +27,15 @@ interface Props extends DefaultProps {
  */
 // TODO: seo
 // TODO: mobile
-// TODO: pipeline
-// TODO: https
+// TODO: how to set large background image that scrolls slowly (parallax (?))
+// TODO: change the crypto alg in dev?
+
+// TODO: 
+    // navbar
+    // footer
+    // logo
+    // sider
+
 
 // To disable login:
     // remove BasicAuth component from renderPages()
@@ -59,13 +66,6 @@ export default function App({...otherProps}: Props) {
     const wpPages = usePages();
 
 
-    useEffect(() => {
-        log(ENV);
-        log(CRYPTO_ALG);
-
-    }, []);
-
-
     /**
      * Map all pages to a ```Route``` component. Combine wp content with existing content in case of "login".
      * 
@@ -76,6 +76,9 @@ export default function App({...otherProps}: Props) {
         let isLoginPagePresent = false;
 
         const pages = wpPages.map(wpPage => {
+            if (!wpPage)
+                return <Route key={getRandomString()}></Route>
+
             // case: connect wp content with existing content
             if (equalsIgnoreCase("login", wpPage.post_title)) {
                 isLoginPagePresent = true;
