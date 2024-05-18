@@ -28,7 +28,6 @@ interface Props extends DefaultProps {
 // TODO: seo
 // TODO: mobile
 // TODO: how to set large background image that scrolls slowly (parallax (?))
-// TODO: change the crypto alg in dev?
 
 // TODO: 
     // navbar
