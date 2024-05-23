@@ -1,0 +1,15 @@
+.navLink {
+    color: var(--themeColor3);
+    text-decoration: none;
+    text-wrap: nowrap;
+    transition: var(--transitionTime);
+    
+    &:hover {
+        color: var(--themeColor);
+    }
+    
+    .NavMenuItem {
+        border-radius: var(--borderRadius);
+        padding: 5px;
+    }
+}
