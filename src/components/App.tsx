@@ -34,6 +34,8 @@ interface Props extends DefaultProps {
 // TODO: fetch footer icons
 // IDEA: font families for each game?
 
+// TODO: menu label
+
 // GO LIVE TODO: 
     // change text for login page in wp
     // change env variable IS_SITE_LIVE
@@ -52,11 +54,6 @@ export default function App({...otherProps}: Props) {
     const [toastMessage, setToastMessage] = useState("");
     const [toastSevirity, setToastSevirity] = useState<ToastSevirity>("info");
     const [toastScreenTimeTimeout, setToastScreenTimeTimeout] = useState<NodeJS.Timeout>();
-    // toast timeout
-    // on show
-        // kill timeout
-        // kill animations
-        // set new
 
     /** The <Route> tags, rendered using the fetched {@link WPPage}s */
     const [routes, setRoutes] = useState<(JSX.Element | undefined)[]>([]);

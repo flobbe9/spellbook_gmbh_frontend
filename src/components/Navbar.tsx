@@ -30,11 +30,11 @@ export default function NavBar({...otherProps}: Props) {
 
     useEffect(() => {
         window.addEventListener("click", handleWindowClick);
-        window.addEventListener("keydown", handleWindowClick);
+        window.addEventListener("keydown", handleWindowKeyDown);
 
         return () => {
             window.removeEventListener("click", handleWindowClick);
-            window.removeEventListener("keydown", handleWindowClick);
+            window.removeEventListener("keydown", handleWindowKeyDown);
         }
     }, []);
     
@@ -67,6 +67,18 @@ export default function NavBar({...otherProps}: Props) {
         slideUpNavMenuOnClickOutside("NavMenuKaufen", "dontHideNavMenuKaufen", eventClassName);
     }
 
+    
+    function handleWindowKeyDown(event): void {
+
+        const eventClassName = event.target.className as string;
+        const key = event.key;
+
+        if (key === "Escape") {
+            slideUpNavMenuOnClickOutside("NavMenuSpielen", "dontHideNavMenuSpielen", eventClassName);
+            slideUpNavMenuOnClickOutside("NavMenuKaufen", "dontHideNavMenuKaufen", eventClassName);
+        }
+    }
+
 
     /**
      * Slide up given nav menu unless the nav menu class name is included in event target class name.
@@ -96,9 +108,10 @@ export default function NavBar({...otherProps}: Props) {
                 {/* Navbar content */}
                 <Flex className="navBarContainer" horizontalAlign="center" verticalAlign="center">
                     {/* Spielen */}
-                    <div className="navItem">
+                    {/* hide if is empty */}
+                    <div className={"navItem" + (navMenu1.items.length === 0 ? " hidden" : "")}>
                         <div className="themeLink dontHideNavMenuSpielen" onClick={(event) => toggleNavMenu(event,  "NavMenuSpielen")}>
-                            <span className="me-2 dontMarkText dontHideNavMenuSpielen">Spielen</span>
+                            <span className="me-2 dontMarkText dontHideNavMenuSpielen">{navMenu1.name}</span>
                             <i className="fa-solid fa-chevron-down dontHideNavMenuSpielen"></i>
                         </div>
 
@@ -122,9 +135,10 @@ export default function NavBar({...otherProps}: Props) {
                     </div>
 
                     {/* Kaufen */}
-                    <div className="navItem">
+                    {/* hide if is empty */}
+                    <div className={"navItem" + (navMenu2.items.length === 0 ? " hidden" : "")}>
                         <div className="themeLink dontHideNavMenuKaufen" onClick={(event) => toggleNavMenu(event,  "NavMenuKaufen")}>
-                            <span className="me-2 dontMarkText dontHideNavMenuKaufen">Kaufen</span>
+                            <span className="me-2 dontMarkText dontHideNavMenuKaufen">{navMenu2.name}</span>
                             <i className="fa-solid fa-chevron-down dontHideNavMenuKaufen"></i>
                         </div>
 

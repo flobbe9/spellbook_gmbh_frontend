@@ -35,7 +35,7 @@ export default function NavMenu({wpNavMenu, ...otherProps}: Props) {
      */
     function mapNavMenuItems(): (JSX.Element | undefined)[] {
 
-        if (!wpNavMenu)
+        if (!wpNavMenu || !Array.isArray(wpNavMenu.items))
             return [];
 
         // sort by menu_order
