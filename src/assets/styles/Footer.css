@@ -1,8 +1,16 @@
 .Footer {
-    background-color: var(--themeColor);
+    background-color: var(--backgroundColor);
     bottom: 0;
-    color: white;
-    padding: 20px;
+    color: var(--themeColor3);
     position: absolute;
     width: 100%;
+    z-index: var(--zIndexNavBar);
+
+    .CardTextBox {
+        padding: 20px;
+
+        .rightNavItem {
+            font-size: 12px;
+        }
+    }
 }

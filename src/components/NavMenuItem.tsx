@@ -31,13 +31,13 @@ export default function NavMenuItem({wpNavMenuItem, ...otherProps}: Props) {
         // case: external url
         if (!isInternalLink)
             return (
-                <a className="navLink" href={url} target={target} rel="noopener noreferrer nofollow">
+                <a className="navLink themeLink" href={url} target={target} rel="noopener noreferrer nofollow">
                     {content}
                 </a>)
 
         // case: internal url
         return (
-            <Link to={url!} className="navLink" target={target} rel="noopener noreferrer nofollow">
+            <Link to={url!} className="navLink themeLink" target={target} rel="noopener noreferrer nofollow">
                 {content}
             </Link>
         )

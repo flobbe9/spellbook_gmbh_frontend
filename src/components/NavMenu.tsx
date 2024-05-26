@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../assets/styles/NavMenu.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
-import { Link } from "react-router-dom";
-import { PROTOCOL } from "../utils/constants";
-import { getRandomString, isBlank } from "../utils/genericUtils";
+import { getRandomString, isBlank, log } from "../utils/genericUtils";
 import NavMenuItem from "./NavMenuItem";
 import { WPNavMenu } from "../abstract/WPNavMenu";
-import { WPNavMenuItem } from "../abstract/WPNavMenuItem";
 
 
 interface Props extends DefaultProps {
@@ -15,7 +12,7 @@ interface Props extends DefaultProps {
 
 
 /**
- * Menu box that slides down in ```<NavBar>```.
+ * Menu box that slides down in ```<NavBar>```. See also {@link WPNavMenu}
  * 
  * @since 0.0.2
  */
@@ -42,7 +39,7 @@ export default function NavMenu({wpNavMenu, ...otherProps}: Props) {
             return [];
 
         // sort by menu_order
-        const wpNavMenuItems = wpNavMenu.items.sort((a, b) => a.menu_order - b.menu_order);
+        const wpNavMenuItems = wpNavMenu.items ? wpNavMenu.items.sort((a, b) => a.menu_order - b.menu_order) : [];
 
         return wpNavMenuItems.map(wpNavMenuItem => 
             <NavMenuItem key={getRandomString()} wpNavMenuItem={wpNavMenuItem} />);
