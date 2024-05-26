@@ -9,7 +9,7 @@ export const PROTOCOL = process.env.REACT_APP_PROTOCOL + "";
 export const COMPANY_NAME = "Spellbook UG";
 export const VERSION = process.env.REACT_APP_VERSION + "";
 /** True if basic auth has been removed for normal users */
-export const IS_SITE_LIVE = process.env.REACT_APP_IS_SITE_LIVE === "false";
+export const IS_SITE_LIVE = process.env.REACT_APP_IS_SITE_LIVE === "true";
 
 // URLs
 export const WORDPRESS_BASE_URL = process.env.REACT_APP_WORDPRESS_BASE_URL + "";
