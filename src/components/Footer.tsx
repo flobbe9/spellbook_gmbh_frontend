@@ -34,7 +34,7 @@ export default function Footer({...otherProps}: Props) {
                     {/* Left */}
                     <Flex className="col-4 leftNavItem" verticalAlign="center">
                         <Link to="/impressum" className="link me-4 themeLink">Impressum</Link>
-                        <Link to="/dateschutz" className="link me-4 themeLink">Datenschutz</Link>
+                        <Link to="/datenschutz" className="link me-4 themeLink">Datenschutz</Link>
                     </Flex>
                     
                     {/* Center */}
