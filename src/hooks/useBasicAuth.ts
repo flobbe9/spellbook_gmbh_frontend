@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ApiExceptionFormat } from "../abstract/ApiExceptionFormat";
 import { ENV, IS_SITE_LIVE, SESSION_EXPIRY_DAYS, WORDPRESS_BASE_URL, WORDPRESS_CUSTOM_PATH, WORDPRESS_REQUEST_MAPPING } from "../utils/constants";
 import fetchJson, { isHttpStatusCodeAlright } from "../utils/fetchUtils";
-import { datePlusDays, isDateAfter, isDateBefore, log, logError, stringToNumber } from "../utils/genericUtils";
+import { datePlusDays, equalsIgnoreCaseTrim, isBlank, isDateAfter, isDateBefore, log, logError, stringToNumber } from "../utils/genericUtils";
 import { CryptoHelper } from "../abstract/CryptoHelper";
 import BasicAuth from './../components/BasicAuth';
 import { useNavigate } from "react-router";
@@ -146,7 +146,7 @@ export default function useBasicAuth() {
         // case: is logged in
         if (isLoggedIn) {
             // case: still at login page
-            if (window.location.pathname === "/login")
+            if (window.location.pathname.startsWith("/login"))
                 navigate("/");
 
             return;
@@ -171,19 +171,35 @@ export default function useBasicAuth() {
         if (!wpPages || !wpPages.length)
             return true;
 
-        const currentPath = window.location.pathname;
-
         for (const wpPage of wpPages) {
             // case: not a wp page (propably null)
             if (!wpPage)
                 continue;
 
             // case: current page not public
-            if ("/" + wpPage.path === currentPath && !isPagePublic(wpPage)) 
+            if (isPathCurrentPath(wpPage.path) && !isPagePublic(wpPage)) 
                 return false;
         }
 
         return true;
+    }
+
+
+    /**
+     * @param path to check agains current path
+     * @returns true if given path equals ```window.location.pathname```. Also works with slashes at the end and/or front
+     */
+    function isPathCurrentPath(path: string): boolean {
+
+        if (isBlank(path))
+            return false;
+
+        const currentPath = window.location.pathname;
+
+        return equalsIgnoreCaseTrim(path, currentPath) ||
+               equalsIgnoreCaseTrim("/" + path + "/", currentPath) ||
+               equalsIgnoreCaseTrim("/" + path, currentPath) ||
+               equalsIgnoreCaseTrim(path + "/", currentPath);
     }
 
 

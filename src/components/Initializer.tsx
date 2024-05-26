@@ -40,8 +40,9 @@ export default function Initializer({wpPages, ...otherProps}: Props) {
 
         const isLoggedIn = await updateSession(setIsLoggedIn);
 
-        if (ENV !== "development")
-            redirect(isLoggedIn, wpPages);
+        // uncomment this to deactivate basicAuth in dev
+        // if (ENV !== "development")
+        redirect(isLoggedIn, wpPages);
     }
 
 
