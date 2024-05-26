@@ -1,5 +1,6 @@
 .BasicAuth {
     min-height: 50vh;
+    z-index: var(--zIndexBlock);
 
     .headingContainer {
         margin-bottom: 20px;

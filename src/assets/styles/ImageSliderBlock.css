@@ -3,9 +3,8 @@
 }
 
 .ImageSliderBlock {
-    border: 3px solid var(--themeColor);
-    border-radius: var(--borderRadius);
-    padding: 10px;
+    /* border: var(--borderWidth) solid var(--themeColor); */
+    /* padding: 10px; */
     width: 100%;
     
     .imageSliderBlockContainer {
@@ -13,8 +12,8 @@
         position: relative;
         width: 100%;
         
-        .SliderImage {
-            border-radius: 5px;
+        .ImageLink {
+            border-radius: var(--borderRadius);
         }
         
         .imageContainer {

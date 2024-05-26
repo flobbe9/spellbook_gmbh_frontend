@@ -1,24 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../../assets/styles/ImageSliderBlock.css";
-import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import Flex from "../helpers/Flex";
 import { getCssConstant, getCSSValueAsNumber, getRandomString, isBlank, log } from "../../utils/genericUtils";
 import BlockProps from "../../abstract/BlockProps";
 import WPBlock from "../../abstract/wp/WPBlock";
-import { isImage, PROTOCOL } from "../../utils/constants";
 import { stringToNumber } from './../../utils/genericUtils';
 import { JQueryEasing } from "../../abstract/CSSTypes";
+import { isImageSliderEmpty, mapDataToSliderImages, WPSliderImage } from "../../abstract/wp/WPSliderImage";
+import ImageLink from "../helpers/ImageLink";
 
 
 interface Props extends BlockProps {
     wpBlock: WPBlock,
     /** Height of component and thus each image in the slider. Default is ```200px```. Use pixels as unit! */
     height?: string,
-    /** Time that one sliding animation takes to finish in ms. Default is 500 */
+    /** Time that one sliding animation takes to finish in ms. Default is 300 */
     duration?: number,
     /** Animation style (jQuery). Default is ```easeOutQuad``` */
     easing?: JQueryEasing,
-    /** Amount to slide on one click. Default is 100 (using ```left | right``` css props). */
+    /** Amount to slide on one click. Default is 500 (using ```left | right``` css props). */
     slideAmount?: number,
     /** MarginRight applied to each single slider image (except the last). Default is 0 */
     imageMarginRight?: string
@@ -31,13 +32,12 @@ interface Props extends BlockProps {
 // TODO: change overflow to scroll for mobile, 
     // make arrow buttons scroll instead of shift their position
     // prevent arrows from scrolling
-// TODO: cant slide if images start empty
 export default function ImageSliderBlock({mainTagNames,
                                         wpBlock,
                                         height = "200px",
-                                        duration = 500,
+                                        duration = 300,
                                         easing = "easeOutQuad",
-                                        slideAmount = 100,
+                                        slideAmount = 500,
                                         imageMarginRight,
                                         ...otherProps
                                     }: Props) {
@@ -56,62 +56,41 @@ export default function ImageSliderBlock({mainTagNames,
 
 
     useEffect(() => {
-        // disable slider if images dont take up full container width
-        setIsRightArrowDisabled(stringToNumber($(imageContainerRef.current!).css("right")) >= 0);
-    }, []);
+        setTimeout(() => {
+            // disable slider if images aren't wider than container
+            // wait shortly for images to render on page
+            setIsRightArrowDisabled(getOverflowWidth() <= 0);
+        }, 100)
 
+    }, [data]);
 
+    
     /**
-     * Map image urls from ```wpBlock.attrs.data``` values.
+     * Map ```<ImageLink />``` components from ```data``` object.
      * 
-     * @returns array with urls of images to put into slider
+     * @returns array with images to put into slider
      */
-    function getImageUrls(): string[] {
-
-        if (!data)
-            return [];
-
-        return Object.values(data).filter(url => isImageUrlValid(url));
-    }
-
-
-    /**
-     * @param url of image to validate
-     * @returns true if url is not falsy or blank and starts with {@link PROTOCOL}
-     */
-    function isImageUrlValid(url: string): boolean {
-
-        if (typeof url !== "string")
-            return false;
-
-        // case: falsy url
-        if (isBlank(url))
-            return false;
-
-        // case: not a valid url
-        if (!url.startsWith(PROTOCOL))
-            return false;
-
-        // case: not an image
-        if (!isImage(url))
-            return false;
-
-        return true;
-    }
-
-
     function mapImages(): JSX.Element[] {
 
-        return getImageUrls().map((url, i, urls) =>
-                                <SliderImage
-                                    src={url} 
-                                    key={getRandomString()}
-                                    height={getCSSValueAsNumber(height, 2)}
-                                    style={{
-                                        marginRight: i === urls.length - 1 ? undefined : imageMarginRight
-                                    }}
-                                    index={i}
-                                />)
+        return mapDataToSliderImages(data).map((wpSliderImage, i) => {
+            if (!wpSliderImage)
+                return<></>;
+
+            const { image, link, open_in_new_tab } = wpSliderImage as WPSliderImage;
+
+            return <ImageLink
+                        src={image} 
+                        key={getRandomString()}
+                        height={getCSSValueAsNumber(height, 2)}
+                        style={{
+                            // dont give last image in slider a margin
+                            marginRight: i === image.length - 1 ? undefined : imageMarginRight
+                        }}
+                        link={link}
+                        linkTarget={open_in_new_tab ? "_blank" : undefined}
+                        index={i}
+                    />
+        });
     }
 
 
@@ -155,12 +134,15 @@ export default function ImageSliderBlock({mainTagNames,
 
 
     /**
-     * @returns the width of the imageContainer that is not visible inside the imageSliderBlock flex
+     * @returns the width of the imageContainer that is not visible inside the imageSliderBlock flex. Return 0 if no slider is present
      */
     function getOverflowWidth(): number {
         
         const imageSliderBlock = $(imageSliderBlockRef.current!);
         const imageContainer = $(imageContainerRef.current!);
+
+        if (!imageSliderBlock || !imageContainer)
+            return 0;
 
         // most outer flex
         const imageSliderBlockWidth = getCSSValueAsNumber(imageSliderBlock.css("width"), 2);
@@ -204,7 +186,7 @@ export default function ImageSliderBlock({mainTagNames,
     return (
         <div 
             id={id} 
-            className={className + (wpBlock.attrs.className || "")}
+            className={className + (wpBlock.attrs.className || "") + (isImageSliderEmpty(data) ? " hidden" : "")}
             style={{
                 ...style,
             }}
@@ -247,62 +229,4 @@ export default function ImageSliderBlock({mainTagNames,
             {children}
         </div>
     )
-}
-
-
-interface ImageProps extends DefaultProps {
-    src: string,
-    index: number,
-    alt?: string,
-    height?: number,
-    title?: string,
-    width?: number,
-}
-
-/**
- * One Image in the slider. Pass the same height as for the container.
- * 
- * @since 0.0.1
- */
-function SliderImage({src, alt, title, height, width, index, ...otherProps}: ImageProps) {
-
-    const { id, className, style } = getCleanDefaultProps(otherProps, "SliderImage");
-
-
-    /**
-     * @returns given ```title``` or image name
-     */
-    function getTitle(): string {
-
-        if (title)
-            return title;
-
-        if (isBlank(src))
-            return "";
-
-        const splitSrc = src.split("/");
-
-        return splitSrc[splitSrc.length - 1]
-    }
-
-
-    function getAlt(): string {
-
-        if (alt)
-            return alt;
-
-        return `Bild Nummer ${index + 1} im Slider`;
-    }
-
-
-    return <img 
-                id={id}
-                className={className}
-                style={style}
-                src={src}
-                alt={getAlt()}
-                title={getTitle()}
-                height={height}
-                width={width}
-            />
 }

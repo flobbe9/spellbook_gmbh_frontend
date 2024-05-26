@@ -2,12 +2,13 @@ import React from "react";
 import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Sanitized from "../helpers/Sanitized";
-import { getRandomString } from "../../utils/genericUtils";
+import { getCssConstant, getRandomString } from "../../utils/genericUtils";
 import ParagraphBlock from "./ParagraphBlock";
 import ImageBlock from "./ImageBlock";
 import ColumnsBlock from "./ColumnsBlock";
 import ColumnBlock from "./ColumnBlock";
 import ImageSliderBlock from "./ImageSliderBlock";
+import ParallaxBlock from "./ParallaxBlock";
 
 
 interface Props extends DefaultProps {
@@ -43,6 +44,9 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
      * @returns a suitable component for given wpBlock
      */
     function getBlockByName(wpBlock: WPBlock): JSX.Element {
+
+        // set all blocks above parallax
+        style!.zIndex = getCssConstant("zIndexBlock");
 
         switch (wpBlock.blockName) {
             case "core/paragraph":
@@ -102,13 +106,23 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
                             key={getRandomString()} 
                             imageMarginRight="20px"
                             slideAmount={200}
-                            />
+                        />
 
+            case "carbon-fields/hintergrund-bild":
+                return <ParallaxBlock 
+                            id={id}
+                            className={className}
+                            style={style}
+                            wpBlock={wpBlock}
+                            key={getRandomString()}
+                        />
+
+            // case: backend hides this page
             case null: 
                 return <br key={getRandomString()} />;
         }
 
-        return <Sanitized dirtyHTML={wpBlock.innerHTML}>
+        return <Sanitized dirtyHTML={wpBlock.innerHTML} key={getRandomString()}>
                     <Block wpBlocks={wpBlock.innerBlocks} />
                 </Sanitized>
     }

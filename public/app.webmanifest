@@ -3,14 +3,14 @@
   "name": "Spellbook UG",
   "icons": [
     {
-        "src": "images/favicon.ico",
-        "type": "image/webp",
+        "src": "favicon.ico",
+        "type": "image/ico",
         "sizes": "512x512"
     }
 
   ],
-  "start_url": "https://spellbook-ug.de",
+  "start_url": ".",
   "display": "standalone",
-  "theme_color": "#ffe4c4",
+  "theme_color": "#a666f8",
   "background_color": "#ffffff"
 }

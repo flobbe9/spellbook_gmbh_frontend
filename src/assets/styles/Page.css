@@ -1,3 +1,4 @@
+/* Dont give this a relative position because of parallax */
 .Page {
     margin: 15px 0
 }

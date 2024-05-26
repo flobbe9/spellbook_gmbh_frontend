@@ -41,9 +41,7 @@ export function usePages(): WPPage[] {
         if (!isHttpStatusCodeAlright(response.status))
             return [];
 
-        const jsonResponse = await (response as Response).json();
-
-        return jsonResponse as unknown as WPPage[];
+        return await (response as Response).json();
     }
 
 

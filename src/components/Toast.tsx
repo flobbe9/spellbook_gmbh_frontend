@@ -14,13 +14,15 @@ interface Props extends DefaultProps {
 
 
 /**
+ * z-index 10
+ * 
  * @since 0.0.1
  */
 export default forwardRef(function Toast({summary, message = "", sevirity = "info", ...otherProps}: Props, ref: LegacyRef<HTMLDivElement> | undefined) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "Toast", true);
 
-    const { toggleToast } = useContext(AppContext);
+    const { moveToast } = useContext(AppContext);
 
 
     return (
@@ -34,7 +36,7 @@ export default forwardRef(function Toast({summary, message = "", sevirity = "inf
                 <div className="summary">
                     <Flex>
                         <h4 className="col-10">{summary}</h4>
-                        <span className="col-2 textRight hover" onClick={() => toggleToast(true)}>
+                        <span className="col-2 textRight hover" onClick={() => moveToast(true)}>
                             <i className="fa-solid fa-xmark fa-xl "></i>
                         </span>
                     </Flex>

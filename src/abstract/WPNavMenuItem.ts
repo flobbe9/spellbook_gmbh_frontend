@@ -1,5 +1,3 @@
-import { WPPostStatus } from "./wp/WPPostStatus";
-
 /**
  * @since 0.0.2
  */
