@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../assets/styles/Page.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import WPPage from "../abstract/wp/WPPage";
@@ -22,11 +22,14 @@ export default function Page({wpPage, ...otherProps}: Props) {
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "Page", true);
 
 
-    useEffect(() => {
-        document.title = wpPage.post_title + " | " + COMPANY_NAME;
+    function getPageTitle(): string {
 
-    }, []);
+        if (wpPage.path === "/")
+            return COMPANY_NAME;
 
+        return wpPage.post_title + " | " + COMPANY_NAME;
+    }
+    
 
     return (
         <Flex 
@@ -36,6 +39,8 @@ export default function Page({wpPage, ...otherProps}: Props) {
             verticalAlign="center"
             flexDirection="column"
         >
+            <title>{getPageTitle()}</title>
+
             <Block wpBlocks={wpPage.blocks} />
                 
             {children}

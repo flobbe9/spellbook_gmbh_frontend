@@ -1,5 +1,6 @@
 ._404 {
     color: var(--themeColor);
+    z-index: var(--zIndexBlock);
     
     .pendingContainer {
         height: 50vh;

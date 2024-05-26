@@ -8,6 +8,8 @@ export const ENV: Env = process.env.NODE_ENV as Env;
 export const PROTOCOL = process.env.REACT_APP_PROTOCOL + "";
 export const COMPANY_NAME = "Spellbook UG";
 export const VERSION = process.env.REACT_APP_VERSION + "";
+/** True if basic auth has been removed for normal users */
+export const IS_SITE_LIVE = process.env.REACT_APP_IS_SITE_LIVE === "false";
 
 // URLs
 export const WORDPRESS_BASE_URL = process.env.REACT_APP_WORDPRESS_BASE_URL + "";

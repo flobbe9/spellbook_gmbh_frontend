@@ -3,9 +3,8 @@ import "../assets/styles/App.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./Navbar";
-import Home from "./Home";
 import { usePages } from "../hooks/usePages";
-import { equalsIgnoreCase, getCssConstant, getCSSValueAsNumber, getRandomString, isNumberFalsy, log } from "../utils/genericUtils";
+import { equalsIgnoreCase, getCssConstant, getCSSValueAsNumber, getRandomString, includesIgnoreCaseTrim, isNumberFalsy, log } from "../utils/genericUtils";
 import _404 from './_404';
 import Page from "./Page";
 import Flex from "./helpers/Flex";
@@ -15,7 +14,9 @@ import Toast, { ToastSevirity } from "./Toast";
 import Footer from "./Footer";
 import { JQueryEasing } from "../abstract/CSSTypes";
 import Initializer from "./Initializer";
-import { CRYPTO_ALG, ENV } from "../utils/constants";
+import { COMPANY_NAME, IS_SITE_LIVE } from "../utils/constants";
+import Parallax from "./blocks/ParallaxBlock";
+import WPPage from "../abstract/wp/WPPage";
 
 
 interface Props extends DefaultProps {
@@ -26,38 +27,46 @@ interface Props extends DefaultProps {
  * @since 0.0.1
  */
 // TODO: seo
+// TODO: wp health stuff
 // TODO: mobile
-// TODO: how to set large background image that scrolls slowly (parallax (?))
+// TODO: custom 404 page
+// TODO: logout button
+// TODO: fetch footer icons
+// IDEA: font families for each game?
 
-// TODO: 
-    // navbar
-    // footer
-    // logo
-    // sider
+// GO LIVE TODO: 
+    // change text for login page in wp
+    // change env variable IS_SITE_LIVE
 
 
-// To disable login:
-    // remove BasicAuth component from renderPages()
-    // remove updateSession() from Initializer component
-    // remove variables from Dockerfile
 export default function App({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "App", true);
+
+    /** Time the toast popup takes to slide up and down in ms. */
+    const toastSlideDuration = 400;
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const [toastSummary, setToastSummary] = useState("");
     const [toastMessage, setToastMessage] = useState("");
     const [toastSevirity, setToastSevirity] = useState<ToastSevirity>("info");
-    /** Refers to the css prop ```bottom```. Starts "below" screen in order to slide up. */
-    const [toastBottom, setToastBottom] = useState<number>(-50);
+    const [toastScreenTimeTimeout, setToastScreenTimeTimeout] = useState<NodeJS.Timeout>();
+    // toast timeout
+    // on show
+        // kill timeout
+        // kill animations
+        // set new
+
+    /** The <Route> tags, rendered using the fetched {@link WPPage}s */
+    const [routes, setRoutes] = useState<(JSX.Element | undefined)[]>([]);
 
     const context = {
         isLoggedIn,
         setIsLoggedIn,
 
         toast,
-        toggleToast
+        moveToast
     }
 
     const toastRef = useRef(null);
@@ -65,23 +74,40 @@ export default function App({...otherProps}: Props) {
     const wpPages = usePages();
 
 
+    useEffect(() => {
+        window.addEventListener("keydown", handleWindowKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleWindowKeyDown);
+        }
+
+    }, []);
+
+
+    useEffect(() => {
+        if (wpPages)
+            setRoutes(renderPages());
+
+    }, [wpPages]);
+
+
     /**
      * Map all pages to a ```Route``` component. Combine wp content with existing content in case of "login".
      * 
      * @returns array of ```Route``` components with ```Page``` elements
      */
-    function renderPages(): JSX.Element[] {
+    function renderPages(): (JSX.Element | undefined)[] {
 
         let isLoginPagePresent = false;
 
         const pages = wpPages.map(wpPage => {
+            // case: hide this page in frontend
             if (!wpPage)
-                return <Route key={getRandomString()}></Route>
+                return; 
 
-            // case: connect wp content with existing content
+            // case: is login page
             if (equalsIgnoreCase("login", wpPage.post_title)) {
                 isLoginPagePresent = true;
-                // TODO: display Pending while login content is loading
                 return <Route 
                             key={getRandomString()} 
                             path={wpPage.path} 
@@ -91,10 +117,6 @@ export default function App({...otherProps}: Props) {
                                 </Page>} 
                         />
             }
-
-            // case: is home page
-            if (wpPage.path === "/12-2")
-                return <Route key={getRandomString()} path={"/"} element={<Page wpPage={wpPage} />} />
 
             return <Route key={getRandomString()} path={wpPage.path} element={<Page wpPage={wpPage} />} />
         });
@@ -123,34 +145,49 @@ export default function App({...otherProps}: Props) {
         setToastSevirity(sevirity);
 
         // case: hide automatically
-        if (!isNumberFalsy(screenTime))
-            setTimeout(() => toggleToast(true), screenTime);
+        if (!isNumberFalsy(screenTime)) {
+            // stop toast animation
+            clearTimeout(toastScreenTimeTimeout);
+            $(toastRef.current!).stop();
 
-        toggleToast();
+            // restart toast animation
+            const toastTimeout = setTimeout(() => moveToast(true), screenTime);
+            setToastScreenTimeTimeout(toastTimeout);
+        }
+
+        setTimeout(() => {
+            moveToast();
+        }, 10)
     }
 
 
     /**
-     * Show or hide toast depending on it's current visibility.
+     * Show toast or hide it if ```hideToast``` is ```true```.
      * 
      * @param hideToast if true, toast will definitely by hidden regardless of it's state before. Default is ```false```
      */
-    function toggleToast(hideToast = false): void {
+    function moveToast(hideToast = false): void {
 
         const toast = $(toastRef.current!);
 
-        let toastHeight = getCSSValueAsNumber(toast.css("height"), 2);
-        let animationEasing: JQueryEasing = "easeOutSine";
+        // space between window bottom and toast bottom
+        let toastHeight = 30;
 
-        // case: toast currently visible
-        if (getCSSValueAsNumber(toastBottom, 2) > 0 || hideToast) {
-            toastHeight *= -1;
-            animationEasing = "easeInSine";
-        }
+        // case: hide
+        if (hideToast) 
+            // set to negative toast height to make sure it's completely hidden
+            toastHeight = -getCSSValueAsNumber(toast.css("height"), 2);
 
-        setToastBottom(toastHeight);
+        toast.animate({bottom: toastHeight}, {duration: toastSlideDuration, "easing": "easeOutSine"});
+    }
 
-        toast.animate({bottom: toastHeight}, {duration: 200, "easing": animationEasing});
+
+    function handleWindowKeyDown(event): void {
+
+        const key = event.key;
+
+        if (key === "Escape")
+            moveToast(true);
     }
 
 
@@ -159,16 +196,15 @@ export default function App({...otherProps}: Props) {
             <BrowserRouter>
                 <div id={id} className={className} style={style}>
                     {/* No html, just function calls here */}
-                    <Initializer />
+                    <Initializer wpPages={wpPages} />
 
-                    <NavBar />
+                    {(isLoggedIn || IS_SITE_LIVE) && <NavBar />}
 
                     {/* Content */}
                     <Flex horizontalAlign="center" verticalAlign="end">
                         <div className="content">
                             <Routes>
-                                {/* <Route path="/" element={<Home />} /> */}
-                                {renderPages()}
+                                {routes}
                                 <Route path="*" element={<_404 wpPages={wpPages} />} />
                             </Routes>
                         </div>
@@ -180,11 +216,11 @@ export default function App({...otherProps}: Props) {
                         message={toastMessage}
                         sevirity={toastSevirity}
                         ref={toastRef} 
-                        />
+                    />
 
                     {children}
 
-                    <Footer />
+                    {(isLoggedIn || IS_SITE_LIVE) && <Footer />}
                 </div>
             </BrowserRouter>
         </AppContext.Provider>
@@ -197,5 +233,5 @@ export const AppContext = createContext({
     setIsLoggedIn: (isLoggedIn: boolean) => {},
 
     toast: (summary: string, message = "", sevirity: ToastSevirity = "info", screenTime?: number) => {},
-    toggleToast: (hideToast = false, screenTime?: number) => {}
+    moveToast: (hideToast = false, screenTime?: number) => {}
 })

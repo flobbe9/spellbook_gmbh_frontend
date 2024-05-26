@@ -1,0 +1,10 @@
+.NavMenu {
+    background-color: var(--backgroundColor);
+    border-radius: var(--borderRadius);
+    box-shadow: var(--boxShadow2);
+    display: none;
+    padding: 10px;
+    min-width: 120px;
+    position: absolute;
+    z-index: var(--zIndexNavBar);
+}

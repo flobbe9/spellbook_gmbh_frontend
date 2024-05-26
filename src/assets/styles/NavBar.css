@@ -1,23 +1,24 @@
 .NavBar {
-    background-color: rgb(97, 97, 97);
-    border: 5px solid var(--themeColor);
-    border-radius: var(--borderRadius);
-    color: rgb(204, 202, 202);
-    font-size: 20px;
-    padding: 10px 0;
-    position: sticky;
-    top: 0;
-    z-index: 1;
+    background-color: var(--backgroundColor);
+    /* position: sticky;
+    top: 0; */
+    position: relative;
+    z-index: var(--zIndexNavBar);
 
-    .navHeading {
-        font-size: 35px;
-    }
+    .navBarContainer {
+        color: var(--themeColor3);
+        font-size: 20px;
+        padding: 10px 0;
+        top: 0;
 
-    .navItem {
-        margin: 0 70px;
-    }
+        .navHeading {
+            font-size: 35px;
+        }
 
-    .spellbookUGTransparent {
-        filter: invert(1);
+        .navItem {
+            margin: 0 70px;
+            position: relative;
+        }
+
     }
 }

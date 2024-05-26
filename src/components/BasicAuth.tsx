@@ -16,16 +16,15 @@ interface Props extends DefaultProps {
 
 
 /**
- * 
  * @since 0.0.1
  */
 export default function BasicAuth({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "BasicAuth", true);
 
-    const { login } = useBasicAuth();
+    const { login, updateSession } = useBasicAuth();
 
-    const { toast } = useContext(AppContext);
+    const { toast, setIsLoggedIn } = useContext(AppContext);
 
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
@@ -59,6 +58,7 @@ export default function BasicAuth({...otherProps}: Props) {
         const status = jsonResponse.status;
         // case: 200
         if (isHttpStatusCodeAlright(status)) {
+            updateSession(setIsLoggedIn);
             toast("Login", "Du bist eingeloggt", "success", 3000);
             return;
         }
@@ -96,6 +96,13 @@ export default function BasicAuth({...otherProps}: Props) {
     }
 
 
+    function handleInputKeyDown(event): void {
+
+        if (event.key === "Enter")
+            $("#ButtonLogin").trigger("click");
+    }
+
+
     return (
         <Flex
             id={id} 
@@ -118,6 +125,7 @@ export default function BasicAuth({...otherProps}: Props) {
                                 placeholder="Email oder Benutername" 
                                 ref={emailRef} 
                                 required
+                                onKeyDown={handleInputKeyDown}
                             />
                         </p>
 
@@ -129,6 +137,7 @@ export default function BasicAuth({...otherProps}: Props) {
                                 placeholder="Passwort" 
                                 ref={passwordRef}
                                 required
+                                onKeyDown={handleInputKeyDown}
                             />
                         </p>
 
@@ -146,6 +155,7 @@ export default function BasicAuth({...otherProps}: Props) {
                                 color: getCssConstant("themeColor")
                             }}
                             hoverBackgroundColor="rgb(210, 210, 210)"
+                            type="submit"
                         >
                             Login
                         </Button>

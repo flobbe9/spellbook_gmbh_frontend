@@ -1,0 +1,8 @@
+.navLink {
+    text-wrap: nowrap;
+    
+    .NavMenuItem {
+        border-radius: var(--borderRadius);
+        padding: 5px;
+    }
+}

@@ -1,15 +1,18 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ApiExceptionFormat } from "../abstract/ApiExceptionFormat";
-import { ENV, SESSION_EXPIRY_DAYS, WORDPRESS_BASE_URL, WORDPRESS_CUSTOM_PATH, WORDPRESS_REQUEST_MAPPING } from "../utils/constants";
+import { ENV, IS_SITE_LIVE, SESSION_EXPIRY_DAYS, WORDPRESS_BASE_URL, WORDPRESS_CUSTOM_PATH, WORDPRESS_REQUEST_MAPPING } from "../utils/constants";
 import fetchJson, { isHttpStatusCodeAlright } from "../utils/fetchUtils";
 import { datePlusDays, isDateAfter, isDateBefore, log, logError, stringToNumber } from "../utils/genericUtils";
 import { CryptoHelper } from "../abstract/CryptoHelper";
 import BasicAuth from './../components/BasicAuth';
 import { useNavigate } from "react-router";
+import WPPage from "../abstract/wp/WPPage";
 
 
 /**
  * Proides some functions for basic authentication used in {@link BasicAuth}.
+ * 
+ * Only call this inside react navigation context, since ```useNavigate``` is used here
  * 
  * @since 0.0.1
  */
@@ -59,10 +62,7 @@ export default function useBasicAuth() {
         
         await createSession();
         // redirect to "/"
-        redirect(true);
-
-        if (ENV === "development")
-            log("Login successful");
+        navigate("/");
 
         return jsonResponse;
     }
@@ -110,45 +110,92 @@ export default function useBasicAuth() {
 
 
     /**
-     * Validate session, update global state and redirect if necessary.
+     * Validate session, update global state.
+     * 
+     * Don't validate session if ```ENV``` is "development".
      * 
      * @param setIsLoggedIn setter of global ```isLoggedIn``` state
+     * @return true if is logged in, else false
      */
-    async function updateSession(setIsLoggedIn: (isLoggedIn: boolean) => void): Promise<void> {
+    async function updateSession(setIsLoggedIn: (isLoggedIn: boolean) => void): Promise<boolean> {
+
+        // if (ENV === "development") {
+        //     setIsLoggedIn(true)
+        //     return true;
+        // }
 
         const sessionValid = await isSessionValid();
 
         // update state
         setIsLoggedIn(sessionValid);
 
-        // redirect if necessary
-        redirect(sessionValid);
+        return sessionValid;
     }
 
 
     /**
-     * Redirect to ```/login``` page if not already there and session is invalid.
+     * Redirect user to "/" if they are at "/login" and logged in already.
      * 
-     * Redirect to ```/``` page if not already there and session is valid.
+     * Redirect user to "/login" unless they are logged in or the site is live and the page is public.
      * 
-     * @param isSessionValid if ```true```, it is assumed that ```isLoggedIn === true```
+     * @param isLoggedIn true if session is valid
+     * @param wpPages fetched on load to determine ```post_status``` of current page
      */
-    async function redirect(isSessionValid: boolean): Promise<void> {
+    function redirect(isLoggedIn: boolean, wpPages: WPPage[]): void {
 
-        const path = window.location.pathname;
+        // case: is logged in
+        if (isLoggedIn) {
+            // case: still at login page
+            if (window.location.pathname === "/login")
+                navigate("/");
 
-        // case: not logged in
-        if (path !== "/login" && !isSessionValid)
-            navigate("/login");
+            return;
+        }
 
-        // case: logged in
-        else if (path === "/login" && isSessionValid)
-            navigate("/");
+        // case: not logged in but site is live and page is public
+        if (IS_SITE_LIVE && isPublicPage(wpPages))
+            return;
+
+        navigate("/login");
+    }
+    
+
+    /**
+     * @param isLoggedIn true if the current session is valid
+     * @returns false if the current page has a ```post_status``` other than "publish", 
+     *          true if current page is public or 404 or there're no pages at all or ```isLoggedIn``` is true
+     */
+    function isPublicPage(wpPages: WPPage[]): boolean {
+
+        // case: pages not fetched yet
+        if (!wpPages || !wpPages.length)
+            return true;
+
+        const currentPath = window.location.pathname;
+
+        for (const wpPage of wpPages) {
+            // case: not a wp page (propably null)
+            if (!wpPage)
+                continue;
+
+            // case: current page not public
+            if ("/" + wpPage.path === currentPath && !isPagePublic(wpPage)) 
+                return false;
+        }
+
+        return true;
+    }
+
+
+    function isPagePublic(wpPage: WPPage): boolean {
+
+        return wpPage && wpPage.post_status === "publish";
     }
 
 
     return {
         login,
-        updateSession
+        updateSession,
+        redirect
     }
 }

@@ -1,0 +1,11 @@
+.ParallaxBlock {
+    position: absolute;
+    z-index: var(--zIndexParallax);
+
+    .parallaxImage {
+        min-height: 100vh;
+        min-width: 100vw;;
+        position: relative;
+        opacity: 0.8;
+    }
+}

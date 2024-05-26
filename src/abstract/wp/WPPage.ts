@@ -1,4 +1,5 @@
 import WPBlock from "./WPBlock";
+import { WPPostStatus } from "./WPPostStatus";
 
 
 /**
@@ -15,6 +16,8 @@ export default class WPPage {
     post_name: string;
 
     blocks: WPBlock[];
+
+    post_status: WPPostStatus;
 
     /** no "/" at start or end */
     path: string;

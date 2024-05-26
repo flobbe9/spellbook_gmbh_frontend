@@ -3,10 +3,12 @@ import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import useBasicAuth from "../hooks/useBasicAuth";
 import { AppContext } from "./App";
 import { ENV } from "../utils/constants";
+import WPPage from "../abstract/wp/WPPage";
+import { log } from "../utils/genericUtils";
 
 
 interface Props extends DefaultProps {
-
+    wpPages: WPPage[]
 }
 
 
@@ -16,18 +18,31 @@ interface Props extends DefaultProps {
  * 
  * @since 0.0.1
  */
-export default function Initializer({...otherProps}: Props) {
+export default function Initializer({wpPages, ...otherProps}: Props) {
 
-    const { updateSession } = useBasicAuth();
+    const { updateSession, redirect } = useBasicAuth();
 
     const { setIsLoggedIn } = useContext(AppContext);
 
 
     useEffect(() => {
-        if (ENV !== "development")
-            updateSession(setIsLoggedIn);
+        handlePageLoad();
 
-    }, []);
+    }, [wpPages]);
+
+
+    /**
+     * Update session and redirect if necessary (see ```redirect``` function).
+     * 
+     * Don't redirect if ```ENV``` is "development".
+     */
+    async function handlePageLoad(): Promise<void> {
+
+        const isLoggedIn = await updateSession(setIsLoggedIn);
+
+        if (ENV !== "development")
+            redirect(isLoggedIn, wpPages);
+    }
 
 
     return (<></>)
