@@ -18,6 +18,7 @@ interface Props extends DefaultProps {
 /**
  * @since 0.0.1
  */
+// TODO: change menu ids to menu1 and menu2, adjust event handlers too
 export default function NavBar({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "NavBar", true);

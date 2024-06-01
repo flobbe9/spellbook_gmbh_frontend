@@ -34,7 +34,24 @@ interface Props extends DefaultProps {
 // TODO: fetch footer icons
 // IDEA: font families for each game?
 
-// TODO: menu label
+// TODO: new url
+    // order
+        // 1. compose stop✅
+        // 2. assign ips to new domain✅
+        // 3. copy new prod compose file to server✅
+        // 4. edit default-ssl.conf✅
+        // 5. rename db volume✅
+        // 6. git push
+        // rename db site urls
+        // rename local ssh config
+        // delete old files on server
+        // delete old docker repos
+        // dont forward 8080 anymore
+        // dont fowrad 3306 for frontend
+        // adjust vscode commands
+        // remove old db
+        
+    // local ssh config
 
 // GO LIVE TODO: 
     // change text for login page in wp

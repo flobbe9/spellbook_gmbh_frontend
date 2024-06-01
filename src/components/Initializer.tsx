@@ -25,6 +25,7 @@ export default function Initializer({wpPages, ...otherProps}: Props) {
     const { setIsLoggedIn } = useContext(AppContext);
 
 
+    // TODO: redirect on navigate too
     useEffect(() => {
         handlePageLoad();
 
