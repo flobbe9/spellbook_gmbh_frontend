@@ -1,4 +1,4 @@
-name: spellbook_ug_frontend main
+name: spellbook_gmbh_frontend main
 
 run-name: ${{ github.event.head_commit.message }}
 on: 
@@ -41,7 +41,7 @@ jobs:
         uses: docker/build-push-action@v5.3.0
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_ug_frontend:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_frontend:latest
           build-args: |
             PORT=443
             NODE_VERSION=${{vars.NODE_VERSION}}
@@ -62,7 +62,7 @@ jobs:
     steps:
       - uses: appleboy/ssh-action@v1.0.3
         with: 
-          host: spellbook-ug.de
+          host: spellbook-gmbh.de
           username: ${{ secrets.SSH_USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           debug: true

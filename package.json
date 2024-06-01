@@ -1,8 +1,8 @@
 {
-  "name": "spellbook_ug_frontend",
-  "description": "Spellbook UG React frontend",
+  "name": "spellbook_gmbh_frontend",
+  "description": "Spellbook GmbH React frontend",
   "authors": "Florin Schikarski",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "dependencies": {
     "@tanstack/query-async-storage-persister": "^5.32.0",
     "@tanstack/query-sync-storage-persister": "^5.32.0",

@@ -1,4 +1,4 @@
-# spellbook_ug_frontend
+# spellbook_gmbh_frontend
 
 # Run
 - override the following ```.env``` variables with following values:
