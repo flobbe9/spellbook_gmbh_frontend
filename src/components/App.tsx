@@ -45,7 +45,7 @@ interface Props extends DefaultProps {
         // rename db site urls
         // rename local ssh config
         // delete old files on server
-        // delete old docker repos
+        // delete old docker repos and images
         // dont forward 8080 anymore
         // dont fowrad 3306 for frontend
         // adjust vscode commands
