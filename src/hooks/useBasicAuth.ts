@@ -21,7 +21,7 @@ import CryptoJSImpl from "../abstract/CryptoJSImpl";
 export default function useBasicAuth() {
 
     /** The key of the session expiry date stored in local storage. */
-    const SESSION_KEY = "sessionExpiryDate";
+    const SESSION_KEY = "spellbook_gmbh-sessionId";
 
     const crypto = new CryptoJSImpl(CRYPTO_KEY, CRYPTO_IV);
 
