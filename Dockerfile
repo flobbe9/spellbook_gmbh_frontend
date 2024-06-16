@@ -65,7 +65,7 @@ COPY --from=0 /${SSL_DIR} ./${SSL_DIR}
 RUN npm i -g serve
 
 ENTRYPOINT  if [ $HTTPS = "true" ]; then \
-                printf "${SSL_KEY_PASSWORD}" | serve -s ./build -l ${PORT} -n --no-port-switching --ssl-cert ${SSL_CRT_FILE_NAME} --ssl-key ${SSL_KEY_FILE_NAME} --ssl-pass /dev/stdin; \
+                printf "${SSL_KEY_PASSWORD}" | serve -s -d ./build -l ${PORT} -n --no-port-switching --ssl-cert ${SSL_CRT_FILE_NAME} --ssl-key ${SSL_KEY_FILE_NAME} --ssl-pass /dev/stdin; \
             else \
-                serve -s ./build -l ${PORT} -n --no-port-switching; \
+                serve -s -d ./build -l ${PORT} -n --no-port-switching; \
            fi

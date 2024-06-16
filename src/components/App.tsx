@@ -32,6 +32,7 @@ interface Props extends DefaultProps {
     // index.html 
         // meta description
     // meta description for every page?
+// TODO: safari
     
 // TODO: 
     // content
