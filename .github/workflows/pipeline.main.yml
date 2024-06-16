@@ -46,9 +46,7 @@ jobs:
             PORT=443
             NODE_VERSION=${{vars.NODE_VERSION}}
             REACT_APP_CRYPTO_KEY=${{secrets.REACT_APP_CRYPTO_KEY}}
-            REACT_APP_CRYPTO_COUNTER=${{secrets.REACT_APP_CRYPTO_COUNTER}}
-            REACT_APP_CRYPTO_ALG=${{secrets.REACT_APP_CRYPTO_ALG}}
-            REACT_APP_CRYPTO_LENGTH=${{secrets.REACT_APP_CRYPTO_LENGTH}}
+            REACT_APP_CRYPTO_IV=${{secrets.REACT_APP_CRYPTO_IV}}
             HTTPS=true
             SSL_KEY_PASSWORD=${{secrets.SSL_KEY_PASSWORD}}
             SSL_CRT_FILE_NAME=${{vars.SSL_CRT_FILE_NAME}}
