@@ -32,18 +32,16 @@ export default function Page({wpPage, ...otherProps}: Props) {
     
 
     return (
-        <Flex 
+        <div 
             id={id} 
             className={className}
             style={style}
-            verticalAlign="center"
-            flexDirection="column"
         >
             <title>{getPageTitle()}</title>
 
             <Block wpBlocks={wpPage.blocks} />
                 
             {children}
-        </Flex>
+        </div>
     )
 }

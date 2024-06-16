@@ -1,10 +1,22 @@
 .ImageBlock {
     width: 100%;
     
-    img {
-        max-width: 100%;
+    figure {
+        display: flex;
+
+        img {
+            max-width: 100%;
+        }
     }
-    
+
+    /* Full width  */
+    figure.alignfull {
+        img {
+            /* use width of <figure> parent */
+            width: inherit;
+        }
+    }
+
     .is-style-rounded {
         border-radius: 9999px;
     }

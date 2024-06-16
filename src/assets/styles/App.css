@@ -1,16 +1,25 @@
 @import "WPStyles.css";
 
 :root {
-    --backgroundColor: rgb(255, 255, 255);
-    --borderRadius: 3px;
-    --borderWidth: 1px;
-    --boxShadow: 0 0 5px 1px var(--themeColor) inset; /* hardcoded in Navbar.tsx */
+    /* border */
+    --borderRadius: 2px;
+    --borderWidth: 6px;
+    --themeBorder: var(--borderWidth) solid var(--themeColor);
+    --yugiohBrownBorder: var(--borderWidth) solid var(--yugiohBrown);
+    --yugiohBrownBoxShadow: 0 0 3px 1px var(--yugiohBrown) inset;
+    --themeBoxShadow: 0 0 5px 1px var(--themeColor) inset; /* hardcoded in Navbar.tsx */
     --boxShadow2: 0 0 5px 1px var(--themeColor2) inset; /* hardcoded in Navbar.tsx */
+    /* color */
+    --backgroundColor: rgb(255, 255, 255);
     --color: black;
-    --contentWidth: 800px;
+    --magicGold: rgb(124, 85, 1);
     --themeColor: #a666f8; /* hardcoded in app.webmanifest */
     --themeColor2: rgb(199, 199, 199);
     --themeColor3: rgb(170, 170, 170);
+    --yugiohBrown: rgb(228, 145, 21);
+    /* other */
+    --appMinHeight: 120vh;
+    --footerHeight: ""; /* will be set on app load */
     --transitionTime: 0.15s;
     --zIndexParallax: 0;
     --zIndexBlock: 1;
@@ -19,11 +28,48 @@
     /* --fontFamily: Matrix Regular Small Caps; */
 }
 
+/* Mobile */
+@media screen {
+    .WideBlock > *, .ColumnsBlock > .columnsBlockContainer {
+        width: 90vw;
+    }
+}
+
+/* Tablet */
+@media screen and (min-width: 576px) {
+    .WideBlock > *, .ColumnsBlock > .columnsBlockContainer {
+        width: 80vw;
+    }
+
+    .themeLink:hover {
+        color: var(--themeColor) !important;
+        cursor: pointer;
+    }
+}
+
+/* Desktop */
+@media screen and (min-width: 1200px) {
+    .WideBlock > *, .ColumnsBlock > .columnsBlockContainer {
+        width: 75vw;
+    }
+}
+
 .App {
     background-color: var(--backgroundColor);
     font-family: var(--fontFamily);
+    min-height: var(--appMinHeight);
     overflow: hidden;
     position: relative;
+
+    /* text selection color */
+    ::-moz-selection { /* firefox */
+        background: var(--themeColor);
+        color: white;
+    }
+    ::selection {
+        background: var(--themeColor);
+        color: white;
+    }
     
     /* WP adjustments */
     code {
@@ -48,9 +94,23 @@
     /* Other */
     .content {
         font-family: var(--wp--preset--font-family--system-fonts);
-        min-height: 100vh;
+        margin-bottom: var(--footerHeight);
+    }
+
+    /* all wide block children inside a column block */
+    .ColumnBlock .WideBlock > * {
+        width: 100%;
+    }
+
+    .WideBlock {
+        display: flex;
+        justify-content: center;
         position: relative;
-        width: var(--contentWidth);
+        width: 100%;
+    }
+    
+    .faviconTransparent {
+        filter: invert(1);
     }
 
     .rotating {
@@ -75,7 +135,7 @@
         border-color: black;
         border-radius: 5px;
         text-decoration: none;
-        transition: 0.2s;
+        transition: var(--transitionTime);
 
         &:disabled {
             color: grey;
@@ -133,7 +193,7 @@
         background-color: transparent;
         border-radius: 100%;
         height: 28px;
-        transition: background-color 0.2s, padding 0.2s;
+        transition: background-color var(--transitionTime), padding var(--transitionTime);
     }
     
     .disabledButton {
@@ -246,13 +306,11 @@
     }
 
     .themeLink {
-        color: var(--themeColor3);
+        color: black;
         text-decoration: none;
         transition: var(--transitionTime);
 
         &:hover {
-            color: var(--themeColor);
-            cursor: pointer;
             text-decoration: none;
         }
     }
@@ -261,7 +319,7 @@
         color: blue;
         cursor: pointer;
         text-decoration: none;
-        transition: color 0.2s;
+        transition: color var(--transitionTime);
 
         &:hover {
             color: rgb(142, 142, 255);
@@ -278,7 +336,7 @@
 
     .hover {
         cursor: pointer;
-        transition: opacity 0.2s;
+        transition: opacity var(--transitionTime);
 
         &:hover {
             opacity: 0.7;
@@ -287,7 +345,7 @@
 
     .hoverStrong {
         cursor: pointer;
-        transition: opacity 0.2s;
+        transition: opacity var(--transitionTime);
 
         &:hover {
             opacity: 0.5;

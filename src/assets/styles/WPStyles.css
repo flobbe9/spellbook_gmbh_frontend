@@ -193,3 +193,9 @@
 .has-x-large-font-size {
     font-size: var(--wp--preset--font-size--x-large);
 }
+
+/* Other */
+/* Used for 'fullWidth' attr */
+.alignfull {
+    width: 100vw !important;
+}

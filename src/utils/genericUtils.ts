@@ -5,6 +5,7 @@ import { DEFAULT_HTML_SANTIZER_OPTIONS, ENV } from "./constants";
 import { CSSProperties } from "react";
 import parse, { Element } from "html-react-parser";
 import sanitize from "sanitize-html";
+import CryptoJS from "crypto-js";
 
 
 export function log(text?: any, obj?: any, debug = false): void {
@@ -812,6 +813,19 @@ export function datePlusDays(days: number, date = new Date()): Date {
 }
 
 
+export function dateMinusDays(days: number, date = new Date()): Date {
+
+    if (isNumberFalsy(days))
+        return date;
+
+    const alteredDate = new Date(date);
+    const dateDays = alteredDate.getDate();
+    alteredDate.setDate(dateDays - days);
+
+    return alteredDate;
+}
+
+
 export function stripTimeFromDate(d: Date): Date {
 
     const date = new Date(d);
@@ -927,4 +941,25 @@ function prepend0ToNumber(num: number): string {
         str = "0" + str;
 
     return str;
+}
+
+
+/**
+ * @param value to generate a hash for
+ * @param config to pass to hash function
+ * @returns ```toString()``` call on the generated ```CryptoJS.lib.WordArray```
+ */
+export function hash(value: CryptoJS.lib.WordArray | string, config?: object): string {
+
+    return CryptoJS.SHA256(value, config).toString();
+}
+
+
+/**
+ * @param date to generate a hash for
+ * @returns ```this.hash()``` with the time stripped from the date and then passing ```date.getTime()``` to the hash function
+ */
+export function hashDate(date = new Date()): string {
+
+    return hash(stripTimeFromDate(date).getTime().toString());
 }

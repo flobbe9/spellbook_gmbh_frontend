@@ -13,6 +13,9 @@ export default class WPBlockAttribute {
 
     className?: string;
 
+    /** Index of a core/column block inside a core/columns block */
+    columnIndex?: number;
+
     data?: object;
     
     height?: string;
@@ -26,6 +29,9 @@ export default class WPBlockAttribute {
     sizeSlug?: string;
 
     textAlign?: TextAlign;
+
+    /** The number of <ColumnBlock>s inside a <ColumnsBlock> */
+    totalNumColumnBlocks?: number;
 
     verticalAlignment?: TextAlign | string;
 

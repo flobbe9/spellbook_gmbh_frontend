@@ -8,6 +8,7 @@
     transition: background-color 0.2s, opacity 0.2s;
 
     &:focus {
+        /* TODO: ??? */
         transition: outline 0s;
         outline-offset: 4px;
     }

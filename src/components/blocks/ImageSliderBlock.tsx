@@ -3,7 +3,7 @@ import "../../assets/styles/ImageSliderBlock.css";
 import { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import Flex from "../helpers/Flex";
 import { getCssConstant, getCSSValueAsNumber, getRandomString, isBlank, log } from "../../utils/genericUtils";
-import BlockProps from "../../abstract/BlockProps";
+import BlockProps, { getCleanBlockProps } from "../../abstract/BlockProps";
 import WPBlock from "../../abstract/wp/WPBlock";
 import { stringToNumber } from './../../utils/genericUtils';
 import { JQueryEasing } from "../../abstract/CSSTypes";
@@ -42,7 +42,7 @@ export default function ImageSliderBlock({mainTagNames,
                                         ...otherProps
                                     }: Props) {
 
-    const { id, className, style, children } = getCleanDefaultProps(otherProps, "ImageSliderBlock");
+    const { id, className, style, children } = getCleanBlockProps(otherProps, "ImageSliderBlock");
     const { data } = wpBlock.attrs;
 
     /** className="ImageSliderBlock" */

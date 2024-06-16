@@ -2,7 +2,7 @@ import React from "react";
 import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Sanitized from "../helpers/Sanitized";
-import { getCssConstant, getRandomString } from "../../utils/genericUtils";
+import { getCssConstant, getRandomString, log } from "../../utils/genericUtils";
 import ParagraphBlock from "./ParagraphBlock";
 import ImageBlock from "./ImageBlock";
 import ColumnsBlock from "./ColumnsBlock";
@@ -14,9 +14,6 @@ import ParallaxBlock from "./ParallaxBlock";
 interface Props extends DefaultProps {
     wpBlocks: WPBlock[]
 }
-
-
-// slider
 
 
 /**
@@ -86,12 +83,14 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
                             style={style}
                             key={getRandomString()} 
                             wpBlock={wpBlock} 
+                            numColumnBlocks={countColumnBlocks(wpBlock) || 0}
                         />;
 
             case "core/column":
                 return <ColumnBlock 
                             id={id}
-                            className={className}
+                            // change ColumnClock padding (initPadding()) when changing col-sm-6
+                            className={className + " col-12 col-sm-6"}
                             style={style}
                             key={getRandomString()} 
                             wpBlock={wpBlock}
@@ -125,6 +124,20 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
         return <Sanitized dirtyHTML={wpBlock.innerHTML} key={getRandomString()}>
                     <Block wpBlocks={wpBlock.innerBlocks} />
                 </Sanitized>
+    }
+
+
+    /**
+     * @param wpBlock to count "core/column" blocks from ```innerBlocks``` for
+     * @returns number of ```innerBlocks``` with name "core/column" 
+     */
+    function countColumnBlocks(wpBlock: WPBlock): number | undefined {
+
+        if (!wpBlock)
+            return;
+
+        return wpBlock.innerBlocks.map(innerBlock => innerBlock.blockName === "core/column")
+                                  .length;
     }
 
     return (

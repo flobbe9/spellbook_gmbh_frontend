@@ -1,11 +1,12 @@
 .ParagraphBlock {
-    width: 100%;
     
     img {
         vertical-align: bottom;
     }
-
+    
     p {
         margin: revert;
+        /* width: 100%; */
+        /* TODO: test this */
     }
 }

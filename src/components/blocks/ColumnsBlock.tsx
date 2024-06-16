@@ -1,18 +1,16 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import "../../assets/styles/ColumnsBlock.css";
 import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import Flex from "../helpers/Flex";
-import Sanitized from '../helpers/Sanitized';
 import WPBlock from "../../abstract/wp/WPBlock";
 import Block from "./Block";
-import sanitize from "sanitize-html";
-import { DEFAULT_HTML_SANTIZER_OPTIONS } from "../../utils/constants";
-import parse, { Element } from "html-react-parser";
-import { getHTMLStringAttribs, log, parseCSSStringToJson } from "../../utils/genericUtils";
+import { getHTMLStringAttribs, isBlank, log, parseCSSStringToJson } from "../../utils/genericUtils";
 
 
 interface Props extends DefaultProps {
-    wpBlock: WPBlock
+    wpBlock: WPBlock,
+    /** The numer of innerBlocks with name "core/column" */
+    numColumnBlocks: number
 }
 
 
@@ -21,23 +19,27 @@ interface Props extends DefaultProps {
  * 
  * @since 0.0.1
  */
-export default function ColumnsBlock({wpBlock, ...otherProps}: Props) {
+export default function ColumnsBlock({wpBlock, numColumnBlocks, ...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "ColumnsBlock");
     const { verticalAlignment, align, isStackedOnMobile = true } = wpBlock.attrs;
 
-
-    function isFullWindowWidth(): boolean {
-
-        return align === "full";
-    }
+    const componentRef = useRef(null);
 
 
     function getClassName(): string {
 
         let newClassName = className || "";
-        if (isFullWindowWidth())
-            newClassName += " fullWindowWidth ";
+
+        newClassName += getHTMLStringAttribs(wpBlock.innerHTML).className || "";
+        
+        return newClassName;
+    }
+
+
+    function getContainerClassName(): string {
+
+        let newClassName = "";
 
         newClassName += getHTMLStringAttribs(wpBlock.innerHTML).className || "";
         
@@ -65,6 +67,19 @@ export default function ColumnsBlock({wpBlock, ...otherProps}: Props) {
     }
 
 
+    /**
+     * @returns bootrap "col-" class name for child all ```<ColumnBlock>``` assuming same width
+     */
+    function getColumnBlockBootstrapClassname(): string {
+
+        const numCols = numColumnBlocks;
+        if (numCols === 0)
+            return "";
+
+        return `col-lg-${Math.floor(12 / numColumnBlocks)}`;
+    }
+
+
     return (
         <Flex 
             id={getId()}
@@ -73,13 +88,16 @@ export default function ColumnsBlock({wpBlock, ...otherProps}: Props) {
                 ...style,
                 ...getStyle(),
                 alignItems: verticalAlignment,
-                flexWrap: isStackedOnMobile ? "wrap" : "nowrap",
             }}
             horizontalAlign="center"
+            ref={componentRef}
         > 
-            <Block wpBlocks={wpBlock.innerBlocks} />
+            <Flex className={"columnsBlockContainer  " + getContainerClassName()} flexWrap={isStackedOnMobile ? "wrap" : "nowrap"}>
+                {/* all inner <ColumnBlock> components */}
+                <Block wpBlocks={wpBlock.innerBlocks} className={getColumnBlockBootstrapClassname()} />
 
-            {children}
+                {children}
+            </Flex>
         </Flex>
     )
 }

@@ -1,16 +1,44 @@
 .Footer {
     background-color: var(--backgroundColor);
+    border: var(--yugiohBrownBorder);
+    border-radius: var(--borderRadius);
     bottom: 0;
-    color: var(--themeColor3);
+    box-shadow: var(--yugiohBrownBoxShadow);
     position: absolute;
     width: 100%;
     z-index: var(--zIndexNavBar);
 
-    .CardTextBox {
-        padding: 20px;
+    padding: 20px;
 
-        .rightNavItem {
-            font-size: 12px;
+    .rightNavItem {
+        font-size: 12px;
+    }
+
+    /* Mobile */
+    @media screen {
+        .leftNavItem, .rightNavItem {
+            align-items: start;
+            margin-top: 5rem;
+
+            .footerIcon {
+                margin-bottom: 1rem;
+            }
+        }
+    }
+    
+    /* Large Tablet */
+    @media screen and (min-width: 992px) {
+        .leftNavItem, .rightNavItem {
+            align-items: center;
+            margin-top: 0;
+
+            .footerIcon {
+                margin-bottom: 0;
+            }
+
+            .faviconTransparentFooter {
+                height: 100%;
+            }
         }
     }
 }
