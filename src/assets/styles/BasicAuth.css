@@ -9,16 +9,45 @@
     .formContainer {
         width: 300px;
         
-        .formInput {
-            border: 2px solid var(--themeColor);
+        .formInputContainer {
+            border: var(--yugiohBrownBorder);
             border-radius: var(--borderRadius);
             height: 50px;
-            padding: 3px 5px;
+            padding: 0;
+            transition: 0.05s;
             width: 100%;
+            z-index: 2;
+            
+            .formInput {
+                border: none;
+                height: 100%;
+                padding: 3px 5px;
+                transition: var(--transitionTime);
+                width: 100%;
+                
+                &:focus {
+                    box-shadow: var(--yugiohBrownBoxShadow);
+                    outline: none;
+                }
+            }
 
-            &:focus {
-                box-shadow: 0px 0px 2px 1px var(--themeColor) inset;
-                outline: none;
+        }
+        
+        #ButtonLogin {
+            .buttonChildren {
+                transition: var(--transitionTime);
+            }
+
+            &:hover {
+                &:disabled {
+                    .buttonChildren {
+                        color: white !important;
+                    }
+                }
+
+                .buttonChildren {
+                    color: var(--themeColor) !important;
+                }
             }
         }
     }
