@@ -25,14 +25,19 @@ interface Props extends DefaultProps {
 // IDEA: font families for each game?
 
 // TODO: seo
+    // sitemap.xml
+        // how to generate sitemap.xml from react routes?
+            // fetch from wordpress?
+    // robots.txt
+    // index.html 
+        // meta description
+    // meta description for every page?
+    
 // TODO: 
     // content
-    // crypto replacement
-        // replace git vars
 
 // TODO: do buttons?
 // TODO: custom 404 page
-// TODO: move images into /img
 // TODO: contact form
 // TODO: fetch footer icons
 // TODO: design
@@ -217,6 +222,7 @@ export default function App({...otherProps}: Props) {
      * desktop: ```col-lg-, col-xl-, col-xxl-```
      * 
      * @returns object with 3 modes of which only one is true
+     * @see https://getbootstrap.com/docs/5.3/layout/grid/
      */
     function getDeviceWidth(): {
         isMobileWidth: boolean
@@ -226,7 +232,6 @@ export default function App({...otherProps}: Props) {
 
         const windowWidth = windowSize[0];
 
-        // TODO: adjust these numbers to col
         return {
             isMobileWidth: windowWidth < 576,
             isTabletWidth:  windowWidth >= 576 && windowWidth < 992,
@@ -242,8 +247,7 @@ export default function App({...otherProps}: Props) {
                     {/* No html, just function calls here */}
                     <Initializer wpPages={wpPages} />
 
-                    {/* {(isLoggedIn || IS_SITE_LIVE) && <NavBar />} */}
-                    <NavBar />
+                    {(isLoggedIn || IS_SITE_LIVE) && <NavBar />}
 
                     {/* Content */}
                     <div className="content">

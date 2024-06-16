@@ -28,9 +28,7 @@ export default function Initializer({wpPages, ...otherProps}: Props) {
     const location = useLocation();
 
 
-    // TODO: redirect on navigate too
     useEffect(() => {
-        log("asdf")
         handlePageLoad();
 
     }, [wpPages, isLoggedIn, location]);
