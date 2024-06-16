@@ -32,6 +32,7 @@ interface Props extends DefaultProps {
     // index.html 
         // meta description
     // meta description for every page?
+// TODO: safari
     
 // TODO: 
     // content
@@ -46,6 +47,8 @@ interface Props extends DefaultProps {
 
 // GO LIVE TODO: 
     // change text for login page in wp
+    // change text for start page
+    // remove menus for now
     // change env variable IS_SITE_LIVE
 
 

@@ -5,7 +5,7 @@ import { dateMinusDays, isBlank, log, stripTimeFromDate } from "../utils/generic
 /**
  * Class defining simple encryption methods using "CryptoJS".
  * 
- * @since 0.0.3
+ * @since 0.1.0
  */
 export default class CryptoJSImpl {
 

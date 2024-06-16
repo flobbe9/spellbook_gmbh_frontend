@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "../assets/styles/MobileNavMenu.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import { WPNavMenu } from "../abstract/WPNavMenu";
@@ -15,17 +15,26 @@ interface Props extends DefaultProps {
 /**
  * One nav menu (label and items) displayed in the navbar only in mobile mode. See also {@link WPNavMenu}
  * 
- * @since 0.0.3
+ * @since 0.1.0
  */
 export default function MobileNavMenu({wpNavMenu, ...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "MobileNavMenu");
+
+    const [navMenuItems, setWpNavMenuItems] = useState<(JSX.Element | undefined)[]>([]);
 
     const mobileNavMenuItemContainerRef = useRef(null);
     const mobileNavMenuLabelTextRef = useRef(null);
     const mobileNavMenuIconRef = useRef(null);
 
     const { collapseAllMobileNavMenus, slideMobileNavBarUp } = useContext(NavBarContext);
+
+
+    useEffect(() => {
+        if (wpNavMenu)
+            setWpNavMenuItems(mapNavMenuItems());
+        
+    }, [wpNavMenu]);
 
 
     function handleNavMenuLabelClick(event): void {
@@ -86,7 +95,7 @@ export default function MobileNavMenu({wpNavMenu, ...otherProps}: Props) {
     return (
         <div 
             id={id} 
-            className={className}
+            className={className + (!navMenuItems.length ? " hidden" : "")}
             style={style}
         >
             {/* Label */}
@@ -97,7 +106,7 @@ export default function MobileNavMenu({wpNavMenu, ...otherProps}: Props) {
 
             {/* Menu Items */}
             <div className="mobileNavMenuItemContainer" ref={mobileNavMenuItemContainerRef}>
-                {mapNavMenuItems()}
+                {navMenuItems}
             </div>
                 
             {children}
