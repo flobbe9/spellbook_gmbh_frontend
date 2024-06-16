@@ -1,10 +1,29 @@
 .NavMenu {
-    background-color: var(--backgroundColor);
-    border-radius: var(--borderRadius);
-    box-shadow: var(--boxShadow2);
-    display: none;
-    padding: 10px;
-    min-width: 120px;
-    position: absolute;
-    z-index: var(--zIndexNavBar);
+    .navMenuLabel {
+        text-wrap: nowrap;
+        transition: var(--transitionTime);
+
+        &:hover {
+            cursor: pointer;
+            color: var(--themeColor);
+        }
+    }
+
+    .navMenuItemsContainer {
+        background-color: var(--backgroundColor);
+        border: var(--themeBorder);
+        border: var(--yugiohBrownBorder);
+        border-width: 2px;
+        border-radius: var(--borderRadius);
+        display: none;
+        padding: 10px;
+        min-width: 120px;
+        position: absolute;
+        z-index: var(--zIndexNavBar);
+
+        .NavMenuItem {
+            border-radius: var(--borderRadius);
+            padding: 5px;
+        }
+    }
 }
