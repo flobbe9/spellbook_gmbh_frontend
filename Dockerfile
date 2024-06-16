@@ -3,9 +3,7 @@ ARG PORT
 ARG NODE_VERSION
 
 ARG REACT_APP_CRYPTO_KEY
-ARG REACT_APP_CRYPTO_COUNTER
-ARG REACT_APP_CRYPTO_ALG
-ARG REACT_APP_CRYPTO_LENGTH
+ARG REACT_APP_CRYPTO_IV
 
 ARG SSL_KEY_PASSWORD
 ARG SSL_KEY_FILE_NAME
@@ -23,14 +21,8 @@ COPY . .
 ARG REACT_APP_CRYPTO_KEY
 ENV REACT_APP_CRYPTO_KEY=${REACT_APP_CRYPTO_KEY}
 
-ARG REACT_APP_CRYPTO_COUNTER
-ENV REACT_APP_CRYPTO_COUNTER=${REACT_APP_CRYPTO_COUNTER}
-
-ARG REACT_APP_CRYPTO_ALG
-ENV REACT_APP_CRYPTO_ALG=${REACT_APP_CRYPTO_ALG}
-
-ARG REACT_APP_CRYPTO_LENGTH
-ENV REACT_APP_CRYPTO_LENGTH=${REACT_APP_CRYPTO_LENGTH}
+ARG REACT_APP_CRYPTO_IV
+ENV REACT_APP_CRYPTO_IV=${REACT_APP_CRYPTO_IV}
 
 # Install and build
 RUN npm i
@@ -72,8 +64,8 @@ COPY --from=0 /${SSL_DIR} ./${SSL_DIR}
 # install npm serve
 RUN npm i -g serve
 
-ENTRYPOINT  if [ "$HTTPS = true" ]; then \
-                printf "${SSL_KEY_PASSWORD}" | serve -s -L ./build -l ${PORT} -n --no-port-switching -C --ssl-cert ${SSL_CRT_FILE_NAME} --ssl-key ${SSL_KEY_FILE_NAME} --ssl-pass /dev/stdin; \
+ENTRYPOINT  if [ $HTTPS = "true" ]; then \
+                printf "${SSL_KEY_PASSWORD}" | serve -s ./build -l ${PORT} -n --no-port-switching --ssl-cert ${SSL_CRT_FILE_NAME} --ssl-key ${SSL_KEY_FILE_NAME} --ssl-pass /dev/stdin; \
             else \
-                serve -s -L ./build -l ${PORT} -n --no-port-switching; \
+                serve -s ./build -l ${PORT} -n --no-port-switching; \
            fi

@@ -2,11 +2,11 @@ version: "3.3"
 
 services:
   frontend:
-    image: ${NAME}
+    image: dev_${NAME}
     build: 
       context: .
       args:
-        - HTTPS=true
+        - HTTPS=false
         - NODE_VERSION=${NODE_VERSION}
         - SSL_KEY_PASSWORD=password
         - SSL_CRT_FILE_NAME=localhost.crt.pem

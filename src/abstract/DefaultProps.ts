@@ -17,8 +17,8 @@ export default interface DefaultProps {
 /**
  * @param props to clean up
  * @param componentName to prepend to id and className
- * @param componentNameAsId if true, the ```componentName``` will be prepended to id
- * @returns clean default props object with componentName prepended to className and optionally to id 
+ * @param componentNameAsId if true, the ```componentName``` will be prepended to id. Default is false
+ * @returns clean default props object with componentName prepended to className and optionally to id
  */
 export function getCleanDefaultProps(props: DefaultProps, componentName?: string, componentNameAsId = false): DefaultProps {
 

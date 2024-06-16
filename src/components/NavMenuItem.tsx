@@ -8,11 +8,18 @@ import { WPNavMenuItem } from "../abstract/WPNavMenuItem";
 
 
 interface Props extends DefaultProps {
-    wpNavMenuItem: WPNavMenuItem
+    wpNavMenuItem: WPNavMenuItem,
+    linkClassName?: string,
+    onLinkClick?: (event?) => void
 }
 
 
-export default function NavMenuItem({wpNavMenuItem, ...otherProps}: Props) {
+/**
+ * One item (maybe a link or text) inside a NavMenu.
+ * 
+ * @since 0.0.1
+ */
+export default function NavMenuItem({wpNavMenuItem, linkClassName, onLinkClick, ...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "NavMenuItem");
 
@@ -31,26 +38,38 @@ export default function NavMenuItem({wpNavMenuItem, ...otherProps}: Props) {
         // case: external url
         if (!isInternalLink)
             return (
-                <a className="navLink themeLink" href={url} target={target} rel="noopener noreferrer nofollow">
+                <a 
+                    className={linkClassName} 
+                    href={url} 
+                    target={target} 
+                    rel="noopener noreferrer nofollow"
+                    onClick={onLinkClick}
+                >
                     {content}
                 </a>)
 
         // case: internal url
         return (
-            <Link to={url!} className="navLink themeLink" target={target} rel="noopener noreferrer nofollow">
+            <Link 
+                className={linkClassName} 
+                to={url!} 
+                target={target} 
+                rel="noopener noreferrer nofollow"
+                onClick={onLinkClick}
+            >
                 {content}
             </Link>
         )
     }
 
 
-    return returnWithLink(
+    return (
         <div 
             id={id}
             className={className}
             style={style}
         >
-            {title}
+            {returnWithLink(<span>{title}</span>)}
 
             {children}
         </div>

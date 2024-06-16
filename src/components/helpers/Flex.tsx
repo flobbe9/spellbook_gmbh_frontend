@@ -1,7 +1,7 @@
 import React, { forwardRef, LegacyRef, MutableRefObject } from "react";
 import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import { isBlank } from "../../utils/genericUtils";
-import { FlexDirection, TextAlign } from "../../abstract/CSSTypes";
+import { FlexDirection, FlexWrap, TextAlign } from "../../abstract/CSSTypes";
 
 
 interface Props extends DefaultProps {
@@ -13,6 +13,8 @@ interface Props extends DefaultProps {
     disableFlex?: boolean,
     /** Default is "row". See {@link FlexDirection} */
     flexDirection?: FlexDirection,
+    /** Default is "wrap". See {@link FlexWrap} */
+    flexWrap?: FlexWrap,
     onClick?: (event) => void
 }
 
@@ -25,8 +27,13 @@ interface Props extends DefaultProps {
  * 
  * @since 0.0.1
  */
-export default forwardRef(function(
-    {horizontalAlign, verticalAlign, disableFlex = false, flexDirection = "row", onClick, ...otherProps}: Props,
+export default forwardRef(function({horizontalAlign, 
+                                    verticalAlign,
+                                    disableFlex = false,
+                                    flexDirection = "row",
+                                    flexWrap = "wrap",
+                                    onClick,
+                                    ...otherProps}: Props,
     ref: LegacyRef<HTMLDivElement>) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps);
@@ -38,10 +45,11 @@ export default forwardRef(function(
             className={className}
             style={{
                 ...style,
+                alignItems: verticalAlign,
                 display: disableFlex ? "" : "flex",
                 flexDirection: flexDirection,
+                flexWrap: flexWrap,
                 justifyContent: horizontalAlign,
-                alignItems: verticalAlign
             }}
             ref={ref}
             onClick={onClick}

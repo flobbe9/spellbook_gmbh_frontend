@@ -1,6 +1,5 @@
 import sanitize from "sanitize-html";
 import { isBlank, logWarn, stringToNumber } from "./genericUtils";
-import { CryptoHelper } from './../abstract/CryptoHelper';
 import { Env } from "../abstract/Env";
 
 // App
@@ -98,38 +97,5 @@ export const SESSION_EXPIRY_DAYS = 7;
 
 
 // Crypto
-export const CRYPTO_KEY = getCryptoKey();
-export const CRYPTO_COUNTER = getCryptoCounter();
-export const CRYPTO_ALG = process.env.REACT_APP_CRYPTO_ALG || "";
-export const CRYPTO_LENGTH = stringToNumber(process.env.REACT_APP_CRYPTO_LENGTH);
-
-function getCryptoKey(): Uint8Array {
-
-    // parse numbers from .env to number[]
-    const cryptoKeyString = process.env.REACT_APP_CRYPTO_KEY || "";
-    const cryptoKeyArray = parseEnvNumbers(cryptoKeyString);
-
-    if (!cryptoKeyArray.length) 
-        logWarn("Failed to parse CRYPTO_KEY from .env");
-
-    return Uint8Array.from(cryptoKeyArray);
-}
-
-function getCryptoCounter(): Uint8Array {
-
-    // parse numbers from .env to number[]
-    const cryptoKeyString = process.env.REACT_APP_CRYPTO_COUNTER || "";
-    const cryptoKeyArray = parseEnvNumbers(cryptoKeyString);
-
-    if (cryptoKeyArray.length <= 1) 
-        logWarn("Failed to parse CRYPTO_COUNTER from .env");
-
-    return Uint8Array.from(cryptoKeyArray);
-}
-
-function parseEnvNumbers(envVariable: string): number[] {
-
-    const cryptoKeyStringArray = envVariable.split(",");
-
-    return cryptoKeyStringArray.map(str => stringToNumber(str));
-}
+export const CRYPTO_KEY = process.env.REACT_APP_CRYPTO_KEY || "";
+export const CRYPTO_IV = process.env.REACT_APP_CRYPTO_IV || "";

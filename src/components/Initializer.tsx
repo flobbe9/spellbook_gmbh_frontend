@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import useBasicAuth from "../hooks/useBasicAuth";
-import { AppContext } from "./App";
-import { ENV } from "../utils/constants";
+import { ENV, WORDPRESS_BASE_URL } from "../utils/constants";
 import WPPage from "../abstract/wp/WPPage";
 import { log } from "../utils/genericUtils";
+import { AppContext } from "./App";
+import { useLocation } from "react-router";
 
 
 interface Props extends DefaultProps {
@@ -22,14 +23,15 @@ export default function Initializer({wpPages, ...otherProps}: Props) {
 
     const { updateSession, redirect } = useBasicAuth();
 
-    const { setIsLoggedIn } = useContext(AppContext);
+    const { isLoggedIn } = useContext(AppContext);
+
+    const location = useLocation();
 
 
-    // TODO: redirect on navigate too
     useEffect(() => {
         handlePageLoad();
 
-    }, [wpPages]);
+    }, [wpPages, isLoggedIn, location]);
 
 
     /**
@@ -39,9 +41,9 @@ export default function Initializer({wpPages, ...otherProps}: Props) {
      */
     async function handlePageLoad(): Promise<void> {
 
-        const isLoggedIn = await updateSession(setIsLoggedIn);
+        const isLoggedIn = await updateSession();
 
-        // uncomment this to deactivate basicAuth in dev
+        // uncomment this to deactivate redirects in dev
         // if (ENV !== "development")
         redirect(isLoggedIn, wpPages);
     }

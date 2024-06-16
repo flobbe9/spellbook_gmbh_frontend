@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import "../assets/styles/NavBar.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import Flex from "./helpers/Flex";
-import { getJQueryElementById, includesIgnoreCaseTrim, log } from "../utils/genericUtils";
-import CardTextBox from "./helpers/CardTextBox";
+import { getCssConstant, getCSSValueAsNumber, getJQueryElementById, getRandomString, includesIgnoreCaseTrim, log } from "../utils/genericUtils";
 import { Link } from "react-router-dom";
 import NavMenu from "./NavMenu";
 import useNavMenus from "../hooks/useNavMenus";
 import { WPNavMenu } from "../abstract/WPNavMenu";
+import { AppContext } from "./App";
+import useBasicAuth from "../hooks/useBasicAuth";
+import MobileNavMenu from "./MobileNavMenu";
 
 
 interface Props extends DefaultProps {
@@ -18,7 +20,8 @@ interface Props extends DefaultProps {
 /**
  * @since 0.0.1
  */
-// TODO: change menu ids to menu1 and menu2, adjust event handlers too
+// TODO
+    // multiple menus???
 export default function NavBar({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "NavBar", true);
@@ -26,19 +29,32 @@ export default function NavBar({...otherProps}: Props) {
     const [navMenu1, setNavMenu1] = useState<WPNavMenu>(WPNavMenu.getDefaultInstance());
     const [navMenu2, setNavMenu2] = useState<WPNavMenu>(WPNavMenu.getDefaultInstance());
 
+    const initNavBarHeight = getCSSValueAsNumber(getCssConstant("navBarHeight"), 2);
+    
+    const { logout } = useBasicAuth();
+    const { isLoggedIn, toast } = useContext(AppContext);
+    
+    const componentRef = useRef(null);
+    const mobileNavMenuContainerRef = useRef(null);
+    const burgerButtonRef = useRef(null);
+
     const navMenus = useNavMenus();
+
+    const context = {
+        collapseAllMobileNavMenus,
+        slideMobileNavBarUp
+    }
 
 
     useEffect(() => {
         window.addEventListener("click", handleWindowClick);
-        window.addEventListener("keydown", handleWindowKeyDown);
 
         return () => {
             window.removeEventListener("click", handleWindowClick);
-            window.removeEventListener("keydown", handleWindowKeyDown);
         }
+
     }, []);
-    
+
 
     useEffect(() => {
         if (navMenus.length)
@@ -50,106 +66,227 @@ export default function NavBar({...otherProps}: Props) {
     }, [navMenus])
 
 
-    function toggleNavMenu(event, id: string): void {
+    function handleBurgerButtonClick(event): void {
 
-        const navMenu = getJQueryElementById(id);
-        if (!navMenu)
-            return;
+        // case: nav items hidden
+        if (!areMobileNavMenusVisible())
+            slideNavMobileBarDown();
 
-        navMenu.slideToggle(200, "swing");
+        else {
+            collapseAllMobileNavMenus();
+            slideMobileNavBarUp();
+        }
+
+        flipBurgerButton();
+    }
+
+
+    function slideNavMobileBarDown(): void {
+
+        const navBar = $(componentRef.current!);
+
+        const mobileNavMenuContainer = $(mobileNavMenuContainerRef.current!);
+        const mobileNavMenuContainerHeight = mobileNavMenuContainer.outerHeight() || 0;
+
+        navBar.animate(
+            // slide down
+            {"height": initNavBarHeight + mobileNavMenuContainerHeight},
+            200, 
+            "swing",
+            () => {
+                // make navbar height move with menu height
+                mobileNavMenuContainer.css("position", "relative");
+                navBar.css("height", "");
+            }
+        );
+        
+    }
+
+
+    function slideMobileNavBarUp(): void {
+
+        const navBar = $(componentRef.current!);
+
+        const mobileNavMenuContainer = $(mobileNavMenuContainerRef.current!);
+
+        navBar.animate(
+            // slide down
+            {"height": initNavBarHeight},
+            200, 
+            "swing",
+            () => {
+                mobileNavMenuContainer.css("position", "absolute");
+            }
+        );
+    }
+
+
+    /**
+     * Hide all nav menu items (in mobile mode only). Does not resize nav bar height.
+     */
+    function collapseAllMobileNavMenus(): void {
+        
+        // slide all up
+        $(".mobileNavMenuItemContainer").slideUp(200, "swing");
+
+        // all icons to right
+        $(".mobileNavMenuIcon").css("rotate", "-90deg");
+
+        unHighlightAllNavMenuLabels();
+    }
+
+    
+    function unHighlightAllNavMenuLabels(): void {
+
+        $(".mobileNavMenuLabelText").css("color", "black");
+        $(".mobileNavMenuIcon").css("color", "black");
+    }
+
+
+    /**
+     * Rotates burger button (in mobile) by 180deg depending on the visibility of the mobile nav menus
+     */
+    function flipBurgerButton(): void {
+
+        const burgerButton = $(burgerButtonRef.current!);
+
+        burgerButton.animate(
+            {"rotate": areMobileNavMenusVisible() ? "0deg" : "180deg"},
+            200,
+            "swing"
+        );
+    }
+
+
+    function areMobileNavMenusVisible(): boolean {
+
+        const mobileNavMenuContainer = $(mobileNavMenuContainerRef.current!);
+        return mobileNavMenuContainer.css("position") !== "absolute";
     }
 
 
     function handleWindowClick(event): void {
 
-        const eventClassName = event.target.className as string;
+        const eventTargetClassName = event.target.className;
 
-        slideUpNavMenuOnClickOutside("NavMenuSpielen", "dontHideNavMenuSpielen", eventClassName);
-        slideUpNavMenuOnClickOutside("NavMenuKaufen", "dontHideNavMenuKaufen", eventClassName);
-    }
-
-    
-    function handleWindowKeyDown(event): void {
-
-        const eventClassName = event.target.className as string;
-        const key = event.key;
-
-        if (key === "Escape") {
-            slideUpNavMenuOnClickOutside("NavMenuSpielen", "dontHideNavMenuSpielen", eventClassName);
-            slideUpNavMenuOnClickOutside("NavMenuKaufen", "dontHideNavMenuKaufen", eventClassName);
+        if (!includesIgnoreCaseTrim(eventTargetClassName || "", "dontHideMobileNavMenu")) {
+            // case: mobile mode
+            if (areMobileNavMenusVisible()) {
+                slideMobileNavBarUp();
+                collapseAllMobileNavMenus();
+            }
         }
     }
 
 
-    /**
-     * Slide up given nav menu unless the nav menu class name is included in event target class name.
-     * 
-     * @param navMenuId id of nav menu to slide up
-     * @param navMenuClassName class name to compare to event class name
-     * @param eventTargetClassName class name of ```event.target```
-     */
-    function slideUpNavMenuOnClickOutside(navMenuId: string, navMenuClassName: string, eventTargetClassName: string): void {
+    function handleLogout(event): void {
 
-        const navMenu = getJQueryElementById(navMenuId);
-        if (!navMenu)
-            return;
+        logout();
 
-        if (!includesIgnoreCaseTrim(eventTargetClassName, navMenuClassName))
-            navMenu.slideUp(200, "swing");
+        toast("Logout", "Du bist ausgeloggt.", "info", 3000);
     }
 
 
+    const LogoutLink = (
+        <>
+            {isLoggedIn ?
+                // Logout link
+                <Flex 
+                    onClick={handleLogout}
+                    className="logoutLink"
+                    verticalAlign="center"
+                >
+                    <span className="me-1 logoutLabel dontMarkText">Logout</span>
+                    <i className="fa-solid fa-right-from-bracket logoutIcon"></i>
+                </Flex>
+                :
+                // Login link
+                <Link to="/login" className="logoutLink blackLink">
+                    <span className="logoutLabel dontMarkText">Login</span>
+                </Link>
+            }
+        </>
+    );
+
+
     return (
-        <div 
-            id={id} 
-            className={className}
-            style={style}
-        >
-            <CardTextBox boxShadow="var(--boxShadow)" squareBoxBackgroundColor="var(--themeColor)">
-                {/* Navbar content */}
+        <NavBarContext.Provider value={context}>
+            <div 
+                id={id} 
+                className={className}
+                style={style}
+                ref={componentRef}
+            >
                 <Flex className="navBarContainer" horizontalAlign="center" verticalAlign="center">
-                    {/* Spielen */}
-                    {/* hide if is empty */}
-                    <div className={"navItem" + (navMenu1.items.length === 0 ? " hidden" : "")}>
-                        <div className="themeLink dontHideNavMenuSpielen" onClick={(event) => toggleNavMenu(event,  "NavMenuSpielen")}>
-                            <span className="me-2 dontMarkText dontHideNavMenuSpielen">{navMenu1.name}</span>
-                            <i className="fa-solid fa-chevron-down dontHideNavMenuSpielen"></i>
-                        </div>
+                    {/* Left */}
+                    <Flex 
+                        // hide if menu is empty
+                        className={"navItem navItemLeft col-4" + (navMenu1.items.length === 0 ? " hidden" : "")} 
+                        horizontalAlign="center"
+                    >
+                        {/* Menu1 */}
+                        <Flex className="col-8" horizontalAlign="right">
+                            <NavMenu id="1" wpNavMenu={navMenu1} />
+                        </Flex>
+                    </Flex>
 
-                        {/* NavMenu */}
-                        <NavMenu id="Spielen" className="dontHideNavMenuSpielen" wpNavMenu={navMenu1} />
-                    </div>
-
-                    {/* Logo */}
-                    <div className="navItem navHeading">
+                    {/* Center */}
+                    <div className="navItem navItemCenter col-12 col-sm-4">
+                        {/* Logo */}
                         <Link to="/">
                             <div className="flexCenter">
-                                {/* quotient of width/height should be ~1.69 */}
-                                <img className="faviconTransparent dontMarkText" src="/faviconTransparent.png" alt="Logo" height="50" width="85"/>
-                                {/* <img className="faviconTransparent dontMarkText" src="/favicon.ico" alt="Logo" height="50" width="85" /> */}
-                                </div>
-                            <div className="flexCenter mt-1">
-                                {/* quotient of width/height should be ~5.92 */}
-                                <img className="companyName dontMarkText" src="/companyName.png" alt="Company name" height="30" width="177"/>
+                                <img className="faviconTransparent dontMarkText" src="/img/companyNameTransparent.png" alt="Logo" height={120} />
                             </div>
                         </Link>
-                    </div>
 
-                    {/* Kaufen */}
-                    {/* hide if is empty */}
-                    <div className={"navItem" + (navMenu2.items.length === 0 ? " hidden" : "")}>
-                        <div className="themeLink dontHideNavMenuKaufen" onClick={(event) => toggleNavMenu(event,  "NavMenuKaufen")}>
-                            <span className="me-2 dontMarkText dontHideNavMenuKaufen">{navMenu2.name}</span>
-                            <i className="fa-solid fa-chevron-down dontHideNavMenuKaufen"></i>
+                        {/* Mobile NavMenus */}
+                        <div className="mobileNavBarContainer pt-1">
+                            {/* Burger Button */}
+                            <Flex horizontalAlign="center" className="dontHideMobileNavMenu">
+                                <i className="fa-solid fa-bars burgerButton dontHideMobileNavMenu mt-3 mb-3" onClick={handleBurgerButtonClick} ref={burgerButtonRef}></i>
+                            </Flex>
+
+                            <div className="mobileNavMenuContainer dontHideMobileNavMenu pt-1" ref={mobileNavMenuContainerRef}>
+                                {/* Menus */}
+                                <MobileNavMenu wpNavMenu={navMenu1} className="dontHideMobileNavMenu" />
+                                <MobileNavMenu wpNavMenu={navMenu2} className="dontHideMobileNavMenu" />
+
+                                {/* Logout */}
+                                <div className="me-3 flexRight dontHideMobileNavMenu">{LogoutLink}</div>
+                            </div>
                         </div>
-
-                        {/* NavMenu */}
-                        <NavMenu id="Kaufen" className="dontHideNavMenuKaufen" wpNavMenu={navMenu2} />
                     </div>
-                        
-                    {children}
+
+                    {/* Right */}
+                    <Flex 
+                        // hide if menu is empty
+                        className={"navItem navItemRight col-4" + (navMenu2.items.length === 0 ? " hidden" : "")}
+                        horizontalAlign="center"
+                    >
+                        {/* Menu2 */}
+                        <Flex className="col-5" horizontalAlign="center">
+                            <NavMenu id="2" wpNavMenu={navMenu2} />
+                        </Flex>
+
+                        {/* Logout */}
+                        <Flex 
+                            className="logoutContainer col-5" 
+                            verticalAlign="center" 
+                            horizontalAlign="right"
+                        >
+                            {LogoutLink}
+                        </Flex>
+                    </Flex>
                 </Flex>
-            </CardTextBox>
-        </div>
+
+                {children}
+            </div>
+        </NavBarContext.Provider>
     )
 }
+
+
+export const NavBarContext = createContext({
+    collapseAllMobileNavMenus: () => {},
+    slideMobileNavBarUp: () => {}
+})

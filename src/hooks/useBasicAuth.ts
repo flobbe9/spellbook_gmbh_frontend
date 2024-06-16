@@ -1,18 +1,20 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ApiExceptionFormat } from "../abstract/ApiExceptionFormat";
-import { ENV, IS_SITE_LIVE, SESSION_EXPIRY_DAYS, WORDPRESS_BASE_URL, WORDPRESS_CUSTOM_PATH, WORDPRESS_REQUEST_MAPPING } from "../utils/constants";
+import { CRYPTO_IV, CRYPTO_KEY, ENV, IS_SITE_LIVE, SESSION_EXPIRY_DAYS, WORDPRESS_BASE_URL, WORDPRESS_CUSTOM_PATH, WORDPRESS_REQUEST_MAPPING } from "../utils/constants";
 import fetchJson, { isHttpStatusCodeAlright } from "../utils/fetchUtils";
 import { datePlusDays, equalsIgnoreCaseTrim, isBlank, isDateAfter, isDateBefore, log, logError, stringToNumber } from "../utils/genericUtils";
-import { CryptoHelper } from "../abstract/CryptoHelper";
 import BasicAuth from './../components/BasicAuth';
 import { useNavigate } from "react-router";
 import WPPage from "../abstract/wp/WPPage";
+import { useContext } from "react";
+import { AppContext } from "../components/App";
+import CryptoJSImpl from "../abstract/CryptoJSImpl";
 
 
 /**
  * Proides some functions for basic authentication used in {@link BasicAuth}.
  * 
- * Only call this inside react navigation context, since ```useNavigate``` is used here
+ * Only call this inside react navigation context, since ```useNavigate``` is used here. 
+ * Also uses {@link AppContext}.
  * 
  * @since 0.0.1
  */
@@ -21,9 +23,11 @@ export default function useBasicAuth() {
     /** The key of the session expiry date stored in local storage. */
     const SESSION_KEY = "sessionExpiryDate";
 
-    const globalCryptoHelper = new CryptoHelper().build();
+    const crypto = new CryptoJSImpl(CRYPTO_KEY, CRYPTO_IV);
 
     const navigate = useNavigate();
+
+    const { setIsLoggedIn } = useContext(AppContext);
 
 
     /**
@@ -61,10 +65,21 @@ export default function useBasicAuth() {
             return jsonResponse;
         
         await createSession();
-        // redirect to "/"
+
         navigate("/");
 
         return jsonResponse;
+    }
+
+
+    /**
+     * Update global loggedIn state and destroy session.
+     */
+    function logout(): void {
+
+        setIsLoggedIn(false);
+
+        localStorage.removeItem(SESSION_KEY);
     }
 
 
@@ -74,11 +89,11 @@ export default function useBasicAuth() {
      */
     async function createSession(): Promise<void> {
 
-        const cryptoHelper = await globalCryptoHelper;
         const expiryDate = datePlusDays(SESSION_EXPIRY_DAYS);
-        const encryptedExpiryDate = await cryptoHelper.encrypt(expiryDate.getTime().toString());
-        // case: encryption failed (should not happen)
-        if (!encryptedExpiryDate) {
+
+        const encryptedExpiryDate = crypto.encrypt(expiryDate.getTime().toString()).toString();
+        // case: encryption failed
+        if (isBlank(encryptedExpiryDate)) {
             logError("Failed to create session. Failed to encrypt session object");
             return;
         }
@@ -95,17 +110,17 @@ export default function useBasicAuth() {
 
         const encryptedExpiryDate = localStorage.getItem(SESSION_KEY);
         // case: no session found
-        if (!encryptedExpiryDate)
+        if (isBlank(encryptedExpiryDate))
             return false;
         
-        const cryptoHelper = await globalCryptoHelper;
-        const expiryDateString = await cryptoHelper.decrypt(encryptedExpiryDate, false) as string;
-        if (!expiryDateString) {
+        const decryptedExpiryDateString = crypto.wordArrayToString(crypto.decrypt(encryptedExpiryDate!));
+        // case: failed to decrypt
+        if (isBlank(decryptedExpiryDateString)) {
             logError("Failed to validate session. Could not decrypt session object");
             return false;
         }
 
-        return isDateAfter(new Date(stringToNumber(expiryDateString)), new Date());
+        return isDateAfter(new Date(stringToNumber(decryptedExpiryDateString)), new Date());
     }
 
 
@@ -114,11 +129,11 @@ export default function useBasicAuth() {
      * 
      * Don't validate session if ```ENV``` is "development".
      * 
-     * @param setIsLoggedIn setter of global ```isLoggedIn``` state
      * @return true if is logged in, else false
      */
-    async function updateSession(setIsLoggedIn: (isLoggedIn: boolean) => void): Promise<boolean> {
+    async function updateSession(): Promise<boolean> {
 
+        // uncomment this to disable basic auth
         // if (ENV === "development") {
         //     setIsLoggedIn(true)
         //     return true;
@@ -141,6 +156,7 @@ export default function useBasicAuth() {
      * @param isLoggedIn true if session is valid
      * @param wpPages fetched on load to determine ```post_status``` of current page
      */
+    // TODO: remove prev page from history
     function redirect(isLoggedIn: boolean, wpPages: WPPage[]): void {
 
         // case: is logged in
@@ -156,7 +172,9 @@ export default function useBasicAuth() {
         if (IS_SITE_LIVE && isPublicPage(wpPages))
             return;
 
-        navigate("/login");
+        // case: not logged in
+        if (!window.location.pathname.startsWith("/login"))
+            navigate("/login");
     }
     
 
@@ -211,6 +229,7 @@ export default function useBasicAuth() {
 
     return {
         login,
+        logout,
         updateSession,
         redirect
     }

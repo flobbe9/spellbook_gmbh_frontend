@@ -4,3 +4,4 @@ DefaultComponent.tsx
 .env.*
 *.csr
 *.p12
+public/archive

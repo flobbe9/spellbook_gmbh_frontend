@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import "../../assets/styles/ParagraphBlock.css";
-import { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Sanitized from "../helpers/Sanitized";
 import { log } from "../../utils/genericUtils";
-import BlockProps from "../../abstract/BlockProps";
+import BlockProps, { getCleanBlockProps } from "../../abstract/BlockProps";
 import Block from "./Block";
 import { TextAlign } from "../../abstract/CSSTypes";
 
@@ -21,7 +20,7 @@ interface Props extends BlockProps {
  */
 export default function ParagraphBlock({wpBlock, mainTagNames, ...otherProps}: Props) {
 
-    const { id, className, style, children } = getCleanDefaultProps(otherProps, "ParagraphBlock");
+    const { id, className, style, children } = getCleanBlockProps(otherProps, "ParagraphBlock");
 
     const { align, textAlign } = wpBlock.attrs;
 
@@ -40,7 +39,7 @@ export default function ParagraphBlock({wpBlock, mainTagNames, ...otherProps}: P
             id={id} 
             className={className}
             style={style}
-            >
+        >
             {/* InnerHTML */}
             <Sanitized
                 dirtyHTML={wpBlock.innerHTML}

@@ -4,18 +4,14 @@ import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./Navbar";
 import { usePages } from "../hooks/usePages";
-import { equalsIgnoreCase, getCssConstant, getCSSValueAsNumber, getRandomString, includesIgnoreCaseTrim, isNumberFalsy, log } from "../utils/genericUtils";
+import { equalsIgnoreCase, getCssConstant, getCSSValueAsNumber, getJQueryElementById, getRandomString, includesIgnoreCaseTrim, isBlank, isNumberFalsy, log, setCssConstant } from "../utils/genericUtils";
 import _404 from './_404';
 import Page from "./Page";
-import Flex from "./helpers/Flex";
 import BasicAuth from "./BasicAuth";
-import useBasicAuth from "../hooks/useBasicAuth";
 import Toast, { ToastSevirity } from "./Toast";
 import Footer from "./Footer";
-import { JQueryEasing } from "../abstract/CSSTypes";
 import Initializer from "./Initializer";
-import { COMPANY_NAME, IS_SITE_LIVE } from "../utils/constants";
-import Parallax from "./blocks/ParallaxBlock";
+import { IS_SITE_LIVE } from "../utils/constants";
 import WPPage from "../abstract/wp/WPPage";
 
 
@@ -26,32 +22,27 @@ interface Props extends DefaultProps {
 /**
  * @since 0.0.1
  */
-// TODO: seo
-// TODO: wp health stuff
-// TODO: mobile
-// TODO: custom 404 page
-// TODO: logout button
-// TODO: fetch footer icons
 // IDEA: font families for each game?
 
-// TODO: new url
-    // order
-        // 1. compose stop✅
-        // 2. assign ips to new domain✅
-        // 3. copy new prod compose file to server✅
-        // 4. edit default-ssl.conf✅
-        // 5. rename db volume✅
-        // 6. git push
-        // rename db site urls
-        // rename local ssh config
-        // delete old files on server
-        // delete old docker repos and images
-        // dont forward 8080 anymore
-        // dont fowrad 3306 for frontend
-        // adjust vscode commands
-        // remove old db
-        
-    // local ssh config
+// TODO: seo
+    // sitemap.xml
+        // how to generate sitemap.xml from react routes?
+            // fetch from wordpress?
+    // robots.txt
+    // index.html 
+        // meta description
+    // meta description for every page?
+    
+// TODO: 
+    // content
+
+// TODO: do buttons?
+// TODO: custom 404 page
+// TODO: contact form
+// TODO: fetch footer icons
+// TODO: design
+    // full size slider?
+// TODO: add rendered prop to some helper components
 
 // GO LIVE TODO: 
     // change text for login page in wp
@@ -75,12 +66,17 @@ export default function App({...otherProps}: Props) {
     /** The <Route> tags, rendered using the fetched {@link WPPage}s */
     const [routes, setRoutes] = useState<(JSX.Element | undefined)[]>([]);
 
+    const [windowSize, setWindowSize] = useState([window.innerWidth, window.innerHeight]);
+
     const context = {
         isLoggedIn,
         setIsLoggedIn,
 
         toast,
-        moveToast
+        moveToast,
+
+        windowSize,
+        getDeviceWidth
     }
 
     const toastRef = useRef(null);
@@ -90,9 +86,11 @@ export default function App({...otherProps}: Props) {
 
     useEffect(() => {
         window.addEventListener("keydown", handleWindowKeyDown);
+        window.addEventListener("resize", handleWindowResize);
 
         return () => {
             window.removeEventListener("keydown", handleWindowKeyDown);
+            window.removeEventListener("resize", handleWindowResize);
         }
 
     }, []);
@@ -205,6 +203,43 @@ export default function App({...otherProps}: Props) {
     }
 
 
+    /**
+     * Update ```windowSize``` state on ```resize``` event
+     */
+    function handleWindowResize(event): void {
+
+        setWindowSize([window.innerWidth, window.innerHeight]);
+    }
+
+
+    /**
+     * Col grid:
+     * 
+     * mobile: ```col-, col-sm-```,
+     * 
+     * tablet: ```col-md, col-lg```,
+     * 
+     * desktop: ```col-lg-, col-xl-, col-xxl-```
+     * 
+     * @returns object with 3 modes of which only one is true
+     * @see https://getbootstrap.com/docs/5.3/layout/grid/
+     */
+    function getDeviceWidth(): {
+        isMobileWidth: boolean
+        isTabletWidth: boolean
+        isDesktopWidth: boolean
+    } {
+
+        const windowWidth = windowSize[0];
+
+        return {
+            isMobileWidth: windowWidth < 576,
+            isTabletWidth:  windowWidth >= 576 && windowWidth < 992,
+            isDesktopWidth: windowWidth >= 992,
+        }
+    }
+
+
     return (
         <AppContext.Provider value={context}>
             <BrowserRouter>
@@ -215,14 +250,12 @@ export default function App({...otherProps}: Props) {
                     {(isLoggedIn || IS_SITE_LIVE) && <NavBar />}
 
                     {/* Content */}
-                    <Flex horizontalAlign="center" verticalAlign="end">
-                        <div className="content">
-                            <Routes>
-                                {routes}
-                                <Route path="*" element={<_404 wpPages={wpPages} />} />
-                            </Routes>
-                        </div>
-                    </Flex>
+                    <div className="content">
+                        <Routes>
+                            {routes}
+                            <Route path="*" element={<_404 wpPages={wpPages} />} />
+                        </Routes>
+                    </div>
 
                     {/* Toast popup */}
                     <Toast 
@@ -247,5 +280,8 @@ export const AppContext = createContext({
     setIsLoggedIn: (isLoggedIn: boolean) => {},
 
     toast: (summary: string, message = "", sevirity: ToastSevirity = "info", screenTime?: number) => {},
-    moveToast: (hideToast = false, screenTime?: number) => {}
+    moveToast: (hideToast = false, screenTime?: number) => {},
+
+    windowSize: [0, 0],
+    getDeviceWidth: () => {return {isMobileWidth: false, isTabletWidth: false,isDesktopWidth: true}}
 })

@@ -1,16 +1,13 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useContext, useEffect, useRef } from "react";
 import "../../assets/styles/ColumnBlock.css";
 import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import Flex from "../helpers/Flex";
-import Sanitized from '../helpers/Sanitized';
 import WPBlock from "../../abstract/wp/WPBlock";
 import Block from "./Block";
 import { parseWPAlignString } from "../../abstract/wp/WPBlockAttribute";
-import { getHTMLStringAttribs, log, parseCSSStringToJson } from "../../utils/genericUtils";
+import { getCSSValueAsNumber, getHTMLStringAttribs, isBlank, isNumberFalsy, log, logWarn, parseCSSStringToJson } from "../../utils/genericUtils";
 import { TextAlign } from "../../abstract/CSSTypes";
-import sanitize from "sanitize-html";
-import parse, { Element } from "html-react-parser";
-import { DEFAULT_HTML_SANTIZER_OPTIONS } from "../../utils/constants";
+import { AppContext } from "../App";
 
 
 interface Props extends DefaultProps {
@@ -24,7 +21,58 @@ interface Props extends DefaultProps {
 export default function ColumnBlock({wpBlock, ...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "ColumnBlock");
-    const { verticalAlignment, width } = wpBlock.attrs;
+    const { verticalAlignment, width, columnIndex, totalNumColumnBlocks = 1 } = wpBlock.attrs;
+
+    const componentRef = useRef(null);
+
+    const { getDeviceWidth } = useContext(AppContext);
+
+
+    useEffect(() => {
+        initPadding();
+
+    }, []);
+
+
+    /**
+     * Adjust padding of <ColumnBlock> depending on it's index in <ColumnsBlock>. 
+     */
+    function initPadding(): void {
+
+        // case: no column index
+        if (isNumberFalsy(columnIndex))
+            return;
+
+        const thisColumn = $(componentRef.current!);
+        const { isMobileWidth, isTabletWidth, isDesktopWidth } = getDeviceWidth();
+        
+        // case: mobile
+        if (isMobileWidth) {
+            $(thisColumn).css("paddingLeft", 0);
+            $(thisColumn).css("paddingRight", 0);
+
+        // case: tablet (depends on Block.tsx col-md-6)
+        } else if (isTabletWidth) {
+            // case: even column
+            if (columnIndex! % 2 === 0)
+                $(thisColumn).css("paddingLeft", 0);
+
+            // case: uneven column
+            if (columnIndex! % 2 === 1)
+                $(thisColumn).css("paddingRight", 0);
+
+        // case: desktop
+        } else if (isDesktopWidth) {
+            // case: first column
+            if (columnIndex === 0)
+                $(thisColumn).css("paddingLeft", 0);
+
+            // case: last column
+            if (columnIndex === totalNumColumnBlocks - 1) {
+                $(thisColumn).css("paddingRight", 0);
+            }
+        }
+    }
 
 
     /**
@@ -71,13 +119,31 @@ export default function ColumnBlock({wpBlock, ...otherProps}: Props) {
     }
 
 
-
-    function getClassName(): string {
+    /**
+     * @returns className for ".columnBlockContainer"
+     */
+    function getContainerClassName(): string {
 
         let newClassName = className || "";
 
         newClassName += getHTMLStringAttribs(wpBlock.innerHTML).className || "";
         
+        return newClassName;
+    }
+    
+
+    function getClassName(): string {
+
+        let newClassName = className || "";
+
+        // case: width is present
+        if (!isBlank(width)) {
+            // remove default col-lg- class
+            newClassName = newClassName.replaceAll("col-lg-", " ");
+            // add custom col-lg- class
+            newClassName += " " + getBootstrapClass();
+        }
+
         return newClassName;
     }
 
@@ -92,24 +158,64 @@ export default function ColumnBlock({wpBlock, ...otherProps}: Props) {
     }
 
 
-    function getFlex1(): string {
+    function getWidth(): string | undefined {
 
-        return width ? "" : " flex1"
+        // case: is handled by getBootstrapClass()
+        if (width?.endsWith("%"))
+            return "";
+
+        return width;
     }
-    
+
+
+    /**
+     * @returns the number appended to the bootstrap class "col" depending on this blocks ```width``` 
+     * (e.g. ```width = 25%``` => "col-3"). Return ```NaN``` if ```width``` is blank
+     */
+    function getBootstrapColNumber(): number {
+
+        // case: no specific width
+        if (isBlank(width))
+            // let <Block> handle this
+            return NaN;
+
+        const widthNumber = getCSSValueAsNumber(width!, 1);
+        // should not happen
+        if (isNumberFalsy(widthNumber)) {
+            logWarn("Failed to get bootstrap col number for Column Block from " + width);
+            return NaN;
+        }
+
+        return Math.ceil(widthNumber * 12 / 100);
+    }   
+
+
+    /**
+     * @returns the "col-" class depending on the ```width```
+     */
+    function getBootstrapClass(): string {
+
+        const bootstrapColNumber = getBootstrapColNumber();
+        if (isNumberFalsy(bootstrapColNumber))
+            return "";
+
+        return `col-lg-${bootstrapColNumber}`;
+    }
+
 
     return (
         <Flex 
             id={getId()}
-            className={className + getFlex1()}
+            className={getClassName()}
             style={{
                 ...style,
-                width: width
+                width: getWidth()
             }}
             verticalAlign={parseWPAlignString(verticalAlignment || "")}
+            ref={componentRef}
         > 
             <Flex 
-                className={"fullWidth columnBlockContainer " + getClassName()} 
+                className={"fullWidth columnBlockContainer " + getContainerClassName()} 
                 disableFlex={!isFlex()} 
                 flexDirection={isReverse() ? "row-reverse" : "row"}
             >

@@ -18,13 +18,14 @@ interface Props extends DefaultProps {
 /**
  * @since 0.0.1
  */
+// TODO: redirect to prev page after login
 export default function BasicAuth({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "BasicAuth", true);
 
     const { login, updateSession } = useBasicAuth();
 
-    const { toast, setIsLoggedIn } = useContext(AppContext);
+    const { toast } = useContext(AppContext);
 
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
@@ -58,8 +59,8 @@ export default function BasicAuth({...otherProps}: Props) {
         const status = jsonResponse.status;
         // case: 200
         if (isHttpStatusCodeAlright(status)) {
-            updateSession(setIsLoggedIn);
-            toast("Login", "Du bist eingeloggt", "success", 3000);
+            updateSession();
+            toast("Login", "Du bist eingeloggt.", "info", 3000);
             return;
         }
 
@@ -116,20 +117,20 @@ export default function BasicAuth({...otherProps}: Props) {
                 <Flex horizontalAlign="center">
                     <div className="formContainer">
                         <h2>Admin Login</h2>
-                        <p>
+                        <p className="formInputContainer">
                             <input 
-                                id="emaiiOrUserName"
+                                id="emailOrUserName"
                                 className="formInput"
                                 type="text" 
                                 name="emailOrUserName"
-                                placeholder="Email oder Benutername" 
+                                placeholder="Email oder Benutzername" 
                                 ref={emailRef} 
                                 required
                                 onKeyDown={handleInputKeyDown}
                             />
                         </p>
 
-                        <p>
+                        <p className="formInputContainer">
                             <input 
                                 className="formInput"
                                 type="password" 
@@ -146,15 +147,15 @@ export default function BasicAuth({...otherProps}: Props) {
                             className="fullWidth flexCenter"
                             handlePromise={handleLogin}
                             boxStyle={{
-                                backgroundColor: "rgb(200, 200, 200)",
-                                borderRadius: getCssConstant("borderRadius"),
+                                backgroundColor: "black",
+                                borderRadius: "var(--borderRadius)",
                                 height: "50px",
                             }}
                             childrenStyle={{
-                                borderRadius: getCssConstant("borderRadius"),
-                                color: getCssConstant("themeColor")
+                                borderRadius: "var(--borderRadius)",
+                                color: "white"
                             }}
-                            hoverBackgroundColor="rgb(210, 210, 210)"
+                            hoverBackgroundColor="rgb(80, 80, 80)"
                             type="submit"
                         >
                             Login
