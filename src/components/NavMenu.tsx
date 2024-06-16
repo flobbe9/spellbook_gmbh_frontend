@@ -125,7 +125,7 @@ export default function NavMenu({wpNavMenu, ...otherProps}: Props) {
     return (
         <div 
             id={id} 
-            className={className}
+            className={className + (!navMenuItems.length ? " hidden" : "")}
             style={style}
         >
             <div className="navMenuLabel dontHideNavMenu" onClick={handleNavMenuLabelClick}>
