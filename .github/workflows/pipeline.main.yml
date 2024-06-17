@@ -45,10 +45,7 @@ jobs:
           build-args: |
             PORT=443
             NODE_VERSION=${{vars.NODE_VERSION}}
-            REACT_APP_CRYPTO_KEY=${{secrets.REACT_APP_CRYPTO_KEY}}
-            REACT_APP_CRYPTO_IV=${{secrets.REACT_APP_CRYPTO_IV}}
             HTTPS=true
-            SSL_KEY_PASSWORD=${{secrets.SSL_KEY_PASSWORD}}
             SSL_CRT_FILE_NAME=${{vars.SSL_CRT_FILE_NAME}}
             SSL_KEY_FILE_NAME=${{vars.SSL_KEY_FILE_NAME}}
             SSL_DIR=src/assets/ssl/prod
@@ -64,8 +61,18 @@ jobs:
           username: ${{ secrets.SSH_USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           debug: true
+          # create .env if not exists
+          # write secrets
           # pull new image, remove left overs from old image, start microservice
           script: |
+            if [ ! -f ./.env ]; then 
+                touch ./.env;
+            fi
+
+            printf "REACT_APP_CRYPTO_KEY=${{secrets.REACT_APP_CRYPTO_KEY}}\n" >> ./.env
+            printf "REACT_APP_CRYPTO_IV=${{secrets.REACT_APP_CRYPTO_IV}}\n" >> ./.env
+            printf "SSL_KEY_PASSWORD=${{secrets.SSL_KEY_PASSWORD}}\n" >> ./.env
+
             docker compose pull frontend
             yes | docker rm $(docker container ls --all --filter=ancestor=$(docker images -f "dangling=true" -q) --format "{{.ID}}") --force
             yes | docker image rm $(docker images -f "dangling=true" -q)
