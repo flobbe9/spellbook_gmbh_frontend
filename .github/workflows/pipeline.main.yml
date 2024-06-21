@@ -34,7 +34,7 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
       - name: Build and push
@@ -65,13 +65,7 @@ jobs:
           # write secrets
           # pull new image, remove left overs from old image, start microservice
           script: |
-            if [ ! -f ./.env ]; then 
-                touch ./.env;
-            fi
-
-            printf "REACT_APP_CRYPTO_KEY=${{secrets.REACT_APP_CRYPTO_KEY}}\n" >> ./.env
-            printf "REACT_APP_CRYPTO_IV=${{secrets.REACT_APP_CRYPTO_IV}}\n" >> ./.env
-            printf "SSL_KEY_PASSWORD=${{secrets.SSL_KEY_PASSWORD}}\n" >> ./.env
+            ./copySecretsToRemote.sh REACT_APP_CRYPTO_KEY='${{secrets.REACT_APP_CRYPTO_KEY}}' REACT_APP_CRYPTO_IV='${{secrets.REACT_APP_CRYPTO_IV}}' SSL_KEY_PASSWORD='${{secrets.SSL_KEY_PASSWORD}}'
 
             docker compose pull frontend
             yes | docker rm $(docker container ls --all --filter=ancestor=$(docker images -f "dangling=true" -q) --format "{{.ID}}") --force
