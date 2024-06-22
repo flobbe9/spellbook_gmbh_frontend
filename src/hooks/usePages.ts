@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import WPPage from "../abstract/wp/WPPage";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { WORDPRESS_BASE_URL, WORDPRESS_CUSTOM_PATH, WORDPRESS_REQUEST_MAPPING } from "../utils/constants";
-import { fetchAny, isHttpStatusCodeAlright } from "../utils/fetchUtils";
-import { log } from "../utils/genericUtils";
+import { WORDPRESS_BASE_URL, WORDPRESS_CUSTOM_PATH, WORDPRESS_REQUEST_MAPPING } from "../helpers/constants";
+import { fetchAny, isHttpStatusCodeAlright } from "../helpers/fetchUtils";
+import { log } from "../helpers/genericUtils";
 
 
 /**

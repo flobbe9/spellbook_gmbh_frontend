@@ -1,5 +1,5 @@
-import { PROTOCOL, isImage } from "../../utils/constants";
-import { isBlank, log } from "../../utils/genericUtils";
+import { PROTOCOL, isImage } from "../../helpers/constants";
+import { isBlank, log } from "../../helpers/genericUtils";
 import WPBlockAttribute from './WPBlockAttribute';
 
 

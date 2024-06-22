@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useRef, useState } from "r
 import "../assets/styles/NavBar.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import Flex from "./helpers/Flex";
-import { getCssConstant, getCSSValueAsNumber, getJQueryElementById, getRandomString, includesIgnoreCaseTrim, log } from "../utils/genericUtils";
+import { getCssConstant, getCSSValueAsNumber, getJQueryElementById, getRandomString, includesIgnoreCaseTrim, log } from "../helpers/genericUtils";
 import { Link } from "react-router-dom";
 import NavMenu from "./NavMenu";
 import useNavMenus from "../hooks/useNavMenus";
@@ -10,7 +10,7 @@ import { WPNavMenu } from "../abstract/WPNavMenu";
 import { AppContext } from "./App";
 import useBasicAuth from "../hooks/useBasicAuth";
 import MobileNavMenu from "./MobileNavMenu";
-import { LINK_DEFAULT_REL } from "../utils/constants";
+import { LINK_DEFAULT_REL } from "../helpers/constants";
 
 
 interface Props extends DefaultProps {

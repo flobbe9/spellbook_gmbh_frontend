@@ -4,7 +4,7 @@ import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps"
 import Flex from "../helpers/Flex";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Block from "./Block";
-import { getHTMLStringAttribs, isBlank, log, parseCSSStringToJson } from "../../utils/genericUtils";
+import { getHTMLStringAttribs, isBlank, log, parseCSSStringToJson } from "../../helpers/genericUtils";
 
 
 interface Props extends DefaultProps {

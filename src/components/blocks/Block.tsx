@@ -2,7 +2,7 @@ import React from "react";
 import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Sanitized from "../helpers/Sanitized";
-import { getCssConstant, getRandomString, log } from "../../utils/genericUtils";
+import { getCssConstant, getRandomString, log } from "../../helpers/genericUtils";
 import ParagraphBlock from "./ParagraphBlock";
 import ImageBlock from "./ImageBlock";
 import ColumnsBlock from "./ColumnsBlock";

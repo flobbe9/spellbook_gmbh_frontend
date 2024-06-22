@@ -3,7 +3,7 @@ import "../../assets/styles/ImageBlock.css";
 import { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Sanitized from "../helpers/Sanitized";
-import { log } from "../../utils/genericUtils";
+import { log } from "../../helpers/genericUtils";
 import BlockProps, { getCleanBlockProps } from "../../abstract/BlockProps";
 import Flex from "../helpers/Flex";
 import Block from "./Block";

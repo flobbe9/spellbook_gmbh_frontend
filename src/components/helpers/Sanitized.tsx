@@ -2,8 +2,8 @@ import React, { createElement, ReactNode, useEffect, useState } from "react";
 import { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import sanitize from "sanitize-html";
 import parse, { Element, HTMLReactParserOptions, attributesToProps } from "html-react-parser";
-import { DEFAULT_HTML_SANTIZER_OPTIONS } from "../../utils/constants";
-import { equalsIgnoreCase, getRandomString, includesIgnoreCase, includesIgnoreCaseTrim, log, logError } from "../../utils/genericUtils";
+import { DEFAULT_HTML_SANTIZER_OPTIONS } from "../../helpers/constants";
+import { equalsIgnoreCase, getRandomString, includesIgnoreCase, includesIgnoreCaseTrim, log, logError } from "../../helpers/genericUtils";
 import BlockProps from "../../abstract/BlockProps";
 
 

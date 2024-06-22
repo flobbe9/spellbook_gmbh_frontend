@@ -1,5 +1,5 @@
 import CryptoJS from "crypto-js";
-import { dateMinusDays, isBlank, log, stripTimeFromDate } from "../utils/genericUtils";
+import { dateMinusDays, isBlank, log, stripTimeFromDate } from "../helpers/genericUtils";
 
 
 /**

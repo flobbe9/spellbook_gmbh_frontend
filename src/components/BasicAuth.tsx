@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useRef } from "react";
 import "../assets/styles/BasicAuth.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import useBasicAuth from "../hooks/useBasicAuth";
-import { getCssConstant, isBlank, log } from "../utils/genericUtils";
+import { getCssConstant, isBlank, log } from "../helpers/genericUtils";
 import { AppContext } from "./App";
 import { ApiExceptionFormat } from "../abstract/ApiExceptionFormat";
-import { isHttpStatusCodeAlright } from "../utils/fetchUtils";
+import { isHttpStatusCodeAlright } from "../helpers/fetchUtils";
 import Button from "./helpers/Button";
 import Flex from "./helpers/Flex";
 

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import "../assets/styles/_404.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import WPPage from "../abstract/wp/WPPage";
-import { getCssConstant, log } from "../utils/genericUtils";
+import { getCssConstant, log } from "../helpers/genericUtils";
 import Flex from "./helpers/Flex";
-import { COMPANY_NAME, ENV, LINK_DEFAULT_REL } from "../utils/constants";
+import { COMPANY_NAME, ENV, LINK_DEFAULT_REL } from "../helpers/constants";
 import { Link } from "react-router-dom";
 
 
