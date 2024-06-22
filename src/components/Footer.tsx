@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import "../assets/styles/Footer.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import Flex from "./helpers/Flex";
-import { COMPANY_NAME, VERSION } from "../utils/constants";
+import { COMPANY_NAME, LINK_DEFAULT_REL, VERSION } from "../utils/constants";
 import CardTextBox from "./helpers/CardTextBox";
 import { Link } from "react-router-dom";
 import { getJQueryElementById, setCssConstant } from "../utils/genericUtils";
@@ -56,14 +56,14 @@ export default function Footer({...otherProps}: Props) {
             <Flex horizontalAlign="center">
                 {/* Left */}
                 <Flex className="leftNavItem col-5 col-lg-4" horizontalAlign="left">
-                    <Link to="/impressum" className="link col-12 col-lg-4 col-xl-3 themeLink">Impressum</Link>
-                    <Link to="/datenschutz" className="link col-12 col-lg-4 col-xl-3 themeLink">Datenschutz</Link>
+                    <Link to="/impressum" className="link col-12 col-lg-4 col-xl-3 themeLink" rel={LINK_DEFAULT_REL}>Impressum</Link>
+                    <Link to="/datenschutz" className="link col-12 col-lg-4 col-xl-3 themeLink" rel={LINK_DEFAULT_REL}>Datenschutz</Link>
                 </Flex>
                     
                 {/* Center */}
                 <Flex className="middleNavItem col-2 col-lg-4" horizontalAlign="center" verticalAlign="start">
-                    <Link to="/">
-                        <img className="faviconTransparent dontMarkText" src="/img/companyNameTransparent.png" alt="Company name" height="60"/>
+                    <Link to="/" rel={LINK_DEFAULT_REL}>
+                        <img className="faviconTransparent dontMarkText" src="/img/companyNameTransparent.png" alt="company name" height="60"/>
                     </Link>
                 </Flex>
                 
@@ -72,7 +72,7 @@ export default function Footer({...otherProps}: Props) {
                     <Flex className="col-12 col-lg-1 ms-2" horizontalAlign="right">
                         {/* TODO */}
                         {/* <a href="intent://instagram.com/#Intent;scheme=https;package=com.instagram.android;end"> */}
-                        <a href="https://instagram.com/spellbook_2024">
+                        <a href="https://instagram.com/spellbook_2024" target="_blank" rel={LINK_DEFAULT_REL}>
                             <img 
                                 src="/img/insta.png" 
                                 className="dontMarkText footerIcon" 
@@ -83,7 +83,7 @@ export default function Footer({...otherProps}: Props) {
                         </a>
                     </Flex>
                     <Flex className="col-12 col-lg-1 ms-2" horizontalAlign="right">
-                        <a href="https://tiktok.com/@spellbooktcg">
+                        <a href="https://tiktok.com/@spellbooktcg" target="_blank" rel={LINK_DEFAULT_REL}>
                             <img 
                                 src="/img/tiktok.png" 
                                 className="dontMarkText footerIcon" 
@@ -93,8 +93,8 @@ export default function Footer({...otherProps}: Props) {
                             />
                         </a>
                     </Flex>
-                    {/* <Flex className="col-12 col-lg-1 ms-2" horizontalAlign="right">
-                        <a href="">
+                    <Flex className="col-12 col-lg-1 ms-2" horizontalAlign="right">
+                        <a href="https://www.cardmarket.com/de/YuGiOh/Users/Spellbook" target="_blank" rel={LINK_DEFAULT_REL}>
                             <img 
                                 src="/img/cardmarket.png" 
                                 className="dontMarkText footerIcon" 
@@ -103,7 +103,7 @@ export default function Footer({...otherProps}: Props) {
                                 height="25" 
                             />
                         </a>
-                    </Flex> */}
+                    </Flex>
 
                     <Flex className="col-12 col-lg-2 ms-2" horizontalAlign="right">
                         v{VERSION}

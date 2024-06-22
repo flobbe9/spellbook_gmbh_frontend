@@ -4,7 +4,7 @@ import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
 import WPPage from "../abstract/wp/WPPage";
 import { getCssConstant, log } from "../utils/genericUtils";
 import Flex from "./helpers/Flex";
-import { ENV } from "../utils/constants";
+import { COMPANY_NAME, ENV, LINK_DEFAULT_REL } from "../utils/constants";
 import { Link } from "react-router-dom";
 
 
@@ -58,9 +58,9 @@ export default function _404({wpPages, ...otherProps}: Props) {
             <div className="textCenter mt-5">
                 <h1>404</h1>
 
-                <h3>Diese Seite konnte nicht gefunden zu werden.</h3>
+                <h2>Diese Seite konnte nicht gefunden zu werden.</h2>
 
-                <p><Link to="/" className="backToStartLink">Zurück zur Startseite</Link></p>
+                <p><Link to="/" className="backToStartLink" rel={LINK_DEFAULT_REL}>Zurück zur Startseite</Link></p>
             </div>
         );
     }
@@ -72,6 +72,10 @@ export default function _404({wpPages, ...otherProps}: Props) {
             className={className}
             style={style}
         >
+            {/* SEO stuff, remove this if using <Page> */}
+            <title>{COMPANY_NAME} | 404 Not found</title>
+            <link rel="canonical" href={window.location.href} />
+
             {content}
                 
             {children}

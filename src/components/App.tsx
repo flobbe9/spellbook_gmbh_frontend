@@ -24,22 +24,22 @@ interface Props extends DefaultProps {
  */
 // IDEA: font families for each game?
 
-// TODO: seo
-    // sitemap.xml
-        // how to generate sitemap.xml from react routes?
-            // fetch from wordpress?
-    // robots.txt
-    // index.html 
-        // meta description
-    // meta description for every page?
-// TODO: safari
-    
 // TODO: 
-    // content
-
+    // seo
+        // mobile performance
+        // submit sitemap
+            // Go to the Google Search Console and sign in with your Google account.
+                // Click on the "Sitemaps" tab and enter the URL of your sitemap.xml file (e.g., [https://example.com/sitemap.xml](#)).
+                // Click on "Submit" to submit your sitemap to Google.
+                // Repeat the process for other search engines like Bing, Yandex, and Baidu.
+                
+// TODO: footer icon apps
 // TODO: do buttons?
+// TODO: rename utils folder to helpers
 // TODO: custom 404 page
 // TODO: contact form
+// TODO: maps
+// TODO: faq(?)
 // TODO: fetch footer icons
 // TODO: design
     // full size slider?
@@ -47,7 +47,10 @@ interface Props extends DefaultProps {
 
 // GO LIVE TODO: 
     // change text for login page in wp
-    // change text for start page
+    // change text for 
+        // start page
+        // impressum
+        // datenschutz (cookies??)
     // remove menus for now
     // change env variable IS_SITE_LIVE
 
