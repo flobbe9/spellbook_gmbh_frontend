@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
-import { PROTOCOL } from "../../utils/constants";
+import { LINK_DEFAULT_REL, PROTOCOL } from "../../utils/constants";
 import { isBlank } from "../../utils/genericUtils";
 
 
@@ -83,13 +83,13 @@ export default function ImageLink({src, alt, title, link, linkTarget, height, wi
         // case: external link
         if (link!.startsWith(PROTOCOL))
             return (
-                <a href={link} target={linkTarget} rel="noopener noreferrer nofollow" title={getTitle() + "-Link"}>
+                <a href={link} target={linkTarget} rel={LINK_DEFAULT_REL} title={getTitle() + "-Link"}>
                     {getImgTag()}
                 </a>)
 
         // case: internal link
         return (
-            <Link to={link!} target={linkTarget} rel="noopener noreferrer nofollow" title={getTitle() + "-Link"}>
+            <Link to={link!} target={linkTarget} rel={LINK_DEFAULT_REL} title={getTitle() + "-Link"}>
                 {getImgTag()}
             </Link>
         )

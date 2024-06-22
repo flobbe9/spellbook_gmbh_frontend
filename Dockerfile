@@ -23,6 +23,8 @@ FROM node:${NODE_VERSION}
 
 WORKDIR /app
 
+ENV TZ="Europe/Berlin"
+
 # Args
 ARG PORT
 ENV PORT=${PORT}

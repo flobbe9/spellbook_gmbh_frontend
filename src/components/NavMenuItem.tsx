@@ -2,7 +2,7 @@ import React from "react";
 import "../assets/styles/NavMenuItem.css";
 import { Link } from "react-router-dom";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
-import { PROTOCOL } from "../utils/constants";
+import { LINK_DEFAULT_REL, PROTOCOL } from "../utils/constants";
 import { isBlank, log } from "../utils/genericUtils";
 import { WPNavMenuItem } from "../abstract/WPNavMenuItem";
 
@@ -42,7 +42,7 @@ export default function NavMenuItem({wpNavMenuItem, linkClassName, onLinkClick, 
                     className={linkClassName} 
                     href={url} 
                     target={target} 
-                    rel="noopener noreferrer nofollow"
+                    rel={LINK_DEFAULT_REL}
                     onClick={onLinkClick}
                 >
                     {content}
@@ -54,7 +54,7 @@ export default function NavMenuItem({wpNavMenuItem, linkClassName, onLinkClick, 
                 className={linkClassName} 
                 to={url!} 
                 target={target} 
-                rel="noopener noreferrer nofollow"
+                rel={LINK_DEFAULT_REL}
                 onClick={onLinkClick}
             >
                 {content}

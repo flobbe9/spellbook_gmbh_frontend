@@ -10,6 +10,7 @@ import { WPNavMenu } from "../abstract/WPNavMenu";
 import { AppContext } from "./App";
 import useBasicAuth from "../hooks/useBasicAuth";
 import MobileNavMenu from "./MobileNavMenu";
+import { LINK_DEFAULT_REL } from "../utils/constants";
 
 
 interface Props extends DefaultProps {
@@ -201,7 +202,7 @@ export default function NavBar({...otherProps}: Props) {
                 </Flex>
                 :
                 // Login link
-                <Link to="/login" className="logoutLink blackLink">
+                <Link to="/login" className="logoutLink blackLink" rel={LINK_DEFAULT_REL}>
                     <span className="logoutLabel dontMarkText">Login</span>
                 </Link>
             }
@@ -233,7 +234,7 @@ export default function NavBar({...otherProps}: Props) {
                     {/* Center */}
                     <div className="navItem navItemCenter col-12 col-sm-4">
                         {/* Logo */}
-                        <Link to="/">
+                        <Link to="/" rel={LINK_DEFAULT_REL}>
                             <div className="flexCenter">
                                 <img className="faviconTransparent dontMarkText" src="/img/companyNameTransparent.png" alt="Logo" height={120} />
                             </div>

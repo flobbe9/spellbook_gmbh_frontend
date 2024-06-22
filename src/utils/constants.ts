@@ -5,7 +5,7 @@ import { Env } from "../abstract/Env";
 // App
 export const ENV: Env = process.env.NODE_ENV as Env;
 export const PROTOCOL = process.env.REACT_APP_PROTOCOL + "";
-export const COMPANY_NAME = "Spellbook GmbH";
+export const COMPANY_NAME = "Spellbook Trading Card Game Store";
 export const VERSION = process.env.REACT_APP_VERSION + "";
 /** True if basic auth has been removed for normal users */
 export const IS_SITE_LIVE = process.env.REACT_APP_IS_SITE_LIVE === "true";
@@ -16,6 +16,8 @@ export const WORDPRESS_BASE_URL = process.env.REACT_APP_WORDPRESS_BASE_URL + "";
 export const WORDPRESS_REQUEST_MAPPING = process.env.REACT_APP_WORDPRESS_REQUEST_MAPPING + "";
 /** does not start or end with a "/" */
 export const WORDPRESS_CUSTOM_PATH = "custom";
+/** Default rel attr to pass to any link */
+export const LINK_DEFAULT_REL = "noopener noreferrer nofollow";
 
 
 // Sanitizer

@@ -27,7 +27,7 @@ export default function Page({wpPage, ...otherProps}: Props) {
         if (wpPage.path === "/")
             return COMPANY_NAME;
 
-        return wpPage.post_title + " | " + COMPANY_NAME;
+        return COMPANY_NAME + " | " + wpPage.post_title;
     }
     
 
@@ -38,6 +38,10 @@ export default function Page({wpPage, ...otherProps}: Props) {
             style={style}
         >
             <title>{getPageTitle()}</title>
+
+            {/* Seo stuff */}
+            <h1 className="hidden">{getPageTitle()}</h1>
+            <link rel="canonical" href={window.location.href} />
 
             <Block wpBlocks={wpPage.blocks} />
                 
