@@ -70,4 +70,4 @@ jobs:
             docker compose pull frontend
             yes | docker rm $(docker container ls --all --filter=ancestor=$(docker images -f "dangling=true" -q) --format "{{.ID}}") --force
             yes | docker image rm $(docker images -f "dangling=true" -q)
-            docker compose up -d
+            docker compose up frontend -d
