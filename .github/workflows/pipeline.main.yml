@@ -30,7 +30,7 @@ jobs:
   
       - name: move .env vars to pipeline
         run: |
-          echo $(cat .env | grep '^VERSION=.*$') >> $GITHUB_ENV
+          echo $(cat .env | grep '^REACT_APP_VERSION=.*$') >> $GITHUB_ENV
           echo $(cat .env | grep '^PORT=.*$') >> $GITHUB_ENV
           echo $(cat .env | grep '^NODE_VERSION=.*$') >> $GITHUB_ENV
           echo $(cat .env | grep '^SSL_CRT_FILE_NAME=.*$') >> $GITHUB_ENV
@@ -56,7 +56,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_frontend:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_frontend:${{env.VERSION}}
+            ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_frontend:${{env.REACT_APP_VERSION}}
           build-args: |
             PORT=${{env.PORT}}
             NODE_VERSION=${{env.NODE_VERSION}}
