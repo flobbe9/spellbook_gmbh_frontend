@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
 import "../assets/styles/App.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./Navbar";
 import { usePages } from "../hooks/usePages";
@@ -19,37 +19,30 @@ interface Props extends DefaultProps {
 }
 
 
+// IDEA: font families for each game?
+
+// TODO: use next
+    // use getServerSideProps
+    // use <Head> tag
+    // do return !rendered ? null : <div> inside app
+// TODO: custom 404 page
+// TODO: contact form
+// TODO: maps
+// TODO: faq(?)
+
+// GO LIVE TODO: 
+// change text for 
+    // login
+    // start page
+    // impressum
+    // datenschutz (cookies??)
+// remove menus for now
+// change env variable IS_SITE_LIVE
+        
+        
 /**
  * @since 0.0.1
  */
-// IDEA: font families for each game?
-
-// TODO: 
-    // seo
-        // mobile performance
-                
-// TODO: footer icon apps
-// TODO: rename utils folder to helpers
-// TODO: remove db.Docker
-// TODO: contact form
-// TODO: custom 404 page
-// TODO: do buttons?
-// TODO: maps
-// TODO: faq(?)
-// TODO: design
-    // full size slider?
-// TODO: add rendered prop to some helper components
-
-// GO LIVE TODO: 
-    // change text for login page in wp
-    // change text for 
-        // start page
-        // impressum
-        // datenschutz (cookies??)
-    // remove menus for now
-    // change env variable IS_SITE_LIVE
-
-
 export default function App({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "App", true);

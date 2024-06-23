@@ -1,5 +1,5 @@
 import { CSSProperties, ReactNode } from "react";
-import { log } from "../helpers/genericUtils";
+import { log } from "../../helpers/genericUtils";
 
 
 /**
