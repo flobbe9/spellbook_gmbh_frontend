@@ -591,8 +591,13 @@ export function getCssConstant(variableName: string): string {
  */
 export function getCSSValueAsNumber(cssValue: string | number, unitDigits: number): number {
 
+    // case: is a number already
     if (typeof cssValue === "number")
         return cssValue;
+
+    // case: no value
+    if (isBlank(cssValue))
+        return NaN;
 
     const length = cssValue.length;
     if (unitDigits >= length) {
