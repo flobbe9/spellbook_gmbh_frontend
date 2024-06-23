@@ -4,7 +4,7 @@ import DefaultProps from './DefaultProps';
 /**
  * Props for helper components. Extends {@link DefaultProps}.
  * 
- * @since latest
+ * @since 0.1.4
  */
 export default interface HelperProps extends DefaultProps {
 

@@ -11,7 +11,7 @@ interface Props extends BlockProps {
 
 
 /**
- * @since latest
+ * @since 0.1.4
  */
 export default function SpacerBlock({wpBlock, ...otherProps}: Props) {
 
