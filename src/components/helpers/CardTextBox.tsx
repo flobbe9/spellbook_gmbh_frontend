@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import "../../assets/styles/CardTextBox.css";
-import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import { getCssConstant, getCSSValueAsNumber, log } from "../../helpers/genericUtils";
 import SquareBox from "./SquareBox";
 

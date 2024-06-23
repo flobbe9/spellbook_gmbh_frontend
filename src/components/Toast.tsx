@@ -1,6 +1,6 @@
 import React, { forwardRef, LegacyRef, useContext, useRef, useState } from "react";
 import "../assets/styles/Toast.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import Flex from "./helpers/Flex";
 import { AppContext } from "./App";
 

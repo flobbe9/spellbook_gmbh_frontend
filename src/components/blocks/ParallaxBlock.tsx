@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "../../assets/styles/ParallaxBlock.css";
-import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import { getCssConstant, getCSSValueAsNumber, getJQueryElementByClassName, getJQueryElementById, isBlank, isNumberFalsy, log, logWarn } from "../../helpers/genericUtils";
 import WPBlock from "../../abstract/wp/WPBlock";
-import { getCleanBlockProps } from "../../abstract/BlockProps";
+import { getCleanBlockProps } from "../../abstract/props/BlockProps";
 import { AppContext } from "../App";
 
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from "react";
 import "../assets/styles/BasicAuth.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import useBasicAuth from "../hooks/useBasicAuth";
 import { getCssConstant, isBlank, log } from "../helpers/genericUtils";
 import { AppContext } from "./App";

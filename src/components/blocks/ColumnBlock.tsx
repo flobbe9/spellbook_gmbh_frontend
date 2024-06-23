@@ -1,6 +1,6 @@
 import React, { CSSProperties, useContext, useEffect, useRef } from "react";
 import "../../assets/styles/ColumnBlock.css";
-import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import Flex from "../helpers/Flex";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Block from "./Block";

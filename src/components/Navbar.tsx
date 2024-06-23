@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import "../assets/styles/NavBar.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import Flex from "./helpers/Flex";
 import { getCssConstant, getCSSValueAsNumber, getJQueryElementById, getRandomString, includesIgnoreCaseTrim, log } from "../helpers/genericUtils";
 import { Link } from "react-router-dom";

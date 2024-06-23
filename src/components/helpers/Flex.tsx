@@ -1,5 +1,5 @@
 import React, { forwardRef, LegacyRef, MutableRefObject } from "react";
-import { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import { isBlank } from "../../helpers/genericUtils";
 import { FlexDirection, FlexWrap, TextAlign } from "../../abstract/CSSTypes";
 import HelperProps from "../../abstract/props/HelperProps";

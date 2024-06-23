@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import { LINK_DEFAULT_REL, PROTOCOL } from "../../helpers/constants";
 import { isBlank } from "../../helpers/genericUtils";
 

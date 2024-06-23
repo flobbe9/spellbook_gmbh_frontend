@@ -1,5 +1,5 @@
 import React from "react";
-import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 
 
 interface Props extends DefaultProps {

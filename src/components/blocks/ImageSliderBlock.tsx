@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "../../assets/styles/ImageSliderBlock.css";
-import { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import Flex from "../helpers/Flex";
 import { getCssConstant, getCSSValueAsNumber, getRandomString, isBlank, log } from "../../helpers/genericUtils";
-import BlockProps, { getCleanBlockProps } from "../../abstract/BlockProps";
+import BlockProps, { getCleanBlockProps } from "../../abstract/props/BlockProps";
 import WPBlock from "../../abstract/wp/WPBlock";
 import { stringToNumber } from '../../helpers/genericUtils';
 import { JQueryEasing, Overflow } from "../../abstract/CSSTypes";

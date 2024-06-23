@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../assets/styles/_404.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import WPPage from "../abstract/wp/WPPage";
 import { getCssConstant, log } from "../helpers/genericUtils";
 import Flex from "./helpers/Flex";

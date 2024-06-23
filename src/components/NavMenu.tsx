@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../assets/styles/NavMenu.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import { getJQueryElementById, getRandomString, includesIgnoreCaseTrim, isBlank, log } from "../helpers/genericUtils";
 import NavMenuItem from "./NavMenuItem";
 import { WPNavMenu } from "../abstract/WPNavMenu";

@@ -1,10 +1,10 @@
 import React, { createElement, ReactNode, useEffect, useState } from "react";
-import { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import sanitize from "sanitize-html";
 import parse, { Element, HTMLReactParserOptions, attributesToProps } from "html-react-parser";
 import { DEFAULT_HTML_SANTIZER_OPTIONS } from "../../helpers/constants";
 import { getRandomString, includesIgnoreCaseTrim, log, logError } from "../../helpers/genericUtils";
-import BlockProps from "../../abstract/BlockProps";
+import BlockProps from "../../abstract/props/BlockProps";
 import HelperProps from "../../abstract/props/HelperProps";
 
 

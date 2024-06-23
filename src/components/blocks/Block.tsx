@@ -1,5 +1,5 @@
 import React from "react";
-import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Sanitized from "../helpers/Sanitized";
 import { getCssConstant, getRandomString, log } from "../../helpers/genericUtils";

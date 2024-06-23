@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from "react";
 import "../assets/styles/Footer.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import Flex from "./helpers/Flex";
 import { COMPANY_NAME, LINK_DEFAULT_REL, VERSION } from "../helpers/constants";
 import CardTextBox from "./helpers/CardTextBox";

@@ -1,6 +1,6 @@
 import React from "react";
 import "../assets/styles/Page.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import WPPage from "../abstract/wp/WPPage";
 import Block from "./blocks/Block";
 import Flex from "./helpers/Flex";
