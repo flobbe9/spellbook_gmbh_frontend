@@ -1,8 +1,8 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { WPNavMenu } from "../abstract/WPNavMenu";
 import { useEffect, useState } from "react";
-import { WORDPRESS_BASE_URL, WORDPRESS_REQUEST_MAPPING } from "../utils/constants";
-import { fetchAny, isHttpStatusCodeAlright } from "../utils/fetchUtils";
+import { WORDPRESS_BASE_URL, WORDPRESS_REQUEST_MAPPING } from "../helpers/constants";
+import { fetchAny, isHttpStatusCodeAlright } from "../helpers/fetchUtils";
 
 
 /**

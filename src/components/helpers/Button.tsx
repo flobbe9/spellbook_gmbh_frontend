@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../../assets/styles/Button.css";
-import { isBooleanFalsy, log } from "../../utils/genericUtils";
+import { isBooleanFalsy, log } from "../../helpers/genericUtils";
 
 
 /**

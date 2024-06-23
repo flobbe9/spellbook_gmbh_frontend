@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useRef } from "react";
 import "../assets/styles/Footer.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import Flex from "./helpers/Flex";
-import { COMPANY_NAME, LINK_DEFAULT_REL, VERSION } from "../utils/constants";
+import { COMPANY_NAME, LINK_DEFAULT_REL, VERSION } from "../helpers/constants";
 import CardTextBox from "./helpers/CardTextBox";
 import { Link } from "react-router-dom";
-import { getJQueryElementById, setCssConstant } from "../utils/genericUtils";
+import { getJQueryElementById, setCssConstant } from "../helpers/genericUtils";
 import { AppContext } from "./App";
 
 

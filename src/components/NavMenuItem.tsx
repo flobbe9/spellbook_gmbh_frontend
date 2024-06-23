@@ -1,9 +1,9 @@
 import React from "react";
 import "../assets/styles/NavMenuItem.css";
 import { Link } from "react-router-dom";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
-import { LINK_DEFAULT_REL, PROTOCOL } from "../utils/constants";
-import { isBlank, log } from "../utils/genericUtils";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
+import { LINK_DEFAULT_REL, PROTOCOL } from "../helpers/constants";
+import { isBlank, log } from "../helpers/genericUtils";
 import { WPNavMenuItem } from "../abstract/WPNavMenuItem";
 
 

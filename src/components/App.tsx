@@ -1,17 +1,17 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
 import "../assets/styles/App.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./Navbar";
 import { usePages } from "../hooks/usePages";
-import { equalsIgnoreCase, getCssConstant, getCSSValueAsNumber, getJQueryElementById, getRandomString, includesIgnoreCaseTrim, isBlank, isNumberFalsy, log, setCssConstant } from "../utils/genericUtils";
+import { equalsIgnoreCase, getCssConstant, getCSSValueAsNumber, getJQueryElementById, getRandomString, includesIgnoreCaseTrim, isBlank, isNumberFalsy, log, setCssConstant } from "../helpers/genericUtils";
 import _404 from './_404';
 import Page from "./Page";
 import BasicAuth from "./BasicAuth";
 import Toast, { ToastSevirity } from "./Toast";
 import Footer from "./Footer";
 import Initializer from "./Initializer";
-import { IS_SITE_LIVE } from "../utils/constants";
+import { IS_SITE_LIVE } from "../helpers/constants";
 import WPPage from "../abstract/wp/WPPage";
 
 
@@ -19,42 +19,30 @@ interface Props extends DefaultProps {
 }
 
 
-/**
- * @since 0.0.1
- */
 // IDEA: font families for each game?
 
-// TODO: 
-    // seo
-        // mobile performance
-        // submit sitemap
-            // Go to the Google Search Console and sign in with your Google account.
-                // Click on the "Sitemaps" tab and enter the URL of your sitemap.xml file (e.g., [https://example.com/sitemap.xml](#)).
-                // Click on "Submit" to submit your sitemap to Google.
-                // Repeat the process for other search engines like Bing, Yandex, and Baidu.
-                
-// TODO: footer icon apps
-// TODO: do buttons?
-// TODO: rename utils folder to helpers
+// TODO: use next
+    // use getServerSideProps
+    // use <Head> tag
+    // do return !rendered ? null : <div> inside app
 // TODO: custom 404 page
 // TODO: contact form
 // TODO: maps
 // TODO: faq(?)
-// TODO: fetch footer icons
-// TODO: design
-    // full size slider?
-// TODO: add rendered prop to some helper components
 
 // GO LIVE TODO: 
-    // change text for login page in wp
-    // change text for 
-        // start page
-        // impressum
-        // datenschutz (cookies??)
-    // remove menus for now
-    // change env variable IS_SITE_LIVE
-
-
+// change text for 
+    // login
+    // start page
+    // impressum
+    // datenschutz (cookies??)
+// remove menus for now
+// change env variable IS_SITE_LIVE
+        
+        
+/**
+ * @since 0.0.1
+ */
 export default function App({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "App", true);

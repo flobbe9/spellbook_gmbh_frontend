@@ -1,10 +1,10 @@
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import "../../assets/styles/ColumnsBlock.css";
-import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import Flex from "../helpers/Flex";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Block from "./Block";
-import { getHTMLStringAttribs, isBlank, log, parseCSSStringToJson } from "../../utils/genericUtils";
+import { getHTMLStringAttribs, isBlank, log, parseCSSStringToJson } from "../../helpers/genericUtils";
 
 
 interface Props extends DefaultProps {

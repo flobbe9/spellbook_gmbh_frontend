@@ -1,11 +1,11 @@
 import React, { CSSProperties, useContext, useEffect, useRef } from "react";
 import "../../assets/styles/ColumnBlock.css";
-import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import Flex from "../helpers/Flex";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Block from "./Block";
 import { parseWPAlignString } from "../../abstract/wp/WPBlockAttribute";
-import { getCSSValueAsNumber, getHTMLStringAttribs, isBlank, isNumberFalsy, log, logWarn, parseCSSStringToJson } from "../../utils/genericUtils";
+import { getCSSValueAsNumber, getHTMLStringAttribs, isBlank, isNumberFalsy, log, logWarn, parseCSSStringToJson } from "../../helpers/genericUtils";
 import { TextAlign } from "../../abstract/CSSTypes";
 import { AppContext } from "../App";
 

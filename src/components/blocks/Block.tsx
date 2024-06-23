@@ -1,14 +1,15 @@
 import React from "react";
-import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Sanitized from "../helpers/Sanitized";
-import { getCssConstant, getRandomString, log } from "../../utils/genericUtils";
+import { getCssConstant, getRandomString, log } from "../../helpers/genericUtils";
 import ParagraphBlock from "./ParagraphBlock";
 import ImageBlock from "./ImageBlock";
 import ColumnsBlock from "./ColumnsBlock";
 import ColumnBlock from "./ColumnBlock";
 import ImageSliderBlock from "./ImageSliderBlock";
 import ParallaxBlock from "./ParallaxBlock";
+import SpacerBlock from "./SpacerBlock";
 
 
 interface Props extends DefaultProps {
@@ -95,6 +96,15 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
                             key={getRandomString()} 
                             wpBlock={wpBlock}
                         />
+
+            case "core/spacer":
+                return <SpacerBlock 
+                            id={id}
+                            className={className}
+                            style={style}
+                            key={getRandomString()} 
+                            wpBlock={wpBlock}
+                        />            
 
             case "carbon-fields/image-slider":
                 return <ImageSliderBlock 

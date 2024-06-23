@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../assets/styles/NavMenu.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
-import { getJQueryElementById, getRandomString, includesIgnoreCaseTrim, isBlank, log } from "../utils/genericUtils";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
+import { getJQueryElementById, getRandomString, includesIgnoreCaseTrim, isBlank, log } from "../helpers/genericUtils";
 import NavMenuItem from "./NavMenuItem";
 import { WPNavMenu } from "../abstract/WPNavMenu";
 
@@ -16,6 +16,7 @@ interface Props extends DefaultProps {
  * 
  * @since 0.0.2
  */
+// TODO: full width for easier click
 export default function NavMenu({wpNavMenu, ...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "NavMenu");

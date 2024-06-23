@@ -1,13 +1,15 @@
 import React, { createElement, ReactNode, useEffect, useState } from "react";
-import { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import sanitize from "sanitize-html";
 import parse, { Element, HTMLReactParserOptions, attributesToProps } from "html-react-parser";
-import { DEFAULT_HTML_SANTIZER_OPTIONS } from "../../utils/constants";
-import { equalsIgnoreCase, getRandomString, includesIgnoreCase, includesIgnoreCaseTrim, log, logError } from "../../utils/genericUtils";
-import BlockProps from "../../abstract/BlockProps";
+import { DEFAULT_HTML_SANTIZER_OPTIONS } from "../../helpers/constants";
+import { getRandomString, includesIgnoreCaseTrim, log, logError } from "../../helpers/genericUtils";
+import BlockProps from "../../abstract/props/BlockProps";
+import HelperProps from "../../abstract/props/HelperProps";
 
 
-interface Props extends BlockProps {
+interface Props extends BlockProps, HelperProps {
+
     dirtyHTML: string,
     /** Will fully replace the default options */
     parseOptions?: HTMLReactParserOptions,
@@ -21,7 +23,13 @@ interface Props extends BlockProps {
  * 
  * @since 0.0.1
  */
-export default function Sanitized({dirtyHTML, mainTagNames = ["div"], parseOptions, sanitizeOptions, ...otherProps}: Props) {
+export default function Sanitized({
+    dirtyHTML,
+    mainTagNames = ["div"],
+    parseOptions,
+    sanitizeOptions,
+    rendered = true,
+    ...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps);
 
@@ -116,6 +124,11 @@ export default function Sanitized({dirtyHTML, mainTagNames = ["div"], parseOptio
 
         return includesIgnoreCaseTrim(mainTagNames, node.name);
     }
+
+
+    // case: not rendered
+    if (!rendered)
+        return <></>;
 
 
     return (

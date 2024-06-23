@@ -1,7 +1,7 @@
 import { ApiExceptionFormat } from "../abstract/ApiExceptionFormat";
-import { CRYPTO_IV, CRYPTO_KEY, ENV, IS_SITE_LIVE, SESSION_EXPIRY_DAYS, WORDPRESS_BASE_URL, WORDPRESS_CUSTOM_PATH, WORDPRESS_REQUEST_MAPPING } from "../utils/constants";
-import fetchJson, { isHttpStatusCodeAlright } from "../utils/fetchUtils";
-import { datePlusDays, equalsIgnoreCaseTrim, isBlank, isDateAfter, isDateBefore, log, logError, stringToNumber } from "../utils/genericUtils";
+import { CRYPTO_IV, CRYPTO_KEY, ENV, IS_SITE_LIVE, SESSION_EXPIRY_DAYS, WORDPRESS_BASE_URL, WORDPRESS_CUSTOM_PATH, WORDPRESS_REQUEST_MAPPING } from "../helpers/constants";
+import fetchJson, { isHttpStatusCodeAlright } from "../helpers/fetchUtils";
+import { datePlusDays, equalsIgnoreCaseTrim, isBlank, isDateAfter, isDateBefore, log, logError, stringToNumber } from "../helpers/genericUtils";
 import BasicAuth from './../components/BasicAuth';
 import { useNavigate } from "react-router";
 import WPPage from "../abstract/wp/WPPage";

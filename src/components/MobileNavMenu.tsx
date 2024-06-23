@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "../assets/styles/MobileNavMenu.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import { WPNavMenu } from "../abstract/WPNavMenu";
 import NavMenuItem from "./NavMenuItem";
-import { getRandomString, log, logWarn } from "../utils/genericUtils";
+import { getRandomString, log, logWarn } from "../helpers/genericUtils";
 import { NavBarContext } from "./Navbar";
 
 

@@ -1,10 +1,11 @@
 import React, { forwardRef, LegacyRef, MutableRefObject } from "react";
-import DefaultProps, { getCleanDefaultProps } from "../../abstract/DefaultProps";
-import { isBlank } from "../../utils/genericUtils";
+import { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
+import { isBlank } from "../../helpers/genericUtils";
 import { FlexDirection, FlexWrap, TextAlign } from "../../abstract/CSSTypes";
+import HelperProps from "../../abstract/props/HelperProps";
 
 
-interface Props extends DefaultProps {
+interface Props extends HelperProps {
     /** Wont be set at all if ```undefined``` */
     horizontalAlign?: TextAlign,
     /** Wont be set at all if ```undefined``` */
@@ -33,10 +34,26 @@ export default forwardRef(function({horizontalAlign,
                                     flexDirection = "row",
                                     flexWrap = "wrap",
                                     onClick,
+                                    rendered = true,
                                     ...otherProps}: Props,
     ref: LegacyRef<HTMLDivElement>) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps);
+
+
+    function getCssDisplay(): string {
+
+        let display = "flex";
+
+        if (disableFlex)
+            display = "";
+
+        // always call this last
+        if (!rendered)
+            display = "none";
+
+        return display;
+    }
 
 
     return (
@@ -46,7 +63,7 @@ export default forwardRef(function({horizontalAlign,
             style={{
                 ...style,
                 alignItems: verticalAlign,
-                display: disableFlex ? "" : "flex",
+                display: getCssDisplay(),
                 flexDirection: flexDirection,
                 flexWrap: flexWrap,
                 justifyContent: horizontalAlign,

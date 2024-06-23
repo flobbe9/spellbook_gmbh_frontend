@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from "react";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import useBasicAuth from "../hooks/useBasicAuth";
-import { ENV, WORDPRESS_BASE_URL } from "../utils/constants";
+import { ENV, WORDPRESS_BASE_URL } from "../helpers/constants";
 import WPPage from "../abstract/wp/WPPage";
-import { log } from "../utils/genericUtils";
+import { log } from "../helpers/genericUtils";
 import { AppContext } from "./App";
 import { useLocation } from "react-router";
 

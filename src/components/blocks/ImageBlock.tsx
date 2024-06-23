@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import "../../assets/styles/ImageBlock.css";
-import { getCleanDefaultProps } from "../../abstract/DefaultProps";
+import { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Sanitized from "../helpers/Sanitized";
-import { log } from "../../utils/genericUtils";
-import BlockProps, { getCleanBlockProps } from "../../abstract/BlockProps";
+import { log } from "../../helpers/genericUtils";
+import BlockProps, { getCleanBlockProps } from "../../abstract/props/BlockProps";
 import Flex from "../helpers/Flex";
 import Block from "./Block";
 import { parseWPAlignString } from "../../abstract/wp/WPBlockAttribute";
