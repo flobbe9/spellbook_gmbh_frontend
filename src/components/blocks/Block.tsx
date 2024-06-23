@@ -9,6 +9,7 @@ import ColumnsBlock from "./ColumnsBlock";
 import ColumnBlock from "./ColumnBlock";
 import ImageSliderBlock from "./ImageSliderBlock";
 import ParallaxBlock from "./ParallaxBlock";
+import SpacerBlock from "./SpacerBlock";
 
 
 interface Props extends DefaultProps {
@@ -95,6 +96,15 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
                             key={getRandomString()} 
                             wpBlock={wpBlock}
                         />
+
+            case "core/spacer":
+                return <SpacerBlock 
+                            id={id}
+                            className={className}
+                            style={style}
+                            key={getRandomString()} 
+                            wpBlock={wpBlock}
+                        />            
 
             case "carbon-fields/image-slider":
                 return <ImageSliderBlock 
