@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "../../assets/styles/ImageSliderBlock.css";
 import { getCleanDefaultProps } from "../../abstract/DefaultProps";
 import Flex from "../helpers/Flex";
@@ -6,9 +6,10 @@ import { getCssConstant, getCSSValueAsNumber, getRandomString, isBlank, log } fr
 import BlockProps, { getCleanBlockProps } from "../../abstract/BlockProps";
 import WPBlock from "../../abstract/wp/WPBlock";
 import { stringToNumber } from '../../helpers/genericUtils';
-import { JQueryEasing } from "../../abstract/CSSTypes";
+import { JQueryEasing, Overflow } from "../../abstract/CSSTypes";
 import { isImageSliderEmpty, mapDataToSliderImages, WPSliderImage } from "../../abstract/wp/WPSliderImage";
 import ImageLink from "../helpers/ImageLink";
+import { AppContext } from "../App";
 
 
 interface Props extends BlockProps {
@@ -29,9 +30,6 @@ interface Props extends BlockProps {
 /**
  * @since 0.0.1
  */
-// TODO: change overflow to scroll for mobile, 
-    // make arrow buttons scroll instead of shift their position
-    // prevent arrows from scrolling
 export default function ImageSliderBlock({mainTagNames,
                                         wpBlock,
                                         height = "200px",
@@ -43,7 +41,7 @@ export default function ImageSliderBlock({mainTagNames,
                                     }: Props) {
 
     const { id, className, style, children } = getCleanBlockProps(otherProps, "ImageSliderBlock");
-    const { data } = wpBlock.attrs;
+    const { data = {} } = wpBlock.attrs;
 
     /** className="ImageSliderBlock" */
     const imageSliderBlockRef = useRef(null);
@@ -53,6 +51,9 @@ export default function ImageSliderBlock({mainTagNames,
     const [isSliding, setIsSliding] = useState(false);
     const [isRightArrowDisabled, setIsRightArrowDisabled] = useState(false);
     const [isLeftArrowDisabled, setIsLeftArrowDisabled] = useState(true);
+
+    const { getDeviceWidth } = useContext(AppContext);
+    const { isMobileWidth, isTabletWidth } = getDeviceWidth();
 
 
     useEffect(() => {
@@ -183,6 +184,12 @@ export default function ImageSliderBlock({mainTagNames,
     }
 
 
+    function getContainerCssOverflow(): Overflow {
+
+        return isMobileWidth || isTabletWidth ? "auto" : "hidden";
+    }
+
+
     return (
         <div 
             id={id} 
@@ -191,11 +198,12 @@ export default function ImageSliderBlock({mainTagNames,
                 ...style,
             }}
             ref={imageSliderBlockRef}
-            >
+        >
             <Flex 
-                className="imageSliderBlockContainer"
+                className={"imageSliderBlockContainer " + (data["full_width"] && "fullWidth")}
                 style={{
-                    height: height
+                    height: height,
+                    overflowX: getContainerCssOverflow()
                 }}
                 verticalAlign="center"
             >
@@ -203,26 +211,29 @@ export default function ImageSliderBlock({mainTagNames,
                 <Flex 
                     className="imageContainer" 
                     ref={imageContainerRef}
+                    flexWrap="nowrap"
                 >
                     {mapImages()}
                 </Flex>
 
                 {/* Arrow left */}
                 <Flex 
-                    className={"leftArrowContainer " + (isLeftArrowDisabled && "disabled")} 
+                    className={"leftArrowContainer " + (isLeftArrowDisabled ? "disabled" : "enabled")} 
                     verticalAlign="center"
                     onClick={handleLeftArrowClick}
+                    rendered={!isMobileWidth && !isTabletWidth}
                 >
-                    <i className={"fa-solid fa-chevron-down leftArrow textCenter " + (isLeftArrowDisabled && "disabled")}></i>
+                    <i className={"fa-solid fa-chevron-down leftArrow textCenter " + (isLeftArrowDisabled ? "disabled" : "enabled")}></i>
                 </Flex>
 
                 {/* Arrow right */}
                 <Flex 
-                    className={"rightArrowContainer " + (isRightArrowDisabled && "disabled")} 
+                    className={"rightArrowContainer " + (isRightArrowDisabled ? "disabled" : "enabled")} 
                     verticalAlign="center"
                     onClick={handleRightArrowClick}
+                    rendered={!isMobileWidth && !isTabletWidth}
                 >
-                    <i className={"fa-solid fa-chevron-down rightArrow textCenter " + (isRightArrowDisabled && "disabled")}></i>
+                    <i className={"fa-solid fa-chevron-down rightArrow textCenter " + (isRightArrowDisabled ? "disabled" : "enabled")}></i>
                 </Flex>
             </Flex>
 

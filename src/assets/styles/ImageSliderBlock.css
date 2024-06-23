@@ -3,14 +3,11 @@
 }
 
 .ImageSliderBlock {
-    /* border: var(--borderWidth) solid var(--themeColor); */
-    /* padding: 10px; */
     width: 100%;
     
     .imageSliderBlockContainer {
         overflow-x: hidden;
         position: relative;
-        width: 100%;
         
         .ImageLink {
             border-radius: var(--borderRadius);
@@ -20,26 +17,21 @@
             position: absolute;
         }
         
-        /* Arrow Icon containers */
+        /* Both Arrow Icon containers */
         .leftArrowContainer, .rightArrowContainer {
-            background-color: white;
             height: 55px;
             position: absolute;
-            transition: opacity var(--transitionTime);
+            transition: var(--transitionTime);
             
             &:hover {
                 cursor: pointer;
-                
-                .leftArrow, .rightArrow {
-                    opacity: 0.5;
+
+                &.enabled {
+                    background-color: white;
                 }
             }
-            
-            &.disabled {
-                opacity: 0.7 !important;
-            }
 
-            /* Arrow Icons */
+            /* Both Arrow Icons */
             .leftArrow, .rightArrow {
                 border-top-right-radius: 15px;
                 border-top-left-radius: 15px;
@@ -47,26 +39,26 @@
                 font-size: var(--arrowFontSize);
                 transition: opacity var(--transitionTime);
             }
-            
-            .leftArrow {
-                transform: rotate(90deg);
-            }
-            
-            .rightArrow {
-                transform: rotate(270deg)
-            }
         }
         
         .leftArrowContainer {
             border-top-right-radius: 10px;
             border-bottom-right-radius: 10px;
             left: 0;
+
+            .leftArrow {
+                transform: rotate(90deg);
+            }
         }
         
         .rightArrowContainer {
             border-top-left-radius: 10px;
             border-bottom-left-radius: 10px;
             right: 0;
+
+            .rightArrow {
+                transform: rotate(270deg)
+            }
         }
     }
 }

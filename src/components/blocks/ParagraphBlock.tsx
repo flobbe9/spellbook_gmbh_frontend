@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "../../assets/styles/ParagraphBlock.css";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Sanitized from "../helpers/Sanitized";
-import { log } from "../../utils/genericUtils";
+import { log } from "../../helpers/genericUtils";
 import BlockProps, { getCleanBlockProps } from "../../abstract/BlockProps";
 import Block from "./Block";
 import { TextAlign } from "../../abstract/CSSTypes";
