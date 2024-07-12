@@ -54,15 +54,15 @@ export default function Sanitized({
         // pass component props to 
         const tagName = node.name;
         const newProps = combineProps(node);
-        
+
         // case: no children
-        if (!node.children || !node.children.length)
+        if (!children && (!node.children || !node.children.length))
             return React.createElement(tagName, newProps)
 
         // map children to jsx elements
-        const children = mapNodeChildrenToReactNode(node);
+        const nodeChildren = mapNodeChildrenToReactNode(node);
         
-        return React.createElement(tagName, newProps, children);
+        return React.createElement(tagName, newProps, nodeChildren, children);
     }
 
 
@@ -133,16 +133,7 @@ export default function Sanitized({
 
     return (
         <>
-            {/* InnerHTML */}
-            {
-                parse(
-                    sanitize(dirtyHTML, sanitizeOptions || DEFAULT_HTML_SANTIZER_OPTIONS), 
-                    parseOptions || defaultParserOptions
-                )
-            }
-
-            {/* InnerBlocks */}
-            {children}
+            {parse(sanitize(dirtyHTML, sanitizeOptions || DEFAULT_HTML_SANTIZER_OPTIONS), parseOptions || defaultParserOptions)}
         </>
     )
 }
