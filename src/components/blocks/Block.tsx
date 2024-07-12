@@ -10,6 +10,8 @@ import ColumnBlock from "./ColumnBlock";
 import ImageSliderBlock from "./ImageSliderBlock";
 import ParallaxBlock from "./ParallaxBlock";
 import SpacerBlock from "./SpacerBlock";
+import ListBlock from "./ListBlock";
+import ListItemBlock from "./ListItemBlock";
 
 
 interface Props extends DefaultProps {
@@ -104,7 +106,27 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
                             style={style}
                             key={getRandomString()} 
                             wpBlock={wpBlock}
-                        />            
+                        /> 
+                        
+            case "core/list":
+                return <ListBlock 
+                            id={id}
+                            className={className}
+                            style={style}
+                            key={getRandomString()} 
+                            wpBlock={wpBlock}
+                            mainTagNames={["ul", "ol"]}
+                        /> 
+
+            case "core/list-item":
+                return <ListItemBlock 
+                            id={id}
+                            className={className}
+                            style={style}
+                            key={getRandomString()} 
+                            wpBlock={wpBlock}
+                            mainTagNames={["li"]}
+                        /> 
 
             case "carbon-fields/image-slider":
                 return <ImageSliderBlock 
