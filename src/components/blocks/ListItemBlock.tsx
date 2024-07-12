@@ -1,4 +1,5 @@
 import React from "react";
+import "../../assets/styles/ListItemBlock.scss";
 import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import Sanitized from "../helpers/Sanitized";
 import WPBlock from "../../abstract/wp/WPBlock";
@@ -11,7 +12,9 @@ interface Props extends BlockProps {
 
 
 /**
- * @since 0.1.4
+ * Represents a ```<li>``` element.
+ * 
+ * @since latest
  */
 export default function ListItemBlock({wpBlock, mainTagNames, ...otherProps}: Props) {
 

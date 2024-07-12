@@ -11,7 +11,9 @@ interface Props extends BlockProps {
 
 
 /**
- * @since 0.1.4
+ * Represents a ```<ul>``` or ```<ol>``` element.
+ * 
+ * @since latest
  */
 export default function ListBlock({wpBlock, mainTagNames, ...otherProps}: Props) {
 
