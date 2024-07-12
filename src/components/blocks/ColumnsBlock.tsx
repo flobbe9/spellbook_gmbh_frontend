@@ -5,10 +5,11 @@ import Flex from "../helpers/Flex";
 import WPBlock from "../../abstract/wp/WPBlock";
 import Block from "./Block";
 import { getHTMLStringAttribs, isBlank, log, parseCSSStringToJson } from "../../helpers/genericUtils";
+import BlockProps from "../../abstract/props/BlockProps";
 
 
-interface Props extends DefaultProps {
-    wpBlock: WPBlock,
+interface Props extends BlockProps {
+    
     /** The numer of innerBlocks with name "core/column" */
     numColumnBlocks: number
 }

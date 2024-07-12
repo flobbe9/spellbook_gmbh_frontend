@@ -7,7 +7,6 @@ import BlockProps from "../../abstract/props/BlockProps";
 
 
 interface Props extends BlockProps {
-    wpBlock: WPBlock,
 }
 
 

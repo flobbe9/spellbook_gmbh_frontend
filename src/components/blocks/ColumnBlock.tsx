@@ -8,10 +8,10 @@ import { parseWPAlignString } from "../../abstract/wp/WPBlockAttribute";
 import { getCSSValueAsNumber, getHTMLStringAttribs, isBlank, isNumberFalsy, log, logWarn, parseCSSStringToJson } from "../../helpers/genericUtils";
 import { TextAlign } from "../../abstract/CSSTypes";
 import { AppContext } from "../App";
+import BlockProps from "../../abstract/props/BlockProps";
 
 
-interface Props extends DefaultProps {
-    wpBlock: WPBlock
+interface Props extends BlockProps {
 }
 
 

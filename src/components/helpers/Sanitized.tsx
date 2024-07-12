@@ -1,5 +1,5 @@
 import React, { createElement, ReactNode, useEffect, useState } from "react";
-import { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import sanitize from "sanitize-html";
 import parse, { Element, HTMLReactParserOptions, attributesToProps } from "html-react-parser";
 import { DEFAULT_HTML_SANTIZER_OPTIONS } from "../../helpers/constants";
@@ -8,13 +8,15 @@ import BlockProps from "../../abstract/props/BlockProps";
 import HelperProps from "../../abstract/props/HelperProps";
 
 
-interface Props extends BlockProps, HelperProps {
+interface Props extends DefaultProps, HelperProps {
 
     dirtyHTML: string,
     /** Will fully replace the default options */
     parseOptions?: HTMLReactParserOptions,
     /** Will fully replace the default options */
-    sanitizeOptions?: sanitize.IOptions
+    sanitizeOptions?: sanitize.IOptions,
+    /** See {@link BlockProps} */
+    mainTagNames?: (keyof HTMLElementTagNameMap)[]
 }
 
 

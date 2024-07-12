@@ -13,7 +13,7 @@ import { AppContext } from "../App";
 
 
 interface Props extends BlockProps {
-    wpBlock: WPBlock,
+
     /** Height of component and thus each image in the slider. Default is ```200px```. Use pixels as unit! */
     height?: string,
     /** Time that one sliding animation takes to finish in ms. Default is 300 */
