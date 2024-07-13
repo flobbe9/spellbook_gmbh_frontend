@@ -14,7 +14,7 @@ interface Props extends BlockProps {
 /**
  * Represents a ```<li>``` element.
  * 
- * @since latest
+ * @since 0.1.5
  */
 export default function ListItemBlock({wpBlock, mainTagNames, ...otherProps}: Props) {
 
