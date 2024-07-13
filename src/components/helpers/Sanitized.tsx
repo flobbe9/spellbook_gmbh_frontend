@@ -38,16 +38,17 @@ export default function Sanitized({
     // add component props to parsed html
     const defaultParserOptions: HTMLReactParserOptions = {
         replace(domNode) {
-            return nodeToJSXElement(domNode as Element);
+            return nodeToJSXElement(domNode as Element, false);
         }
     }
 
 
     /**
      * @param node to convert to jsx element
+     * @param isNodeChild indicates whether given node is the most outer element or not. ```true``` if it is not, ```false``` if it is
      * @returns jsx element of given ```node``` or ```null``` if given ```node``` is falsy
      */
-    function nodeToJSXElement(node: Element): JSX.Element | null {
+    function nodeToJSXElement(node: Element, isNodeChild: boolean): JSX.Element | null {
 
         // case: invalid node
         if (!node || !node.attribs) 
@@ -57,14 +58,26 @@ export default function Sanitized({
         const tagName = node.name;
         const newProps = combineProps(node);
 
-        // case: no children
-        if (!children && (!node.children || !node.children.length))
-            return React.createElement(tagName, newProps)
+        const passComponentChildren = children && !isNodeChild;
+        const passNodeChildren = node.children && node.children.length;
 
         // map children to jsx elements
         const nodeChildren = mapNodeChildrenToReactNode(node);
         
-        return React.createElement(tagName, newProps, nodeChildren, children);
+        // case: pass all children
+        if (passComponentChildren && passNodeChildren)
+            return React.createElement(tagName, newProps, nodeChildren, children);
+
+        // case: pass component children only
+        if (passComponentChildren)
+            return React.createElement(tagName, newProps, children);
+
+        // case: pass node children only
+        if (passNodeChildren)
+            return React.createElement(tagName, newProps, nodeChildren);
+
+        // case: no children
+        return React.createElement(tagName, newProps);
     }
 
 
@@ -110,7 +123,7 @@ export default function Sanitized({
             if (child.type === "text")
                 return child.data;
 
-            return nodeToJSXElement(childElement);
+            return nodeToJSXElement(childElement, true);
         });
     }
 

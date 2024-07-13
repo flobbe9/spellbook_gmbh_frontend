@@ -6,7 +6,7 @@ import { Env } from "../abstract/Env";
 export const ENV: Env = process.env.NODE_ENV as Env;
 export const PROTOCOL = process.env.REACT_APP_PROTOCOL + "";
 export const COMPANY_NAME = "Spellbook Trading Card Game Store";
-export const VERSION = process.env.REACT_APP_VERSION + "";
+export const VERSION = process.env.REACT_APP_API_VERSION + "";
 /** True if basic auth has been removed for normal users */
 export const IS_SITE_LIVE = process.env.REACT_APP_IS_SITE_LIVE === "true";
 
