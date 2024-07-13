@@ -21,14 +21,15 @@ interface Props extends DefaultProps {
 
 // IDEA: font families for each game?
 
-// TODO: use next
-    // use getServerSideProps
-    // use <Head> tag
-    // do return !rendered ? null : <div> inside app
 // TODO: custom 404 page
 // TODO: contact form
-// TODO: maps
+// TODO: maps (https://www.npmjs.com/package/@react-google-maps/api)
 // TODO: faq(?)
+// TODO: update 
+    // helper props
+    // default props
+    // flex
+    // add helper div
 
 // GO LIVE TODO: 
 // change text for 

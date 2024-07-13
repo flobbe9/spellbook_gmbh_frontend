@@ -1,5 +1,5 @@
 import React, { createElement, ReactNode, useEffect, useState } from "react";
-import { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
+import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import sanitize from "sanitize-html";
 import parse, { Element, HTMLReactParserOptions, attributesToProps } from "html-react-parser";
 import { DEFAULT_HTML_SANTIZER_OPTIONS } from "../../helpers/constants";
@@ -8,13 +8,15 @@ import BlockProps from "../../abstract/props/BlockProps";
 import HelperProps from "../../abstract/props/HelperProps";
 
 
-interface Props extends BlockProps, HelperProps {
+interface Props extends DefaultProps, HelperProps {
 
     dirtyHTML: string,
     /** Will fully replace the default options */
     parseOptions?: HTMLReactParserOptions,
     /** Will fully replace the default options */
-    sanitizeOptions?: sanitize.IOptions
+    sanitizeOptions?: sanitize.IOptions,
+    /** See {@link BlockProps} */
+    mainTagNames?: (keyof HTMLElementTagNameMap)[]
 }
 
 
@@ -36,16 +38,17 @@ export default function Sanitized({
     // add component props to parsed html
     const defaultParserOptions: HTMLReactParserOptions = {
         replace(domNode) {
-            return nodeToJSXElement(domNode as Element);
+            return nodeToJSXElement(domNode as Element, false);
         }
     }
 
 
     /**
      * @param node to convert to jsx element
+     * @param isNodeChild indicates whether given node is the most outer element or not. ```true``` if it is not, ```false``` if it is
      * @returns jsx element of given ```node``` or ```null``` if given ```node``` is falsy
      */
-    function nodeToJSXElement(node: Element): JSX.Element | null {
+    function nodeToJSXElement(node: Element, isNodeChild: boolean): JSX.Element | null {
 
         // case: invalid node
         if (!node || !node.attribs) 
@@ -54,15 +57,27 @@ export default function Sanitized({
         // pass component props to 
         const tagName = node.name;
         const newProps = combineProps(node);
-        
-        // case: no children
-        if (!node.children || !node.children.length)
-            return React.createElement(tagName, newProps)
+
+        const passComponentChildren = children && !isNodeChild;
+        const passNodeChildren = node.children && node.children.length;
 
         // map children to jsx elements
-        const children = mapNodeChildrenToReactNode(node);
+        const nodeChildren = mapNodeChildrenToReactNode(node);
         
-        return React.createElement(tagName, newProps, children);
+        // case: pass all children
+        if (passComponentChildren && passNodeChildren)
+            return React.createElement(tagName, newProps, nodeChildren, children);
+
+        // case: pass component children only
+        if (passComponentChildren)
+            return React.createElement(tagName, newProps, children);
+
+        // case: pass node children only
+        if (passNodeChildren)
+            return React.createElement(tagName, newProps, nodeChildren);
+
+        // case: no children
+        return React.createElement(tagName, newProps);
     }
 
 
@@ -108,7 +123,7 @@ export default function Sanitized({
             if (child.type === "text")
                 return child.data;
 
-            return nodeToJSXElement(childElement);
+            return nodeToJSXElement(childElement, true);
         });
     }
 
@@ -133,16 +148,7 @@ export default function Sanitized({
 
     return (
         <>
-            {/* InnerHTML */}
-            {
-                parse(
-                    sanitize(dirtyHTML, sanitizeOptions || DEFAULT_HTML_SANTIZER_OPTIONS), 
-                    parseOptions || defaultParserOptions
-                )
-            }
-
-            {/* InnerBlocks */}
-            {children}
+            {parse(sanitize(dirtyHTML, sanitizeOptions || DEFAULT_HTML_SANTIZER_OPTIONS), parseOptions || defaultParserOptions)}
         </>
     )
 }

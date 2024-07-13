@@ -6,14 +6,13 @@ import WPBlock from "../../abstract/wp/WPBlock";
 
 
 interface Props extends BlockProps {
-    wpBlock: WPBlock
 }
 
 
 /**
  * @since 0.1.4
  */
-export default function SpacerBlock({wpBlock, ...otherProps}: Props) {
+export default function SpacerBlock({wpBlock, mainTagNames, ...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "SpacerBlock");
 
@@ -23,7 +22,7 @@ export default function SpacerBlock({wpBlock, ...otherProps}: Props) {
             className={className}
             style={style}
         >
-            <Sanitized dirtyHTML={wpBlock.innerHTML} />
+            <Sanitized dirtyHTML={wpBlock.innerHTML} mainTagNames={mainTagNames} />
                 
             {children}
         </div>

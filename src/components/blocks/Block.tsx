@@ -10,6 +10,9 @@ import ColumnBlock from "./ColumnBlock";
 import ImageSliderBlock from "./ImageSliderBlock";
 import ParallaxBlock from "./ParallaxBlock";
 import SpacerBlock from "./SpacerBlock";
+import ListBlock from "./ListBlock";
+import ListItemBlock from "./ListItemBlock";
+import SeparatorBlock from "./SeparatorBlock";
 
 
 interface Props extends DefaultProps {
@@ -26,10 +29,9 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
     const { id, className, style, children } = getCleanDefaultProps(otherProps);
 
 
-    function renderBlocks(): JSX.Element[] {
+    function mapBlocks(): (JSX.Element | undefined)[] {
 
-        return wpBlocks.map(wpBlock => 
-            getBlockByName(wpBlock))
+        return wpBlocks.map(wpBlock => getBlockByName(wpBlock));
     }
     
     
@@ -41,7 +43,7 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
      * @param wpBlock to determine the right component for
      * @returns a suitable component for given wpBlock
      */
-    function getBlockByName(wpBlock: WPBlock): JSX.Element {
+    function getBlockByName(wpBlock: WPBlock): JSX.Element | undefined {
 
         // set all blocks above parallax
         style!.zIndex = getCssConstant("zIndexBlock");
@@ -84,14 +86,13 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
                             style={style}
                             key={getRandomString()} 
                             wpBlock={wpBlock} 
-                            numColumnBlocks={countColumnBlocks(wpBlock) || 0}
                         />;
 
             case "core/column":
                 return <ColumnBlock 
                             id={id}
                             // change ColumnClock padding (initPadding()) when changing col-sm-6
-                            className={className + " col-12 col-sm-6"}
+                            className={className + " col-12 col-sm-6 "}
                             style={style}
                             key={getRandomString()} 
                             wpBlock={wpBlock}
@@ -104,7 +105,37 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
                             style={style}
                             key={getRandomString()} 
                             wpBlock={wpBlock}
-                        />            
+                        /> 
+                        
+            case "core/list":
+                return <ListBlock 
+                            id={id}
+                            className={className}
+                            style={style}
+                            key={getRandomString()} 
+                            wpBlock={wpBlock}
+                            mainTagNames={["ul", "ol"]}
+                        /> 
+
+            case "core/list-item":
+                return <ListItemBlock 
+                            id={id}
+                            className={className}
+                            style={style}
+                            key={getRandomString()} 
+                            wpBlock={wpBlock}
+                            mainTagNames={["li"]}
+                        /> 
+
+            case "core/separator":
+                return <SeparatorBlock 
+                            id={id}
+                            className={className}
+                            style={style}
+                            key={getRandomString()} 
+                            wpBlock={wpBlock}
+                            mainTagNames={["hr"]}
+                        /> 
 
             case "carbon-fields/image-slider":
                 return <ImageSliderBlock 
@@ -126,9 +157,9 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
                             key={getRandomString()}
                         />
 
-            // case: backend hides this page
+            // backend passes null after every block for some reason
             case null: 
-                return <br key={getRandomString()} />;
+                return;
         }
 
         return <Sanitized dirtyHTML={wpBlock.innerHTML} key={getRandomString()}>
@@ -137,22 +168,9 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
     }
 
 
-    /**
-     * @param wpBlock to count "core/column" blocks from ```innerBlocks``` for
-     * @returns number of ```innerBlocks``` with name "core/column" 
-     */
-    function countColumnBlocks(wpBlock: WPBlock): number | undefined {
-
-        if (!wpBlock)
-            return;
-
-        return wpBlock.innerBlocks.map(innerBlock => innerBlock.blockName === "core/column")
-                                  .length;
-    }
-
     return (
         <>
-            {renderBlocks()}
+            {mapBlocks()}
 
             {children}
         </>

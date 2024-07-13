@@ -9,7 +9,6 @@ import { TextAlign } from "../../abstract/CSSTypes";
 
 
 interface Props extends BlockProps {
-    wpBlock: WPBlock
 }
 
 

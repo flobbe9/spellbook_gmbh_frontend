@@ -1,16 +1,13 @@
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import "../../assets/styles/ColumnsBlock.css";
-import DefaultProps, { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
+import { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
 import Flex from "../helpers/Flex";
-import WPBlock from "../../abstract/wp/WPBlock";
 import Block from "./Block";
 import { getHTMLStringAttribs, isBlank, log, parseCSSStringToJson } from "../../helpers/genericUtils";
+import BlockProps from "../../abstract/props/BlockProps";
 
 
-interface Props extends DefaultProps {
-    wpBlock: WPBlock,
-    /** The numer of innerBlocks with name "core/column" */
-    numColumnBlocks: number
+interface Props extends BlockProps {
 }
 
 
@@ -19,10 +16,10 @@ interface Props extends DefaultProps {
  * 
  * @since 0.0.1
  */
-export default function ColumnsBlock({wpBlock, numColumnBlocks, ...otherProps}: Props) {
+export default function ColumnsBlock({wpBlock, ...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "ColumnsBlock");
-    const { verticalAlignment, align, isStackedOnMobile = true } = wpBlock.attrs;
+    const { verticalAlignment, isStackedOnMobile = true } = wpBlock.attrs;
 
     const componentRef = useRef(null);
 
@@ -67,19 +64,6 @@ export default function ColumnsBlock({wpBlock, numColumnBlocks, ...otherProps}: 
     }
 
 
-    /**
-     * @returns bootrap "col-" class name for child all ```<ColumnBlock>``` assuming same width
-     */
-    function getColumnBlockBootstrapClassname(): string {
-
-        const numCols = numColumnBlocks;
-        if (numCols === 0)
-            return "";
-
-        return `col-lg-${Math.floor(12 / numColumnBlocks)}`;
-    }
-
-
     return (
         <Flex 
             id={getId()}
@@ -94,7 +78,7 @@ export default function ColumnsBlock({wpBlock, numColumnBlocks, ...otherProps}: 
         > 
             <Flex className={"columnsBlockContainer  " + getContainerClassName()} flexWrap={isStackedOnMobile ? "wrap" : "nowrap"}>
                 {/* all inner <ColumnBlock> components */}
-                <Block wpBlocks={wpBlock.innerBlocks} className={getColumnBlockBootstrapClassname()} />
+                <Block wpBlocks={wpBlock.innerBlocks} />
 
                 {children}
             </Flex>

@@ -6,7 +6,7 @@ import { Env } from "../abstract/Env";
 export const ENV: Env = process.env.NODE_ENV as Env;
 export const PROTOCOL = process.env.REACT_APP_PROTOCOL + "";
 export const COMPANY_NAME = "Spellbook Trading Card Game Store";
-export const VERSION = process.env.REACT_APP_VERSION + "";
+export const VERSION = process.env.REACT_APP_API_VERSION + "";
 /** True if basic auth has been removed for normal users */
 export const IS_SITE_LIVE = process.env.REACT_APP_IS_SITE_LIVE === "true";
 
@@ -32,9 +32,12 @@ export const DEFAULT_HTML_SANTIZER_OPTIONS: sanitize.IOptions = {
         "figcaption",
         "figure",
         "h1", "h2", "h3", "h4", "h5", "h6",
+        "hr",
         "img",
         "kbd",
+        "li",
         "mark",
+        "ol",
         "p",
         "s",
         "span",
@@ -42,6 +45,7 @@ export const DEFAULT_HTML_SANTIZER_OPTIONS: sanitize.IOptions = {
         "sub",
         "sup",
         "svg",
+        "ul",
     ],
     allowedAttributes: {
         "a": ["href", "alt", "target", "rel", ...ALLOWED_TAG_ATTRIBUTES],
@@ -54,10 +58,14 @@ export const DEFAULT_HTML_SANTIZER_OPTIONS: sanitize.IOptions = {
         "h4": [...ALLOWED_TAG_ATTRIBUTES],
         "h5": [...ALLOWED_TAG_ATTRIBUTES],
         "h6": [...ALLOWED_TAG_ATTRIBUTES],
+        "hr": [...ALLOWED_TAG_ATTRIBUTES],
         "img": ["src", "alt", ...ALLOWED_TAG_ATTRIBUTES],
+        "li": [...ALLOWED_TAG_ATTRIBUTES],
         "mark": ["alt", "color", ...ALLOWED_TAG_ATTRIBUTES],
+        "ol": [...ALLOWED_TAG_ATTRIBUTES],
         "p": [...ALLOWED_TAG_ATTRIBUTES],
         "span": [...ALLOWED_TAG_ATTRIBUTES],
+        "ul": [...ALLOWED_TAG_ATTRIBUTES],
     },
     parseStyleAttributes: false
 }

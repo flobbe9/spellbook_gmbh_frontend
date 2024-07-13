@@ -11,7 +11,6 @@ import { parseWPAlignString } from "../../abstract/wp/WPBlockAttribute";
 
 
 interface Props extends BlockProps {
-    wpBlock: WPBlock,
 }
 
 
