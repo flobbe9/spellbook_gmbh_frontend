@@ -30,7 +30,7 @@ export default class WPBlockAttribute {
 
     textAlign?: TextAlign;
 
-    /** The number of <ColumnBlock>s inside a <ColumnsBlock> */
+    /** The number of ```<ColumnBlock>```s inside a ```<ColumnsBlock>``` */
     totalNumColumnBlocks?: number;
 
     verticalAlignment?: TextAlign | string;

@@ -136,13 +136,8 @@ export default function ColumnBlock({wpBlock, ...otherProps}: Props) {
 
         let newClassName = className || "";
 
-        // case: width is present
-        if (!isBlank(width)) {
-            // remove default col-lg- class
-            newClassName = newClassName.replaceAll("col-lg-", " ");
-            // add custom col-lg- class
-            newClassName += " " + getBootstrapClass();
-        }
+        // add custom col-lg- class
+        newClassName += " " + getBootstrapClass();
 
         return newClassName;
     }
@@ -170,16 +165,15 @@ export default function ColumnBlock({wpBlock, ...otherProps}: Props) {
 
     /**
      * @returns the number appended to the bootstrap class "col" depending on this blocks ```width``` 
-     * (e.g. ```width = 25%``` => "col-3"). Return ```NaN``` if ```width``` is blank
+     * (e.g. ```width = 25%``` => "col-3"). If ```width``` is blank assume evenly sized column blocks
      */
     function getBootstrapColNumber(): number {
 
-        // case: no specific width
+        // assume evenly sized column blocks
         if (isBlank(width))
-            // let <Block> handle this
-            return NaN;
-
-        const widthNumber = getCSSValueAsNumber(width!, 1);
+            return Math.floor(12 / totalNumColumnBlocks);
+        
+        const widthNumber = getCSSValueAsNumber(width!, 1); // assume %
         // should not happen
         if (isNumberFalsy(widthNumber)) {
             logWarn("Failed to get bootstrap col number for Column Block from " + width);
@@ -196,6 +190,7 @@ export default function ColumnBlock({wpBlock, ...otherProps}: Props) {
     function getBootstrapClass(): string {
 
         const bootstrapColNumber = getBootstrapColNumber();
+        // case: falsy width attr
         if (isNumberFalsy(bootstrapColNumber))
             return "";
 
