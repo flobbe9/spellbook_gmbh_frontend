@@ -12,6 +12,7 @@ import ParallaxBlock from "./ParallaxBlock";
 import SpacerBlock from "./SpacerBlock";
 import ListBlock from "./ListBlock";
 import ListItemBlock from "./ListItemBlock";
+import SeparatorBlock from "./SeparatorBlock";
 
 
 interface Props extends DefaultProps {
@@ -30,8 +31,7 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
 
     function renderBlocks(): JSX.Element[] {
 
-        return wpBlocks.map(wpBlock => 
-            getBlockByName(wpBlock))
+        return wpBlocks.map(wpBlock => getBlockByName(wpBlock));
     }
     
     
@@ -128,6 +128,16 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
                             mainTagNames={["li"]}
                         /> 
 
+            case "core/separator":
+                return <SeparatorBlock 
+                            id={id}
+                            className={className}
+                            style={style}
+                            key={getRandomString()} 
+                            wpBlock={wpBlock}
+                            mainTagNames={["hr"]}
+                        /> 
+
             case "carbon-fields/image-slider":
                 return <ImageSliderBlock 
                             id={id}
@@ -148,9 +158,10 @@ export default function Block({wpBlocks, ...otherProps}: Props) {
                             key={getRandomString()}
                         />
 
-            // case: backend hides this page
-            case null: 
-                return <br key={getRandomString()} />;
+            // case: backend hides this block
+            // TODO: reconsider this
+            // case null: 
+            //     return <br key={getRandomString()} />;
         }
 
         return <Sanitized dirtyHTML={wpBlock.innerHTML} key={getRandomString()}>

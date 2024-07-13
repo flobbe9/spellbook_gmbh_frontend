@@ -199,3 +199,7 @@
 .alignfull {
     width: 100vw !important;
 }
+
+.aligncenter {
+    clear: both;
+}
