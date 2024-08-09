@@ -25,6 +25,8 @@ interface Props extends DefaultProps {
 // TODO: contact form
 // TODO: maps (https://www.npmjs.com/package/@react-google-maps/api)
 // TODO: faq(?)
+// TODO: parallax does not work properly
+// TODO: slider hides picture, see /test2   
 // TODO: update 
     // helper props
     // default props
@@ -44,6 +46,11 @@ interface Props extends DefaultProps {
 /**
  * @since 0.0.1
  */
+// TODO: 
+    // nav menu tabbing
+    // serve.json
+    // update wordpress
+    // update mysql version 
 export default function App({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "App", true);

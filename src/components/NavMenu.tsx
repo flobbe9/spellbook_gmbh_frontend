@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "../assets/styles/NavMenu.css";
+import "../assets/styles/NavMenu.scss";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import { getJQueryElementById, getRandomString, includesIgnoreCaseTrim, isBlank, log } from "../helpers/genericUtils";
 import NavMenuItem from "./NavMenuItem";
@@ -24,6 +24,10 @@ export default function NavMenu({wpNavMenu, ...otherProps}: Props) {
     const [navMenuItems, setWpNavMenuItems] = useState<(JSX.Element | undefined)[]>([]);
 
     const navMenuItemsContainerRef = useRef(null);
+    const arrowIconRef = useRef(null);
+
+    /** Duration of the nav menu slide and other animations related */
+    const navMenuSlideDuration = 200;
 
 
     useEffect(() => {
@@ -72,22 +76,24 @@ export default function NavMenu({wpNavMenu, ...otherProps}: Props) {
         const isVisible = navMenuItemsContainer.is(":visible");
 
         // hide all nav menus
-        $(".navMenuItemsContainer").slideUp(200, "swing");
+        $(".navMenuItemsContainer").slideUp(navMenuSlideDuration, "swing");
         
         // case: is visible
         if (!isVisible)
             showNavMenu();
+
+        flipArrowIcon();
     }
 
     
     function hideNavMenu(): void {
         
-        $(navMenuItemsContainerRef.current!).slideUp(200, "swing");
+        $(navMenuItemsContainerRef.current!).slideUp(navMenuSlideDuration, "swing");
     }
 
     function showNavMenu(): void {
         
-        $(navMenuItemsContainerRef.current!).slideDown(200, "swing");
+        $(navMenuItemsContainerRef.current!).slideDown(navMenuSlideDuration, "swing");
     }
     
 
@@ -121,7 +127,23 @@ export default function NavMenu({wpNavMenu, ...otherProps}: Props) {
         if (!includesIgnoreCaseTrim(eventTargetClassName || "", "dontHideNavMenu"))
             hideNavMenu();
     }
+    
+    
+    /**
+     * Rotates arrow icon by 360deg.
+     */
+    function flipArrowIcon(): void {
 
+        const arrowIcon = $(arrowIconRef.current!);
+
+        const currentRotation = arrowIcon.css("rotate");
+
+        arrowIcon.animate(
+            {"rotate": currentRotation === "360deg" ? "0deg" : "360deg"},
+            navMenuSlideDuration,
+            "swing"
+        );
+    }
 
     return (
         <div 
@@ -131,7 +153,7 @@ export default function NavMenu({wpNavMenu, ...otherProps}: Props) {
         >
             <div className="navMenuLabel dontHideNavMenu" onClick={handleNavMenuLabelClick}>
                 <span className="me-2 dontMarkText dontHideNavMenu">{wpNavMenu.name}</span>
-                <i className="fa-solid fa-chevron-down dontHideNavMenu"></i>
+                <i className="fa-solid fa-chevron-down dontHideNavMenu" ref={arrowIconRef}></i>
             </div>
 
             <div className="navMenuItemsContainer dontHideNavMenu" ref={navMenuItemsContainerRef}>
