@@ -7,7 +7,7 @@ import { isStringFalsy, log, logWarn } from "../helpers/genericUtils";
  * 
  * @param checkAllKeys if ```true``` every key press will update the state with the ```pressedKeyList```. This may
  *                     result in performance decrease. Default is ```false```
- * @since latest
+ * @since 0.1.6
  */
 export default function useKeyPress(checkAllKeys = false) {
 
