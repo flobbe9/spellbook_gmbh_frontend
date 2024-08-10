@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
-import "../assets/styles/NavBar.css";
+import "../assets/styles/NavBar.scss";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import Flex from "./helpers/Flex";
 import { getCssConstant, getCSSValueAsNumber, getJQueryElementById, getRandomString, includesIgnoreCaseTrim, log } from "../helpers/genericUtils";
@@ -11,6 +11,7 @@ import { AppContext } from "./App";
 import useBasicAuth from "../hooks/useBasicAuth";
 import MobileNavMenu from "./MobileNavMenu";
 import { LINK_DEFAULT_REL } from "../helpers/constants";
+import Button from "./helpers/Button";
 
 
 interface Props extends DefaultProps {
@@ -188,22 +189,22 @@ export default function NavBar({...otherProps}: Props) {
     }
 
 
-    const LogoutLink = (
+    const LoginLogoutLink = (
         <>
             {isLoggedIn ?
                 // Logout link
-                <Flex 
+                <Button 
+                    className="loginLogoutLink"
                     onClick={handleLogout}
-                    className="logoutLink"
-                    verticalAlign="center"
+                    _hover={{color: "var(--themeColor)"}}
                 >
-                    <span className="me-1 logoutLabel dontMarkText">Logout</span>
+                    <span className="me-1 loginLogoutLabel dontMarkText">Logout</span>
                     <i className="fa-solid fa-right-from-bracket logoutIcon"></i>
-                </Flex>
+                </Button>
                 :
                 // Login link
-                <Link to="/login" className="logoutLink blackLink" rel={LINK_DEFAULT_REL}>
-                    <span className="logoutLabel dontMarkText">Login</span>
+                <Link to="/login" className="loginLogoutLink blackLink" rel={LINK_DEFAULT_REL}>
+                    <span className="loginLogoutLabel dontMarkText">Login</span>
                 </Link>
             }
         </>
@@ -253,7 +254,7 @@ export default function NavBar({...otherProps}: Props) {
                                 <MobileNavMenu wpNavMenu={navMenu2} className="dontHideMobileNavMenu" />
 
                                 {/* Logout */}
-                                <div className="me-3 flexRight dontHideMobileNavMenu">{LogoutLink}</div>
+                                <div className="me-3 flexRight dontHideMobileNavMenu">{LoginLogoutLink}</div>
                             </div>
                         </div>
                     </div>
@@ -274,8 +275,8 @@ export default function NavBar({...otherProps}: Props) {
                             className="logoutContainer col-5" 
                             verticalAlign="center" 
                             horizontalAlign="right"
-                        >
-                            {LogoutLink}
+                            >
+                            {LoginLogoutLink}
                         </Flex>
                     </Flex>
                 </Flex>

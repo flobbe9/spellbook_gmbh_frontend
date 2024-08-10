@@ -2,6 +2,7 @@
 
 .NavMenu {
     .navMenuLabel {
+        box-shadow: none;
         text-wrap: nowrap;
         transition: var(--transitionTime);
 

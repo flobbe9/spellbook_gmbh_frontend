@@ -4,6 +4,7 @@ import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultPro
 import { getJQueryElementById, getRandomString, includesIgnoreCaseTrim, isBlank, log } from "../helpers/genericUtils";
 import NavMenuItem from "./NavMenuItem";
 import { WPNavMenu } from "../abstract/WPNavMenu";
+import Button from "./helpers/Button";
 
 
 interface Props extends DefaultProps {
@@ -151,10 +152,10 @@ export default function NavMenu({wpNavMenu, ...otherProps}: Props) {
             className={className + (!navMenuItems.length ? " hidden" : "")}
             style={style}
         >
-            <div className="navMenuLabel dontHideNavMenu" onClick={handleNavMenuLabelClick}>
+            <Button className="navMenuLabel dontHideNavMenu" onClick={handleNavMenuLabelClick}>
                 <span className="me-2 dontMarkText dontHideNavMenu">{wpNavMenu.name}</span>
                 <i className="fa-solid fa-chevron-down dontHideNavMenu" ref={arrowIconRef}></i>
-            </div>
+            </Button>
 
             <div className="navMenuItemsContainer dontHideNavMenu" ref={navMenuItemsContainerRef}>
                 {navMenuItems}

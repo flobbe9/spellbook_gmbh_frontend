@@ -134,10 +134,10 @@ export default function useBasicAuth() {
     async function updateSession(): Promise<boolean> {
 
         // uncomment this to disable basic auth
-        // if (ENV === "development") {
-        //     setIsLoggedIn(true)
-        //     return true;
-        // }
+        if (ENV === "development") {
+            setIsLoggedIn(true)
+            return true;
+        }
 
         const sessionValid = await isSessionValid();
 

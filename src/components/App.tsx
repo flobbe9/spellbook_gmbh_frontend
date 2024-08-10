@@ -40,10 +40,6 @@ interface Props extends DefaultProps {
     // custom 404 page
     // parallax does not work properly
     // slider hides picture, see /test2   
-    // nav menu tabbing
-        // use buttons
-        // update helpers first
-            // button
     // update wordpress 6.6.1
     // update mysql version 8.4
         // make sure user has permission to create tables
