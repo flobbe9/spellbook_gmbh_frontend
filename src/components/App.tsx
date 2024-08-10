@@ -19,38 +19,34 @@ interface Props extends DefaultProps {
 }
 
 
-// IDEA: font families for each game?
-
-// TODO: custom 404 page
-// TODO: contact form
-// TODO: maps (https://www.npmjs.com/package/@react-google-maps/api)
-// TODO: faq(?)
-// TODO: parallax does not work properly
-// TODO: slider hides picture, see /test2   
-// TODO: update 
-    // helper props
-    // default props
-    // flex
-    // add helper div
-
-// GO LIVE TODO: 
+// IDEA: 
+    // maps (https://www.npmjs.com/package/@react-google-maps/api)
+    // faq(?)
+    // contact form
+    
+    // GO LIVE TODO: 
 // change text for 
-    // login
+// login
     // start page
     // impressum
     // datenschutz (cookies??)
-// remove menus for now
 // change env variable IS_SITE_LIVE
         
-        
+
 /**
  * @since 0.0.1
- */
+*/
 // TODO: 
+    // custom 404 page
+    // parallax does not work properly
+    // slider hides picture, see /test2   
     // nav menu tabbing
-    // serve.json
-    // update wordpress
-    // update mysql version 
+        // use buttons
+        // update helpers first
+            // button
+    // update wordpress 6.6.1
+    // update mysql version 8.4
+        // make sure user has permission to create tables
 export default function App({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "App", true);

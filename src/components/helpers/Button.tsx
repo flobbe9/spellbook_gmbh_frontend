@@ -1,204 +1,190 @@
-import React, { useEffect, useRef, useState } from "react";
-import "../../assets/styles/Button.css";
-import { isBooleanFalsy, log } from "../../helpers/genericUtils";
+import React, { CSSProperties, forwardRef, Ref, useEffect, useImperativeHandle, useRef, useState } from "react";
+import "../../assets/styles/Button.scss";
+import { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
+import HelperProps from "../../abstract/props/HelperProps";
+import { ButtonType } from "../../abstract/CSSTypes";
+import { isObjectFalsy, log } from "../../helpers/genericUtils";
+
+
+interface Props extends HelperProps {
+
+    /** Button type (e.g. "submit") */
+    type?: ButtonType,
+    onSubmit?: (event?) => void,
+    /** 
+     * Button will be disabled and show "spinner" while awaiting the promise. 
+     * Remember to set this button's color explicitly for the "spinner" to match children's color.
+     */
+    onClickPromise?: (event?) => Promise<any>,
+    /** Styles on click */
+    _click?: CSSProperties,
+    tabIndex?: number
+}
 
 
 /**
- * Custom button. Stylable through props.
- * If ```props.handlePromise()``` is defined a loading animation will be displayed on click.
- * 
- * @since 0.0.5
+ * @since 0.0.1
  */
-export default function Button(props: {
-    id: string,
+export default forwardRef(function Button({
+        rendered = true,
+        disabled = false,
+        type,
+        title = "",
+        tabIndex,
+        onClick,
+        onSubmit,
+        onClickPromise,
+        _hover = {},
+        _click = {},
+        _disabled = {},
+        ...props
+    }: Props, 
+    ref: Ref<HTMLElement>
+) {
 
-    hoverBackgroundColor?: string,
-    clickBackgroundColor?: string,
-    boxStyle?: React.CSSProperties,
-    childrenStyle?: React.CSSProperties,
-    focusStyle?: React.CSSProperties,
+    const [isAwaitingPromise, setIsAwaitingPromise] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(disabled);
+    const [isHover, setIsHover] = useState(false);
+    const [isMouseDown, setIsMouseDown] = useState(false);
+    // state with jquery
+    const [componentJQuery, setComponentJQuery] = useState<JQuery>();
 
-    className?: string,
-    childrenClassName?: string,
-    handlePromise?: (event) => Promise<any>,
-    onClick?: (event) => void,
-    disabled?: boolean,
-    rendered?: boolean,
-    children?,
-    title?: string
-    /** button type, default is "button" */
-    type?: "submit" | "button" | "reset",
-    /** focus button when this prop changes and is true */
-    focus?: boolean
-}) {
+    const { id, className, style, children, ...otherProps } = getCleanDefaultProps(props, "Button");
 
-    const id = "Button" + (props.id || "Button");
-    const className = "Button " + (props.className || "");
+    const componentRef = useRef(null);
 
-    const [rendered, setRendered] = useState(isBooleanFalsy(props.rendered) ? true : props.rendered);
-    const [disabled, setDisabled] = useState(isBooleanFalsy(props.disabled) ? false : props.disabled);
-    const [initialBackgroundColor, setInitialBackgroundColor] = useState("");
+    useImperativeHandle(ref, () => componentRef.current!, []);
 
-    const [children, setChildren] = useState(props.children || <></>);
-
-    const buttonRef = useRef(null);
-    const buttonChildrenRef = useRef(null);
-    const buttonOverlayRef = useRef(null);
+    
+    // set min width for promise buttons
+    // useInitialStyles(componentJQuery, (onClickPromise ? [["min-width", "width"]] : []), 200);
 
 
     useEffect(() => {
-        $(buttonOverlayRef.current!).css("backgroundColor", props.clickBackgroundColor || "transparent");
+        setComponentJQuery($(componentRef.current!));
 
-        setInitialBackgroundColor($(buttonRef.current!).css("backgroundColor"));
-    }, [])
-
-
-    useEffect(() => {
-        updateRendered(props.rendered);
-
-    }, [props.rendered]);
+    }, []);
 
 
     useEffect(() => {
-        updateDisabled(props.disabled);
-
-    }, [props.disabled]);
-
-
-    useEffect(() => {
-        if (props.focus) 
-            $(buttonRef.current!).trigger("focus");
+        setIsDisabled(disabled);
         
-    }, [props.focus])
+    }, [disabled]);
+
+
+    function handleMouseEnter(event): void {
+
+        if (isDisabled)
+            return;
+
+        setIsHover(true);
+    }
+
+
+    function handleMouseLeave(event): void {
+
+        if (isDisabled)
+            return;
+
+        setIsHover(false);
+    }
+
+
+    function handleMouseDown(event): void {
+
+        if (disabled)
+            return;
+
+        setIsMouseDown(true);
+    }
+
+
+    function handleMouseUp(event): void {
+
+        if (disabled)
+            return;
+
+        setIsMouseDown(false);
+    }
 
 
     /**
-     * Wont do anything if button is disabled. Animates click and promise callback if present or if not present normal 
-     * click callback (promise callback is prioritised). Will never call both.
+     * Execute both ```onClick``` and ```handleClickPromise``` if not ```undefined``` in this order.
+     * 
+     * @param event 
      */
     function handleClick(event): void {
 
         if (disabled)
             return;
-        
-        // case: loading button
-        if (props.handlePromise) 
-            handlePromiseAnimation(event);
 
-        // case: normal button
-        else 
-            animateOverlay();
-        
-        if (props.onClick)
-            props.onClick(event);
+        if (onClick)
+            onClick(event);
+
+        if (onClickPromise)
+            handleClickPromise(event);
     }
 
 
-    /**
-     * Add spinner icon and remove button content, await promise ```props.handlePromise```, then reset button styles. <p>
-     * 
-     * Button will be disabled during promise call.
-     * 
-     * @param event that triggered the promise handler
-     */
-    async function handlePromiseAnimation(event): Promise<void> {
-
-        setDisabled(true);
-
-        const buttonChildren = $(buttonChildrenRef.current!);
-        const buttonWidth = buttonChildren.css("width");
-        const buttonHeight = buttonChildren.css("height");
-        const buttonChildrenContent = children;
-
-        // replace children
-        setChildren(createJSXSpinner());
-        // keep size
-        buttonChildren.css("width", buttonWidth);
-        buttonChildren.css("height", buttonHeight);
-
-        await props.handlePromise!(event);
-
-        // add back children
-        setChildren(buttonChildrenContent);
-        
-        setDisabled(false);
-    }
-
-
-    function createJSXSpinner(): React.JSX.Element {
-
-        return <i className="fa-solid fa-circle-notch rotating"></i>
-    }
-
-
-    function updateDisabled(disabled: boolean | undefined): void {
-
-        // case: prop not set
-        if (isBooleanFalsy(disabled))
-            return;
-
-        setDisabled(disabled);
-    }
-
-
-    function updateRendered(rendered: boolean | undefined): void {
-
-        // case: prop not set
-        if (isBooleanFalsy(rendered))
-            return;
-
-        setRendered(rendered);
-    }
-
-
-    function handleMouseOver(event): void {
+    async function handleClickPromise(event): Promise<any> {
 
         if (disabled)
             return;
 
-        $(buttonRef.current!).css("backgroundColor", props.hoverBackgroundColor || initialBackgroundColor);
+        // case: no function passed
+        if (!onClickPromise)
+            return;
+
+        setIsDisabled(true);
+        setIsAwaitingPromise(true);
+        
+        await onClickPromise(event);
+
+        setIsAwaitingPromise(false);
+        setIsDisabled(false);
     }
 
 
-    function handleMouseOut(event): void {
+    /**
+     * Indicates whether to use the default disabled style or not.
+     * 
+     * @returns ```true``` if ```idDisabled``` and ```_disabled``` style is falsy
+     */
+    function isDefaultDisabledStyle(): boolean {
 
-        $(buttonRef.current!).css("backgroundColor", props.boxStyle?.backgroundColor || initialBackgroundColor)
+        return isDisabled && isObjectFalsy(_disabled);
     }
 
-    function animateOverlay(): void {
 
-        const overlay = $(buttonOverlayRef.current!);
-
-        overlay.hide();
-
-        // animate in three steps
-        overlay.animate({opacity: 0.3}, 100, "swing",
-            () => overlay.animate({width: "toggle"}, 100, "swing", 
-                () => overlay.animate({opacity: 0}, 100, "swing")));
-    }
-
-    
     return (
-        <button id={id} 
-                className={className + (disabled ? " disabledButton" : "") + (rendered ? "" : " hidden")}
-                style={{...props.boxStyle}}
-                ref={buttonRef}
-                disabled={disabled} 
-                onClick={handleClick}
-                onMouseOver={handleMouseOver}
-                onMouseOut={handleMouseOut}
-                title={props.title}
-                type={(props.type || undefined)}
-                >
-            {/* hidden */}
-            <div className={"buttonOverlay buttonChildren " + (props.childrenClassName || "")} ref={buttonOverlayRef} style={props.childrenStyle}>
-                <div className="hiddenChildren">{children}</div>
-            </div>
+        <button 
+            id={id} 
+            className={className + (isDefaultDisabledStyle() ? " disabledButton" : "") + " dontSelectText"}
+            ref={componentRef}
+            style={{
+                ...style,
+                ...(isHover && !disabled ? _hover : {}),
+                ...(isMouseDown && !disabled ? _click : {}),
+                ...(isDisabled ? _disabled : {})
+            }}
+            hidden={!rendered}
+            disabled={isDisabled}
+            title={title}
+            type={type}
+            tabIndex={tabIndex}
+            onClick={handleClick}
+            onSubmit={onSubmit}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            {...otherProps}
+        >
+            {/* Content */}
+            <span hidden={isAwaitingPromise} className="buttonContentContainer flexCenter">{children}</span>
 
-            {/* visible */}
-            <div className={"buttonChildren dontMarkText " + (props.childrenClassName || "")} ref={buttonChildrenRef} style={props.childrenStyle}>
-                {children}
-            </div>
+            {/* Spinner */}
+            <i className={"fa-solid fa-circle-notch" + (isAwaitingPromise && " rotating")} hidden={!isAwaitingPromise}></i>
         </button>
     )
-}
+})

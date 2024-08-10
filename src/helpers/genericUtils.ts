@@ -139,10 +139,16 @@ export function isNumberFalsy(num: number | null | undefined): boolean {
 }
 
 
-export function isBooleanFalsy(bool: boolean | null | undefined) {
+export function isBooleanFalsy(bool: boolean | null | undefined): boolean {
 
     return bool === undefined || bool === null;
 }
+
+
+export function isObjectFalsy(obj: object | null | undefined): boolean {
+
+    return obj === undefined || obj === null || !Object.entries(obj).length;
+} 
 
 
 /**

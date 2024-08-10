@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import DefaultProps from './DefaultProps';
 
 
@@ -8,6 +9,14 @@ import DefaultProps from './DefaultProps';
  */
 export default interface HelperProps extends DefaultProps {
 
+    title?: string,
     /** If false, this component will get passed ```display: none``` */
-    rendered?: boolean
+    rendered?: boolean,
+    disabled?: boolean,
+    /** Style for given event */
+    _hover?: CSSProperties,
+    /** Style for given event */
+    _focus?: CSSProperties,
+    /** Style for given event */
+    _disabled?: CSSProperties
 }
