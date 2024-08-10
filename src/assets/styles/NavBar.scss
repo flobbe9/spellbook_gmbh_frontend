@@ -30,12 +30,11 @@
             font-size: 0.8em;
             
             .loginLogoutLabel, .logoutIcon {
-                transition: color var(--transitionTime);
+                transition: 0.2s;
             }
 
             @include customHover {
                 .loginLogoutLabel, .logoutIcon {
-                    @include hover();
                     color: var(--themeColor); 
                 }
             }

@@ -22,8 +22,6 @@ interface Props extends DefaultProps {
 /**
  * @since 0.0.1
  */
-// TODO
-    // multiple menus???
 export default function NavBar({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "NavBar", true);
@@ -196,7 +194,6 @@ export default function NavBar({...otherProps}: Props) {
                 <Button 
                     className="loginLogoutLink"
                     onClick={handleLogout}
-                    _hover={{color: "var(--themeColor)"}}
                 >
                     <span className="me-1 loginLogoutLabel dontMarkText">Logout</span>
                     <i className="fa-solid fa-right-from-bracket logoutIcon"></i>
@@ -235,11 +232,11 @@ export default function NavBar({...otherProps}: Props) {
                     {/* Center */}
                     <div className="navItem navItemCenter col-12 col-sm-4">
                         {/* Logo */}
-                        <Link to="/" rel={LINK_DEFAULT_REL}>
-                            <div className="flexCenter">
+                        <div className="flexCenter">
+                            <Link to="/" rel={LINK_DEFAULT_REL}>
                                 <img className="faviconTransparent dontMarkText" src="/img/companyNameTransparent.png" alt="Logo" height={120} />
-                            </div>
-                        </Link>
+                            </Link>
+                        </div>
 
                         {/* Mobile NavMenus */}
                         <div className="mobileNavBarContainer pt-1">

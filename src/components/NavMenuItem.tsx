@@ -5,6 +5,7 @@ import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultPro
 import { LINK_DEFAULT_REL, PROTOCOL } from "../helpers/constants";
 import { isBlank, log } from "../helpers/genericUtils";
 import { WPNavMenuItem } from "../abstract/WPNavMenuItem";
+import HelperDiv from "./helpers/HelperDiv";
 
 
 interface Props extends DefaultProps {
@@ -19,9 +20,9 @@ interface Props extends DefaultProps {
  * 
  * @since 0.0.1
  */
-export default function NavMenuItem({wpNavMenuItem, linkClassName, onLinkClick, ...otherProps}: Props) {
+export default function NavMenuItem({wpNavMenuItem, linkClassName, onLinkClick, ...props}: Props) {
 
-    const { id, className, style, children } = getCleanDefaultProps(otherProps, "NavMenuItem");
+    const { id, className, style, children, ...otherProps } = getCleanDefaultProps(props, "NavMenuItem");
 
     const { url, target, title, isInternalLink } = wpNavMenuItem;
 
@@ -64,14 +65,15 @@ export default function NavMenuItem({wpNavMenuItem, linkClassName, onLinkClick, 
 
 
     return (
-        <div 
+        <HelperDiv 
             id={id}
             className={className}
             style={style}
+            {...otherProps}
         >
-            {returnWithLink(<span>{title}</span>)}
+            {returnWithLink(<div className="fullWidth">{title}</div>)}
 
             {children}
-        </div>
+        </HelperDiv>
     );
 }

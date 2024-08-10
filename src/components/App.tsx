@@ -23,8 +23,10 @@ interface Props extends DefaultProps {
     // maps (https://www.npmjs.com/package/@react-google-maps/api)
     // faq(?)
     // contact form
+    // fix parallax
+    // fix slider (or create new)
     
-    // GO LIVE TODO: 
+// GO LIVE: 
 // change text for 
 // login
     // start page
@@ -38,8 +40,6 @@ interface Props extends DefaultProps {
 */
 // TODO: 
     // custom 404 page
-    // parallax does not work properly
-    // slider hides picture, see /test2   
     // update wordpress 6.6.1
     // update mysql version 8.4
         // make sure user has permission to create tables

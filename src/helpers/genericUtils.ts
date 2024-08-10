@@ -152,6 +152,18 @@ export function isObjectFalsy(obj: object | null | undefined): boolean {
 
 
 /**
+ * Indicates whether given ```str``` is falsy or not. Is not the same as {@code isBlank()}!
+ * 
+ * @param str to check
+ * @returns true if and only if given ```str === undefined || str === null```
+ */
+export function isStringFalsy(str: string | null | undefined): boolean {
+
+    return str === undefined || str === null;
+}
+
+
+/**
  * @param str string to check
  * @returns true if given string is empty or only contains white space chars
  */
