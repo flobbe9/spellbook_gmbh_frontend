@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from "react";
-import "../assets/styles/BasicAuth.css";
+import "../assets/styles/BasicAuth.scss";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import useBasicAuth from "../hooks/useBasicAuth";
 import { getCssConstant, isBlank, log } from "../helpers/genericUtils";
@@ -145,17 +145,7 @@ export default function BasicAuth({...otherProps}: Props) {
                         <Button 
                             id="Login"
                             className="fullWidth flexCenter"
-                            handlePromise={handleLogin}
-                            boxStyle={{
-                                backgroundColor: "black",
-                                borderRadius: "var(--borderRadius)",
-                                height: "50px",
-                            }}
-                            childrenStyle={{
-                                borderRadius: "var(--borderRadius)",
-                                color: "white"
-                            }}
-                            hoverBackgroundColor="rgb(80, 80, 80)"
+                            onClickPromise={handleLogin}
                             type="submit"
                         >
                             Login

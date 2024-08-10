@@ -1,3 +1,6 @@
+@import "./helpers/functions.scss";
+
+
 :root {
     --navBarHeight: 221px;
 }
@@ -22,18 +25,17 @@
             position: relative;
         }
 
-        .logoutLink {
+        .loginLogoutLink {
+            box-shadow: none;
             font-size: 0.8em;
             
-            .logoutLabel, .logoutIcon {
-                transition: color var(--transitionTime);
+            .loginLogoutLabel, .logoutIcon {
+                transition: 0.2s;
             }
 
-            &:hover {
-                cursor: pointer;
-
-                .logoutLabel, .logoutIcon {
-                    color: var(--themeColor);
+            @include customHover {
+                .loginLogoutLabel, .logoutIcon {
+                    color: var(--themeColor); 
                 }
             }
         }

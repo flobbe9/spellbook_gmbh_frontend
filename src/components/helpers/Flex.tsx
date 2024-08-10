@@ -1,11 +1,12 @@
-import React, { forwardRef, LegacyRef, MutableRefObject } from "react";
+import React, { forwardRef, Ref } from "react";
 import { getCleanDefaultProps } from "../../abstract/props/DefaultProps";
-import { isBlank } from "../../helpers/genericUtils";
 import { FlexDirection, FlexWrap, TextAlign } from "../../abstract/CSSTypes";
 import HelperProps from "../../abstract/props/HelperProps";
+import HelperDiv from "./HelperDiv";
 
 
 interface Props extends HelperProps {
+
     /** Wont be set at all if ```undefined``` */
     horizontalAlign?: TextAlign,
     /** Wont be set at all if ```undefined``` */
@@ -16,7 +17,6 @@ interface Props extends HelperProps {
     flexDirection?: FlexDirection,
     /** Default is "wrap". See {@link FlexWrap} */
     flexWrap?: FlexWrap,
-    onClick?: (event) => void
 }
 
 
@@ -28,50 +28,44 @@ interface Props extends HelperProps {
  * 
  * @since 0.0.1
  */
-export default forwardRef(function({horizontalAlign, 
-                                    verticalAlign,
-                                    disableFlex = false,
-                                    flexDirection = "row",
-                                    flexWrap = "wrap",
-                                    onClick,
-                                    rendered = true,
-                                    ...otherProps}: Props,
-    ref: LegacyRef<HTMLDivElement>) {
+export default forwardRef(function(
+    {
+        horizontalAlign, 
+        verticalAlign,
+        disableFlex = false,
+        flexDirection = "row",
+        flexWrap = "wrap",
+        onClick,
+        title = "",
+        rendered = true,
+        _hover = {},
+        ...props
+    }: Props,
+    ref: Ref<HTMLDivElement>) {
 
-    const { id, className, style, children } = getCleanDefaultProps(otherProps);
-
-
-    function getCssDisplay(): string {
-
-        let display = "flex";
-
-        if (disableFlex)
-            display = "";
-
-        // always call this last
-        if (!rendered)
-            display = "none";
-
-        return display;
-    }
+    const { id, className, style, children, ...otherProps } = getCleanDefaultProps(props);
 
 
     return (
-        <div 
+        <HelperDiv 
             id={id} 
             className={className}
             style={{
                 ...style,
                 alignItems: verticalAlign,
-                display: getCssDisplay(),
+                display: disableFlex ? "" : "flex",
                 flexDirection: flexDirection,
                 flexWrap: flexWrap,
                 justifyContent: horizontalAlign,
             }}
+            _hover={_hover}
+            title={title}
             ref={ref}
             onClick={onClick}
-            >
+            rendered={rendered}
+            {...otherProps}
+        >
             {children}
-        </div>
+        </HelperDiv>
     )
 })

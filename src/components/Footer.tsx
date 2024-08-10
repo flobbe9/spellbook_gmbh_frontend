@@ -70,8 +70,6 @@ export default function Footer({...otherProps}: Props) {
                 {/* Right */}
                 <Flex className="rightNavItem col-5 col-lg-4" horizontalAlign="right">
                     <Flex className="col-12 col-lg-1 ms-2" horizontalAlign="right">
-                        {/* TODO */}
-                        {/* <a href="intent://instagram.com/#Intent;scheme=https;package=com.instagram.android;end"> */}
                         <a href="https://instagram.com/spellbook_2024" target="_blank" rel={LINK_DEFAULT_REL}>
                             <img 
                                 src="/img/insta.png" 

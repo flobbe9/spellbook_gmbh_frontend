@@ -1,3 +1,6 @@
+@import "./helpers/functions.scss";
+
+
 .BasicAuth {
     min-height: 50vh;
     z-index: var(--zIndexBlock);
@@ -34,20 +37,21 @@
         }
         
         #ButtonLogin {
-            .buttonChildren {
+            background-color: black;
+            border-radius: var(--borderRadius);
+            color: white;
+            height: 50px;
+
+            @include customHover {
+                @include hover();
+
+                .buttonContentContainer {
+                    color: var(--themeColor);
+                }
+            };
+
+            .buttonContentContainer {
                 transition: var(--transitionTime);
-            }
-
-            &:hover {
-                &:disabled {
-                    .buttonChildren {
-                        color: white !important;
-                    }
-                }
-
-                .buttonChildren {
-                    color: var(--themeColor) !important;
-                }
             }
         }
     }
