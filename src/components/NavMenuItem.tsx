@@ -47,7 +47,8 @@ export default function NavMenuItem({wpNavMenuItem, linkClassName, onLinkClick, 
                     onClick={onLinkClick}
                 >
                     {content}
-                </a>)
+                </a>
+            )
 
         // case: internal url
         return (

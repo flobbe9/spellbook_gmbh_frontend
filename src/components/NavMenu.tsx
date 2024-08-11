@@ -7,6 +7,7 @@ import { WPNavMenu } from "../abstract/WPNavMenu";
 import Button from "./helpers/Button";
 import HelperDiv from "./helpers/HelperDiv";
 import useKeyPress from "../hooks/useKeyPress";
+import { Link } from "react-router-dom";
 
 
 interface Props extends DefaultProps {
@@ -130,8 +131,11 @@ export default function NavMenu({wpNavMenu, ...otherProps}: Props) {
 
     function handleBlur(event): void {
 
-        if (!tabPressed)
-            hideNavMenu();
+        setTimeout(() => {
+            if (!tabPressed)
+                hideNavMenu();
+            
+        }, 100);
     }
 
 
