@@ -25,24 +25,16 @@ interface Props extends DefaultProps {
     // contact form
     // fix parallax
     // fix slider (or create new)
+    // custom 404 page
     
 // GO LIVE: 
-// change text for 
-// login
-    // start page
-    // impressum
-    // datenschutz (cookies??)
 // change env variable IS_SITE_LIVE
+// change login page text in wp
         
 
 /**
  * @since 0.0.1
 */
-// TODO: 
-    // custom 404 page
-    // update wordpress 6.6.1
-    // update mysql version 8.4
-        // make sure user has permission to create tables
 export default function App({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "App", true);
@@ -106,32 +98,48 @@ export default function App({...otherProps}: Props) {
 
         let isLoginPagePresent = false;
 
-        const pages = wpPages.map(wpPage => {
-            // case: hide this page in frontend
-            if (!wpPage)
-                return; 
+        // map pages to routes
+        const pages = wpPages
+            .map(wpPage => {
+                // case: custom login page
+                if (equalsIgnoreCase("login", wpPage.post_title))
+                    isLoginPagePresent = true;
 
-            // case: is login page
-            if (equalsIgnoreCase("login", wpPage.post_title)) {
-                isLoginPagePresent = true;
-                return <Route 
-                            key={getRandomString()} 
-                            path={wpPage.path} 
-                            element={
-                                <Page wpPage={wpPage}>
-                                    <BasicAuth />
-                                </Page>} 
-                        />
-            }
-
-            return <Route key={getRandomString()} path={wpPage.path} element={<Page wpPage={wpPage} />} />
-        });
+                return getRouteByWpPage(wpPage);
+            });
 
         // case: custom login page is missing
         if (!isLoginPagePresent)
             pages.push(<Route key={getRandomString()} path={"/login"} element={<BasicAuth />} />);
 
         return pages;
+    }
+
+
+    /**
+     * @param wpPage to map to route
+     * @returns either a ```<Route>``` component with a ```<Page>``` as element or ```undefined```
+     */
+    function getRouteByWpPage(wpPage: WPPage): JSX.Element | undefined {
+
+        // case: hide this page in frontend
+        if (!wpPage)
+            return; 
+
+        // case: login page
+        if (equalsIgnoreCase("login", wpPage.post_title)) {
+            return <Route 
+                        key={getRandomString()} 
+                        path={wpPage.path} 
+                        element={
+                            <Page wpPage={wpPage}>
+                                <BasicAuth />
+                            </Page>} 
+                    />
+        }
+
+        // case: default page
+        return <Route key={getRandomString()} path={wpPage.path} element={<Page wpPage={wpPage} />} />
     }
 
 
