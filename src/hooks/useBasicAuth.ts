@@ -134,10 +134,10 @@ export default function useBasicAuth() {
     async function updateSession(): Promise<boolean> {
 
         // uncomment this to disable basic auth
-        if (ENV === "development") {
-            setIsLoggedIn(true)
-            return true;
-        }
+        // if (ENV === "development") {
+        //     setIsLoggedIn(true)
+        //     return true;
+        // }
 
         const sessionValid = await isSessionValid();
 
@@ -156,7 +156,6 @@ export default function useBasicAuth() {
      * @param isLoggedIn true if session is valid
      * @param wpPages fetched on load to determine ```post_status``` of current page
      */
-    // TODO: remove prev page from history
     function redirect(isLoggedIn: boolean, wpPages: WPPage[]): void {
 
         // case: is logged in

@@ -18,7 +18,6 @@ interface Props extends DefaultProps {
 /**
  * @since 0.0.1
  */
-// TODO: redirect to prev page after login
 export default function BasicAuth({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "BasicAuth", true);

@@ -17,7 +17,6 @@ interface Props extends DefaultProps {
 /**
  * @since 0.0.1
  */
-// TODO: make footer open social links in app if installed
 export default function Footer({...otherProps}: Props) {
 
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "Footer", true);
@@ -41,10 +40,6 @@ export default function Footer({...otherProps}: Props) {
         setCssConstant("footerHeight", $(componentRef.current!).outerHeight() + "px");
     }
 
-// TODO: social links
-    // icon link
-    // link target
-    // title
 
     return (
         <div 

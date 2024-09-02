@@ -43,8 +43,6 @@ export default function Initializer({wpPages, ...otherProps}: Props) {
 
         const isLoggedIn = await updateSession();
 
-        // uncomment this to deactivate redirects in dev
-        // if (ENV !== "development")
         redirect(isLoggedIn, wpPages);
     }
 
