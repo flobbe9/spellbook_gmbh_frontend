@@ -242,6 +242,9 @@ export default function App({...otherProps}: Props) {
     }
 
 
+    /**
+     * @since 0.1.9
+     */
     function Redirect() {
 
         function redirectIfWWW(): void {
