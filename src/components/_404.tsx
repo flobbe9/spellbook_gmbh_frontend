@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import "../assets/styles/_404.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import WPPage from "../abstract/wp/WPPage";
-import { getCssConstant, log } from "../helpers/genericUtils";
 import Flex from "./helpers/Flex";
 import { COMPANY_NAME, ENV, LINK_DEFAULT_REL } from "../helpers/constants";
 import { Link } from "react-router-dom";
+import Head from "./Head";
 
 
 interface Props extends DefaultProps {
@@ -24,12 +24,6 @@ export default function _404({wpPages, ...otherProps}: Props) {
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "_404", true);
 
     const [content, setContent] = useState<JSX.Element>(<Pending />);
-
-
-    useEffect(() => {
-        addToHead();
-
-    }, []);
 
 
     useEffect(() => {
@@ -77,24 +71,18 @@ export default function _404({wpPages, ...otherProps}: Props) {
     }
 
 
-
-    /**
-     * Append some default tags to ```<head>``` like ```<title>``` etc.
-     */
-    function addToHead(): void {
-
-        const titleTag = `<title>${getPageTitle()}</title>`;
-
-        $("head").append(titleTag);
-    }
-
-
     return (
         <div 
             id={id} 
             className={className}
             style={style}
         >
+            <Head 
+                headTagStrings={[
+                    `<title>${getPageTitle()}</title>`
+                ]}
+            />
+
             {content}
                 
             {children}
