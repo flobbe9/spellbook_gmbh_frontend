@@ -27,6 +27,12 @@ export default function _404({wpPages, ...otherProps}: Props) {
 
 
     useEffect(() => {
+        addToHead();
+
+    }, []);
+
+
+    useEffect(() => {
         // give wpPages a bit time to load
         setTimeout(updateContent, ENV === "development" ? 0 : 3000);
 
@@ -51,7 +57,6 @@ export default function _404({wpPages, ...otherProps}: Props) {
     }
 
 
-    // IDEA: use wp page instead?
     function NotFound() {
 
         return (
@@ -65,6 +70,24 @@ export default function _404({wpPages, ...otherProps}: Props) {
         );
     }
 
+    
+    function getPageTitle(): string {
+
+        return `${COMPANY_NAME} | 404 Not found`;
+    }
+
+
+
+    /**
+     * Append some default tags to ```<head>``` like ```<title>``` etc.
+     */
+    function addToHead(): void {
+
+        const titleTag = `<title>${getPageTitle()}</title>`;
+
+        $("head").append(titleTag);
+    }
+
 
     return (
         <div 
@@ -72,10 +95,6 @@ export default function _404({wpPages, ...otherProps}: Props) {
             className={className}
             style={style}
         >
-            {/* SEO stuff, remove this if using <Page> */}
-            <title>{COMPANY_NAME} | 404 Not found</title>
-            <link rel="canonical" href={window.location.href} />
-
             {content}
                 
             {children}

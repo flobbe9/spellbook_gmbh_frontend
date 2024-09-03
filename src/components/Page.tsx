@@ -3,7 +3,7 @@ import "../assets/styles/Page.css";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import WPPage from "../abstract/wp/WPPage";
 import Block from "./blocks/Block";
-import { COMPANY_NAME } from "../helpers/constants";
+import { BASE_URL, COMPANY_NAME } from "../helpers/constants";
 
 
 interface Props extends DefaultProps {
@@ -24,6 +24,7 @@ export default function Page({wpPage, ...otherProps}: Props) {
 
     useEffect(() => {
         setH1(getH1());
+        addToHead();
 
     }, []);
 
@@ -44,6 +45,18 @@ export default function Page({wpPage, ...otherProps}: Props) {
 
         return wpBlockH1 ? <></> : <h1 className="hidden">{getPageTitle()}</h1>;
     }
+
+
+    /**
+     * Append some default tags to ```<head>``` like ```<title>``` etc.
+     */
+    function addToHead(): void {
+
+        const titleTag = `<title>${getPageTitle()}</title>`;
+        const canonical = `<link rel="canonical" href=${BASE_URL}${window.location.pathname} />`
+
+        $("head").append(titleTag, canonical);
+    }
     
 
     return (
@@ -52,11 +65,7 @@ export default function Page({wpPage, ...otherProps}: Props) {
             className={className}
             style={style}
         >
-            <title>{getPageTitle()}</title>
-
-            {/* Seo stuff */}
             {h1}
-            <link rel="canonical" href={window.location.href} />
 
             <Block wpBlocks={wpPage.blocks} />
                 

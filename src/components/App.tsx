@@ -11,7 +11,7 @@ import BasicAuth from "./BasicAuth";
 import Toast, { ToastSevirity } from "./Toast";
 import Footer from "./Footer";
 import Initializer from "./Initializer";
-import { IS_SITE_LIVE } from "../helpers/constants";
+import { BASE_URL, IS_SITE_LIVE, PROTOCOL } from "../helpers/constants";
 import WPPage from "../abstract/wp/WPPage";
 
 
@@ -242,10 +242,29 @@ export default function App({...otherProps}: Props) {
     }
 
 
+    /**
+     * @since 0.1.9
+     */
+    function Redirect() {
+
+        function redirectIfWWW(): void {
+
+            if (window.location.href.startsWith(`${PROTOCOL}://www.`))
+                window.location.href = `${BASE_URL}${window.location.pathname}`;
+        }
+
+        redirectIfWWW();
+
+        return <></>
+    }
+
+
     return (
         <AppContext.Provider value={context}>
             <BrowserRouter>
                 <div id={id} className={className} style={style}>
+                    <Redirect />
+
                     {/* No html, just function calls here */}
                     <Initializer wpPages={wpPages} />
 
