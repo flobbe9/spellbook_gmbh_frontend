@@ -238,30 +238,10 @@ export default function App({...otherProps}: Props) {
     }
 
 
-    /**
-     * @since 0.1.9
-     * @deprecated since 0.2.1, TODO: remove in next version
-     */
-    function Redirect() {
-
-        function redirectIfWWW(): void {
-
-            if (window.location.href.startsWith(`${PROTOCOL}://www.`))
-                window.location.href = `${BASE_URL}${window.location.pathname}`;
-        }
-
-        // redirectIfWWW();
-
-        return <></>
-    }
-
-
     return (
         <AppContext.Provider value={context}>
             <BrowserRouter>
                 <div id={id} className={className} style={style}>
-                    <Redirect />
-
                     {/* No html, just function calls here */}
                     <Initializer wpPages={wpPages} />
 
