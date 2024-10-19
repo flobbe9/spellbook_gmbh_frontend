@@ -27,10 +27,6 @@ interface Props extends DefaultProps {
     // fix slider (or create new)
     // custom 404 page
     
-// GO LIVE: 
-// change env variable IS_SITE_LIVE
-// change login page text in wp
-        
 
 /**
  * @since 0.0.1
@@ -244,6 +240,7 @@ export default function App({...otherProps}: Props) {
 
     /**
      * @since 0.1.9
+     * @deprecated since 0.2.1, TODO: remove in next version
      */
     function Redirect() {
 
@@ -253,7 +250,7 @@ export default function App({...otherProps}: Props) {
                 window.location.href = `${BASE_URL}${window.location.pathname}`;
         }
 
-        redirectIfWWW();
+        // redirectIfWWW();
 
         return <></>
     }

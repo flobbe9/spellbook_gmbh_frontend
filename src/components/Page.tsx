@@ -6,6 +6,8 @@ import Block from "./blocks/Block";
 import { BASE_URL, COMPANY_NAME } from "../helpers/constants";
 import { log } from "../helpers/genericUtils";
 import Head from "./Head";
+import { useLocation } from "react-router";
+import useScroll from "../hooks/useScroll";
 
 
 interface Props extends DefaultProps {
@@ -23,6 +25,10 @@ export default function Page({wpPage, ...otherProps}: Props) {
     const { id, className, style, children } = getCleanDefaultProps(otherProps, "Page", true);
 
     const [h1, setH1] = useState(<></>);
+
+    const location = useLocation();
+
+    useScroll(0, 0, location);
 
 
     useEffect(() => {
