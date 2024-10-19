@@ -7,7 +7,7 @@ import { useEffect } from "react";
  * @param x horizontal coordinate to scroll to. Default is 0
  * @param y vertical coordinate to scroll to. Default is 0
  * @param states to trigger this hook on
- * @since latest
+ * @since 0.2.1
  */
 export default function useScroll(x = 0, y = 0, ...states) {
 

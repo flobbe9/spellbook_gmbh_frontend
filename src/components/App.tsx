@@ -240,6 +240,7 @@ export default function App({...otherProps}: Props) {
 
     /**
      * @since 0.1.9
+     * @deprecated since 0.2.1, TODO: remove in next version
      */
     function Redirect() {
 
