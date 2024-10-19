@@ -8,6 +8,8 @@ import { ApiExceptionFormat } from "../abstract/ApiExceptionFormat";
 import { isHttpStatusCodeAlright } from "../helpers/fetchUtils";
 import Button from "./helpers/Button";
 import Flex from "./helpers/Flex";
+import { useLocation } from "react-router";
+import useScroll from "../hooks/useScroll";
 
 
 interface Props extends DefaultProps {
@@ -28,6 +30,10 @@ export default function BasicAuth({...otherProps}: Props) {
 
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+
+    const location = useLocation();
+
+    useScroll(0, 0, location);
 
     
     /**
