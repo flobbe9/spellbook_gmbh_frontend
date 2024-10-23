@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import "../assets/styles/_404.css";
+import { Link } from "react-router-dom";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import WPPage from "../abstract/wp/WPPage";
-import Flex from "./helpers/Flex";
-import { COMPANY_NAME, ENV, LINK_DEFAULT_REL } from "../helpers/constants";
-import { Link } from "react-router-dom";
+import "../assets/styles/_404.css";
+import { COMPANY_NAME, ENV } from "../helpers/constants";
 import Head from "./Head";
+import Flex from "./helpers/Flex";
 
 
 interface Props extends DefaultProps {
@@ -59,7 +59,7 @@ export default function _404({wpPages, ...otherProps}: Props) {
 
                 <h2>Diese Seite konnte nicht gefunden zu werden.</h2>
 
-                <p><Link to="/" className="backToStartLink" rel={LINK_DEFAULT_REL}>Zurück zur Startseite</Link></p>
+                <p><Link to="/" className="backToStartLink">Zurück zur Startseite</Link></p>
             </div>
         );
     }

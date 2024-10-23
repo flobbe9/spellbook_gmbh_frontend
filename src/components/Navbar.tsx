@@ -233,7 +233,7 @@ export default function NavBar({...otherProps}: Props) {
                     <div className="navItem navItemCenter col-12 col-sm-4">
                         {/* Logo */}
                         <div className="flexCenter">
-                            <Link to="/" rel={LINK_DEFAULT_REL}>
+                            <Link to="/">
                                 <img className="faviconTransparent dontMarkText" src="/img/companyNameTransparent.png" alt="Logo" height={120} />
                             </Link>
                         </div>
