@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import "../assets/styles/Page.css";
+import { useLocation } from "react-router";
 import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import WPPage from "../abstract/wp/WPPage";
-import Block from "./blocks/Block";
+import "../assets/styles/Page.css";
 import { BASE_URL, COMPANY_NAME } from "../helpers/constants";
-import { log } from "../helpers/genericUtils";
-import Head from "./Head";
-import { useLocation } from "react-router";
 import useScroll from "../hooks/useScroll";
+import Block from "./blocks/Block";
+import Head from "./Head";
 
 
 interface Props extends DefaultProps {

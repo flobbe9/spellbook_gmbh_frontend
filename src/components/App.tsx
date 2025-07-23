@@ -1,18 +1,18 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
-import "../assets/styles/App.css";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NavBar from "./Navbar";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
+import WPPage from "../abstract/wp/WPPage";
+import "../assets/styles/App.css";
+import { IS_SITE_LIVE } from "../helpers/constants";
+import { equalsIgnoreCase, getCSSValueAsNumber, getRandomString, isNumberFalsy } from "../helpers/genericUtils";
 import { usePages } from "../hooks/usePages";
-import { equalsIgnoreCase, getCssConstant, getCSSValueAsNumber, getJQueryElementById, getRandomString, includesIgnoreCaseTrim, isBlank, isNumberFalsy, log, setCssConstant } from "../helpers/genericUtils";
 import _404 from './_404';
-import Page from "./Page";
 import BasicAuth from "./BasicAuth";
-import Toast, { ToastSevirity } from "./Toast";
 import Footer from "./Footer";
 import Initializer from "./Initializer";
-import { BASE_URL, IS_SITE_LIVE, PROTOCOL } from "../helpers/constants";
-import WPPage from "../abstract/wp/WPPage";
+import NavBar from "./Navbar";
+import Page from "./Page";
+import Toast, { ToastSevirity } from "./Toast";
 
 
 interface Props extends DefaultProps {

@@ -51,7 +51,6 @@ COPY --from=0 /package.json ./
 COPY --from=0 /${SSL_DIR} ./${SSL_DIR}
 # COPY ./${SSL_DIR} ./${SSL_DIR}
 
-# install npm serve
 RUN npm i -g serve
 
 ENTRYPOINT  if [ $HTTPS = "true" ]; then \
