@@ -5,3 +5,4 @@ DefaultComponent.tsx
 *.csr
 *.p12
 public/archive
+notes.md

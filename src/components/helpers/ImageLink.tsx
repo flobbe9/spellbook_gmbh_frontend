@@ -89,7 +89,7 @@ export default function ImageLink({src, alt, title, link, linkTarget, height, wi
 
         // case: internal link
         return (
-            <Link to={link!} target={linkTarget} rel={LINK_DEFAULT_REL} title={getTitle() + "-Link"}>
+            <Link to={link!} target={linkTarget} title={getTitle() + "-Link"}>
                 {getImgTag()}
             </Link>
         )

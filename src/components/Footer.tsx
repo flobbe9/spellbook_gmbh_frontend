@@ -57,7 +57,7 @@ export default function Footer({...otherProps}: Props) {
                     
                 {/* Center */}
                 <Flex className="middleNavItem col-2 col-lg-4" horizontalAlign="center" verticalAlign="start">
-                    <Link to="/" rel={LINK_DEFAULT_REL}>
+                    <Link to="/">
                         <img className="faviconTransparent dontMarkText" src="/img/companyNameTransparent.png" alt="company name" height="60"/>
                     </Link>
                 </Flex>

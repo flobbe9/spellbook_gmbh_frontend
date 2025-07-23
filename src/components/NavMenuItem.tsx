@@ -56,7 +56,6 @@ export default function NavMenuItem({wpNavMenuItem, linkClassName, onLinkClick, 
                 className={linkClassName} 
                 to={url!} 
                 target={target} 
-                rel={LINK_DEFAULT_REL}
                 onClick={onLinkClick}
             >
                 {content}
