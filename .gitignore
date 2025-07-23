@@ -6,3 +6,4 @@ DefaultComponent.tsx
 *.p12
 public/archive
 notes.md
+.vscode
