@@ -1,17 +1,17 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
-import "../assets/styles/NavBar.scss";
-import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
-import Flex from "./helpers/Flex";
-import { getCssConstant, getCSSValueAsNumber, getJQueryElementById, getRandomString, includesIgnoreCaseTrim, log } from "../helpers/genericUtils";
 import { Link } from "react-router-dom";
-import NavMenu from "./NavMenu";
-import useNavMenus from "../hooks/useNavMenus";
+import DefaultProps, { getCleanDefaultProps } from "../abstract/props/DefaultProps";
 import { WPNavMenu } from "../abstract/WPNavMenu";
-import { AppContext } from "./App";
-import useBasicAuth from "../hooks/useBasicAuth";
-import MobileNavMenu from "./MobileNavMenu";
+import "../assets/styles/NavBar.scss";
 import { LINK_DEFAULT_REL } from "../helpers/constants";
+import { getCssConstant, getCSSValueAsNumber, includesIgnoreCaseTrim } from "../helpers/genericUtils";
+import useBasicAuth from "../hooks/useBasicAuth";
+import useNavMenus from "../hooks/useNavMenus";
+import { AppContext } from "./App";
 import Button from "./helpers/Button";
+import Flex from "./helpers/Flex";
+import MobileNavMenu from "./MobileNavMenu";
+import NavMenu from "./NavMenu";
 
 
 interface Props extends DefaultProps {

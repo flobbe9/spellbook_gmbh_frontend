@@ -7,3 +7,4 @@ DefaultComponent.tsx
 public/archive
 notes.md
 .vscode
+.nginx
