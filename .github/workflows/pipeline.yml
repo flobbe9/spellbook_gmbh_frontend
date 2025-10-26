@@ -73,7 +73,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           debug: true
           script: |
-            ./copySecretsToRemote.sh REACT_APP_CRYPTO_KEY='${{secrets.REACT_APP_CRYPTO_KEY}}' REACT_APP_CRYPTO_IV='${{secrets.REACT_APP_CRYPTO_IV}}' SSL_KEY_PASSWORD='${{secrets.SSL_KEY_PASSWORD}}'
+            ./copySecretsToRemote.sh REACT_APP_CRYPTO_KEY='${{secrets.REACT_APP_CRYPTO_KEY}}' REACT_APP_CRYPTO_IV='${{secrets.REACT_APP_CRYPTO_IV}}'
 
             docker compose pull frontend
             yes | docker rm $(docker container ls --all --filter=ancestor=$(docker images -f "dangling=true" -q) --format "{{.ID}}") --force

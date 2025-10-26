@@ -9,8 +9,8 @@ WORKDIR /app
 COPY . .
 
 # Install and build
-# RUN npm i
-# RUN npm run build
+RUN npm i
+RUN npm run build
 
 
 # NOTE: mount nginx.conf using compose
