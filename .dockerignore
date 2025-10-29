@@ -1,5 +1,0 @@
-node_modules
-*.md
-.gitignore
-docker-compose.*
-Dockerfile

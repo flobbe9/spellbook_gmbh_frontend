@@ -1,2 +1,0 @@
-/** The status of a page/post. See https://wordpress.org/documentation/article/post-status/ */
-export type WPPostStatus = "publish" | "future" | "draft" | "pending" | "private" | "trash" | "auto-draft" | "inherit";
