@@ -1,1 +1,9 @@
-@forward "@styles/helpers/mixins";
+/** 
+ * Only forward styles in here, don't define any rules.
+ */
+@forward "@styles/globals";
+@forward "@styles/fonts";
+
+@forward "@styles/components/Overlay";
+
+@forward "@styles/helpers/rootVariables";
