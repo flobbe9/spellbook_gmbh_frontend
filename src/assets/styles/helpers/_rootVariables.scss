@@ -1,7 +1,10 @@
+@use './variables' as *;
+
 /**
  * Only place :root variables in here
  */
 
 :root {
-    --overlayZIndex: 1
+    --fontSize: #{$fontSize};
+    --overlayZIndex: #{$overlayZIndex};
 }

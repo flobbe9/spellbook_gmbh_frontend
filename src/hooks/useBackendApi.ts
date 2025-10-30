@@ -16,7 +16,7 @@ import { useQuery, useQueryClient, type DefinedUseQueryResult } from "@tanstack/
  * @type T the expected return type of the fetch call
  * @returns DefinedUseQueryResult with data of type `T`. May be `undefined` for a brief moment, while `useQuery`
  * is no initialized yet. Use {@link hasCacheBeenInitialized} for that
- * @since 0.0.1
+ * @since latest
  */
 export function useBackendApi<T>(
     fetchConfig: FetchConfig,

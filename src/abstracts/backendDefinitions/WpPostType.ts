@@ -1,7 +1,7 @@
 /**
  * String should be the `post_type` value.
  * 
- * @since 0.0.1
+ * @since latest
  */
 export enum WpPostType {
     PAGE = "page"

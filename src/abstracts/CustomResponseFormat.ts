@@ -3,7 +3,7 @@ import { assertFalsyOrBlankAndThrow, getTimeStamp, isBlank } from "@/helpers/uti
 /**
  * Interface defining the format of an http response object.
  * 
- * @since 0.0.1
+ * @since latest
  */
 export class CustomResponseFormat {
     status: number;
@@ -26,7 +26,7 @@ export class CustomResponseFormat {
 }
 
 /**
- * @since 0.0.1
+ * @since latest
  */
 export class CustomResponseFormatBuilder {
     private customResponseFormat: CustomResponseFormat;

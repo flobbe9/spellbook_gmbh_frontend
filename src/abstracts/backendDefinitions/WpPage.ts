@@ -2,7 +2,7 @@ import WPBlock from "@/abstracts/backendDefinitions/WpBlock";
 import type { WPPostStatus } from "@/abstracts/backendDefinitions/WpPostStatus";
 
 /**
- * @since 0.0.1
+ * @since latest
  */
 export default class WPPage {
     ID: number;

@@ -3,7 +3,7 @@ import { forwardRef, type Ref } from "react";
 import Conditional from "./Conditional";
 
 /**
- * @since 0.0.1
+ * @since latest
  */
 export default forwardRef(function ConditionalDiv(
     {children, ...props}: DefaultProps<HTMLDivElement>,

@@ -11,7 +11,7 @@ const QUERY_KEY = ["navigation", "links"]
  * Get the nav bar links meant to appear outisde a nav bar menu.
  * 
  * @returns queryResult with {@link WpNavigationLink} array
- * @since 0.0.1
+ * @since latest
  */
 export function useWpNavigationLinks(cacheConfig?: CustomUseQueryConfig, fetchConfig?: FetchConfig): DefinedUseQueryResult<WpNavigationLink[]> {
 

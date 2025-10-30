@@ -1,0 +1,48 @@
+@use '../helpers/variables' as *;
+
+.Pending {
+    .Overlay {
+        &-background {
+            background-color: transparent;
+        }
+        
+        &-childrenContainer {
+            color: black;
+            flex-direction: column;
+            
+            .Pending-dotImage {
+                animation: 1.5s ease-in-out $transition pulse infinite;
+                filter: invert(1);
+                opacity: 0;
+                
+                &-2 {
+                    animation-delay: .3s;
+                }
+                
+                &-3 {
+                    animation-delay: .4s;
+                }
+            }
+        }
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    40% {
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 0;
+    }
+
+    // hide for a moment
+}

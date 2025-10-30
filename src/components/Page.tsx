@@ -5,9 +5,10 @@ import { useParams } from "react-router-dom";
 import ConditionalDiv from "@/components/ConditionalDiv";
 import { getDefaultProps } from "@/abstracts/props/DefaultProps";
 import Overlay from "./Overlay";
+import Pending from "./Pending";
 
 /**
- * @since 0.0.1
+ * @since latest
  */
 export default function Page(props: DefaultProps<HTMLDivElement>) {
     const { slug } = useParams();
@@ -18,18 +19,23 @@ export default function Page(props: DefaultProps<HTMLDivElement>) {
 
     return (
         <ConditionalDiv {...otherProps}>
-            <Overlay 
-                isOverlayVisible={isPending} 
-                setOverlayVisible={() => {/** Not implemented */}} 
-                hideOnClick={false}
-                hideOnEscape={false}
-                fitParent={false}
-            >
-                Loading...
-            </Overlay>
+            <Pending isPending={isPending} fitParent={false} />
 
-            <h2>Page</h2>
-            <div>{wpPage?.post_title}</div>
+            <div style={{fontSize: "2em", fontWeight: 300}}>Thin</div>
+            <div style={{fontSize: "2em", fontWeight: 400}}>Regular</div>
+
+            <div style={{fontSize: "2em", fontWeight: 500}}>Medium</div>
+            <div style={{fontSize: "2em", fontWeight: 600}}>SemiBold</div>
+            <div style={{fontSize: "2em", fontWeight: 700}}>Bold</div>
+
+            <h1>h1</h1>
+            <h2>h2</h2>
+            <h3>h3</h3>
+            <h4>h4</h4>
+            <h5>h5</h5>
+            <h6>h6</h6>
+
+            <p>p</p>
         </ConditionalDiv>
     )
 } 

@@ -3,6 +3,7 @@ import { getDefaultProps } from "@/abstracts/props/DefaultProps";
 import { forwardRef, useEffect, useImperativeHandle, useRef, type Ref } from "react";
 import ConditionalDiv from "./ConditionalDiv";
 import { animateAndCommit, fadeIn, fadeOut, getCssConstant } from "@/helpers/utils";
+import type { CustomKeyframeAnimationOptions } from "@/abstracts/CustomKeyframeAnimationOptions";
 
 
 interface Props extends DefaultProps<HTMLDivElement> {
@@ -28,7 +29,7 @@ interface Props extends DefaultProps<HTMLDivElement> {
 /**
  * Opacity 0 by default.
  * 
- * @since 0.0.1
+ * @since latest
  */
 export default forwardRef(function Overlay(
     {
@@ -45,7 +46,8 @@ export default forwardRef(function Overlay(
     }: Props,
     ref: Ref<HTMLDivElement>
 ) {
-    const { style, children, ...otherProps } = getDefaultProps("Overlay", props);
+    const componentName = "Overlay";
+    const { style, children, ...otherProps } = getDefaultProps(componentName, props);
 
     const componentRef = useRef<HTMLDivElement>(null);
     const backgroundRef = useRef<HTMLDivElement>(null);
@@ -86,9 +88,10 @@ export default forwardRef(function Overlay(
         const background = backgroundRef.current!;
         const children = childrenRef.current!;
 
-        const options = { 
+        const options: CustomKeyframeAnimationOptions = { 
             duration: fadeInDuration,
-            easing: "ease-in"
+            easing: "ease-in",
+            displayVisible: "flex"
         }
 
         componentRef.current!.style.zIndex = getCssConstant("overlayZIndex");
@@ -139,13 +142,9 @@ export default forwardRef(function Overlay(
             onClick={handleClick}
             {...otherProps}
         >
-            <div className="overlayBackground" ref={backgroundRef}></div>
-            {/* TODO: tailwind */}
+            <div className={`${componentName}-background`} ref={backgroundRef}></div>
             <div 
-                className="overlayChildrenContainer" 
-                // flexDirection="column"
-                // horizontalAlign="center"
-                // verticalAlign="center"
+                className={`${componentName}-childrenContainer flex justify-center items-center`}
                 ref={childrenRef}
             >
                 {children}

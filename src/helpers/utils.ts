@@ -1,3 +1,4 @@
+import type { CustomKeyframeAnimationOptions } from '@/abstracts/CustomKeyframeAnimationOptions';
 import { logError, logWarn } from "./logUtils";
 
 /**
@@ -272,7 +273,7 @@ export function setUrlQueryParam(
  * @param options of the animation. Will set ```fill = "both"``` by default, this can be overridden though
  * @returns the animation or ```null``` if given ```element``` is falsy
  */
-export async function animateAndCommit(element: HTMLElement | undefined | null, keyframes: Keyframe[] | PropertyIndexedKeyframes | null, options?: KeyframeAnimationOptions & { onComplete?: () => void }): Promise<Animation | null> {
+export async function animateAndCommit(element: HTMLElement | undefined | null, keyframes: Keyframe[] | PropertyIndexedKeyframes | null, options?: CustomKeyframeAnimationOptions): Promise<Animation | null> {
 
     if (!element)
         return null;
@@ -300,15 +301,15 @@ export async function animateAndCommit(element: HTMLElement | undefined | null, 
  * Animate element from transparent to solid and set ```display = 'block'```.
  * 
  * @param element to fade in
- * @param options more animation options, see {@link KeyframeAnimationOptions}
+ * @param options more animation options, see {@link CustomKeyframeAnimationOptions}
  */
-export async function fadeIn(element: HTMLElement | undefined | null, options?: KeyframeAnimationOptions & { onComplete?: () => void }): Promise<Animation | null> {
+export async function fadeIn(element: HTMLElement | undefined | null, options?: CustomKeyframeAnimationOptions): Promise<Animation | null> {
     if (!element)
         return null;
 
-    const { duration = 100 } = options ?? {};
+    const { duration = 100, displayVisible = "block" } = options ?? {};
 
-    element.style.display = "block";
+    element.style.display = displayVisible;
     return animateAndCommit(
         element,
         [
@@ -327,9 +328,9 @@ export async function fadeIn(element: HTMLElement | undefined | null, options?: 
  * Animate element to transparent, then set ```display = 'none'```. Resolves once animation is finished.
  * 
  * @param element to fade out
- * @param options more animation options, see {@link KeyframeAnimationOptions}
+ * @param options more animation options, see {@link CustomKeyframeAnimationOptions}
  */
-export async function fadeOut(element: HTMLElement | undefined | null, options?: KeyframeAnimationOptions & { onComplete?: () => void }): Promise<Animation | null> {
+export async function fadeOut(element: HTMLElement | undefined | null, options?: CustomKeyframeAnimationOptions): Promise<Animation | null> {
     if (!element)
         return;
 
@@ -352,4 +353,85 @@ export async function fadeOut(element: HTMLElement | undefined | null, options?:
             ...(options || {}) 
         }
     );
+}
+
+/**
+ * @param variableName the variable name without the double dashes in front
+ * @returns the value of the given css variable as defined in `:root`
+ */
+export function getCssConstant(variableName: string): string {
+    const value = getComputedStyle(document.documentElement).getPropertyValue("--" + variableName);
+
+    if (isFalsy(value))
+        logWarn(`Failed to get css constant ${variableName}`);
+    
+    return  value;
+}
+
+/**
+ * Cut given number of digits from cssValue and try to parse substring to number.
+ * 
+ * @param cssValue css value e.g: 16px
+ * @param unitDigits number of digigts to cut of cssValue string
+ * @returns substring of cssValue parsed to number or NaN if parsing failed
+ */
+export function getCSSValueAsNumber(cssValue: string | number, unitDigits: number): number {
+
+    // case: is a number already
+    if (typeof cssValue === "number")
+        return cssValue;
+
+    // case: no value
+    if (isBlank(cssValue))
+        return NaN;
+
+    const length = cssValue.length;
+    if (unitDigits >= length) {
+        // case: is numeric
+        if (isStringNumeric(cssValue, true))
+            return Number(cssValue);
+
+        logError("Failed to get css value as number. 'unitDigits' (" + unitDigits + ") too long or 'cssValue' (" + cssValue + ") too short.");
+    }
+
+    const endIndex = cssValue.length - unitDigits;
+
+    return Number(cssValue.substring(0, endIndex));
+}
+
+/**
+ * @param str to check
+ * @param considerDouble if true, ',' and '.' will be included in the regex
+ * @returns true if every char of given string matches the numeric regex
+ */
+export function isStringNumeric(str: string, considerDouble = false): boolean {
+    // alpha numeric regex
+    let regexp = /^[0-9]+$/;
+
+    if (considerDouble)
+        regexp = /^[0-9.,]+$/;
+
+    return matchEach(str, regexp);
+}
+
+/**
+ * @param str to check
+ * @param regexp to use for matching
+ * @returns `true` if each char of string matches the regex, trims the string first
+ */
+function matchEach(str: string, regexp: RegExp): boolean {
+
+    str = str.trim();
+
+    let matches = true;
+    for (let i = 0; i < str.length; i++) {
+        const char = str[i];
+
+        if (char.match(regexp) === null) {
+            matches = false;
+            break;
+        }
+    }
+
+    return matches
 }

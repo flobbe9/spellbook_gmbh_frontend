@@ -9,12 +9,12 @@ import { WpPostType } from "@/abstracts/backendDefinitions/WpPostType";
 /**
  * Fetch any wordpress page.
  * 
- * @param slug of the wordpress page 
+ * @param slug of the wordpress page (no slashes)
  * @param postType of the wordpress page
  * @param cacheConfig 
  * @param fetchConfig 
  * @returns queryResult of type `WpPage`
- * @since 0.0.1
+ * @since latest
  */
 export function useWpPage(
     slug: string, 

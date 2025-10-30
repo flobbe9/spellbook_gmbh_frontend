@@ -3,7 +3,7 @@ import type { WpLinkAttributes } from "./WpLinkAttributes";
 /**
  * A link for a nav menu or to appear in nav bar plainly.
  * 
- * @since 0.0.1
+ * @since latest
  */
 export interface WpNavigationLink {
     label: string;

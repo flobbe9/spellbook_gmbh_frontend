@@ -2,7 +2,7 @@ import type { HTMLAttributes } from "react";
 
 /**
  * @type T the html element type, e.g. `HTMLDivElement`
- * @since 0.0.1
+ * @since latest
  */
 export default interface DefaultProps<T> extends HTMLAttributes<T> {
     /** Components should return `<Fragment />` if `false` (see Conditional.tsx). Default should be `true` */

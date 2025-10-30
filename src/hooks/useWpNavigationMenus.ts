@@ -9,7 +9,7 @@ const QUERY_KEY = ["navigation", "menus"]
 
 /**
  * @returns queryResult with {@link WpNavigationMenu} array
- * @since 0.0.1
+ * @since latest
  */
 export function useWpNavigationMenus(cacheConfig?: CustomUseQueryConfig, fetchConfig?: FetchConfig): DefinedUseQueryResult<WpNavigationMenu[]> {
 

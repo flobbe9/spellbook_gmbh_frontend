@@ -1,6 +1,8 @@
+@use '@styles/helpers/variables' as *;
+
 body {
     font-family: 'spellbook';
-    font-size: 16px;
+    font-size: $fontSize;
     font-weight: 300;
     margin: 0;
 
@@ -36,6 +38,6 @@ body {
     }
 
     h1, h2, h3, h4, h5, h6 {
-        margin: calc(70px - 1em) 0;
+        margin: calc(45px - 1em) 0;
     }
 }

@@ -1,7 +1,7 @@
 import type { LinkTarget } from "../LinkTarget";
 
 /**
- * @since 0.0.1
+ * @since latest
  */
 export interface WpLinkAttributes {
     target: LinkTarget

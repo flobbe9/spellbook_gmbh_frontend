@@ -1,6 +1,6 @@
 
 /**
- * @since 0.0.1
+ * @since latest
  */
 export default class WPBlock {
 

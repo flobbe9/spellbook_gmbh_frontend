@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
+    "@tailwindcss/vite": "^4.1.16",
     "@tanstack/react-query-devtools": "^5.90.2",
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.16",
@@ -32,6 +33,7 @@
     "install": "^0.13.0",
     "npm": "^11.6.2",
     "sass": "^1.93.2",
+    "tailwindcss": "^4.1.16",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.45.0",
     "typescript-transpile-only": "^0.0.4",

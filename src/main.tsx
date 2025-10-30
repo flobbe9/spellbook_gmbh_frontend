@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import App from './components/App.tsx'
 import '@styles/styles.scss';
+import '@styles/tailwind.css';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';

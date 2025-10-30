@@ -3,13 +3,13 @@ import Page from "./Page";
 import Navigation from "./Navigation";
 
 /**
- * @since 0.0.1
+ * @since latest
  */
 export default function App() {
 
     return (
         <BrowserRouter>
-            <Navigation />
+            {/* <Navigation /> */}
 
             <main>
                 <Routes>
