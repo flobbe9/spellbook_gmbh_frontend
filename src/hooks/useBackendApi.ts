@@ -1,29 +1,24 @@
-import { AbstractEntity } from "@/abstracts/backendDefinitions/AbstractEntity";
-import { FetchConfig } from "@/abstracts/CustomFetchOptions";
+import type { FetchConfig } from "@/abstracts/CustomFetchOptions";
 import { CustomResponseFormat } from "@/abstracts/CustomResponseFormat";
-import { CustomUseQueryConfig } from "@/abstracts/CustomUseQueryConfig";
-import { CONTENT_TYPE_APPLICATION_JSON, CONTENT_TYPE_PLAIN_TEXT } from "@/helpers/constants";
+import type { CustomUseQueryConfig } from "@/abstracts/CustomUseQueryOptions";
+import { CONTENT_TYPE_APPLICATION_JSON, CONTENT_TYPE_TEXT_PLAIN } from "@/helpers/constants";
 import { fetchAny, hasCacheBeenInitialized, isHttpResponseNotAlright } from "@/helpers/fetchUtils";
 import { logTrace } from "@/helpers/logUtils";
 import { assertFalsyOrBlankAndThrow } from "@/helpers/utils";
-import { DefinedUseQueryResult, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useHasComponentMounted } from "./useHasComponentMounted";
-
-/** Possible response types returned from backend api endpoints */
-export type BackendApiResponseType = AbstractEntity | AbstractEntity[] | string | boolean | null;
+import { useHasComponentMounted } from "@/hooks/useHasComponentMounted";
+import { useQuery, useQueryClient, type DefinedUseQueryResult } from "@tanstack/react-query";
 
 /**
  * Make an http request to the backend api, attempt to parse the response to json or text, then cache the data.
  * 
  * @param fetchConfig expect json response by default
- * @param cacheOptions by default wont fetch on mount
+ * @param cacheOptions by default will fetch on mount
  * @type T the expected return type of the fetch call
  * @returns DefinedUseQueryResult with data of type `T`. May be `undefined` for a brief moment, while `useQuery`
  * is no initialized yet. Use {@link hasCacheBeenInitialized} for that
  * @since 0.0.1
- * @author f.schikarski
  */
-export function useBackendApi<T extends BackendApiResponseType>(
+export function useBackendApi<T>(
     fetchConfig: FetchConfig,
     cacheOptions: CustomUseQueryConfig
 ): DefinedUseQueryResult<T> {
@@ -32,7 +27,7 @@ export function useBackendApi<T extends BackendApiResponseType>(
     const queryClient = useQueryClient();
 
     const hasMounted = useHasComponentMounted();
-    const { fetchOnMount = false, onError, queryKey } = cacheOptions;
+    const { fetchOnMount = true, onError, queryKey } = cacheOptions;
 
     const queryResult = useQuery<T>({
         queryKey: queryKey,
@@ -46,7 +41,10 @@ export function useBackendApi<T extends BackendApiResponseType>(
         // case: don't want to refetch on mount
         if (!hasMounted && !fetchOnMount) {
             logTrace("still mounting...", fetchConfig.url);
-            return cachedData;
+            if (hasCacheBeenInitialized(queryClient, queryKey))
+                return cachedData;
+                
+            throw new Error("Still mounting...");
         }
 
         const { expectedReturnType = CONTENT_TYPE_APPLICATION_JSON } = fetchConfig;
@@ -67,7 +65,7 @@ export function useBackendApi<T extends BackendApiResponseType>(
             case CONTENT_TYPE_APPLICATION_JSON:
                 return await response.json() as T;
 
-            case CONTENT_TYPE_PLAIN_TEXT:
+            case CONTENT_TYPE_TEXT_PLAIN:
                 return await (response as Response).text() as T;
 
             case "boolean":

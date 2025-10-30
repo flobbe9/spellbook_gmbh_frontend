@@ -1,9 +1,9 @@
 import { CustomResponseFormat } from '@/abstracts/CustomResponseFormat';
-import { FetchArgs } from '@/abstracts/CustomFetchOptions';
+import type { FetchArgs } from '@/abstracts/CustomFetchOptions';
 import { QueryClient } from '@tanstack/react-query';
-import { BASE_URL, CONTENT_TYPE_APPLICATION_JSON, CSRF_HEADER_NAME, CSRF_TOKEN_STORAGE_KEY, FAILED_TO_FETCH_STATUS_CODE } from './constants';
-import { logApiResponse } from './logUtils';
-import { assertFalsyOrBlankAndThrow, equalsIgnoreCaseTrim, isBlank, sleep } from './utils';
+import { BASE_URL, CONTENT_TYPE_APPLICATION_JSON, CSRF_HEADER_NAME, CSRF_TOKEN_STORAGE_KEY, FAILED_TO_FETCH_STATUS_CODE } from '@/helpers/constants';
+import { logApiResponse } from '@/helpers/logUtils';
+import { assertFalsyOrBlankAndThrow, equalsIgnoreCaseTrim, isBlank, sleep } from '@/helpers/utils';
 
 /**
  * Call `fetchAny` with given params, then parse to json.
