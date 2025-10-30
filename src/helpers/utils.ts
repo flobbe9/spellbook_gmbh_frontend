@@ -263,3 +263,93 @@ export function setUrlQueryParam(
             throw new Error(`Invalid 'navigationType': '${navigationType}'`);
     }
 }
+
+/**
+ * Basically calls ```animate()``` but will commit any animation styles to ```element.style```.
+ * 
+ * @param element to animate styles of
+ * @param keyframes see {@link KeyFrame} and {@link PropertyIndexedKeyframes}
+ * @param options of the animation. Will set ```fill = "both"``` by default, this can be overridden though
+ * @returns the animation or ```null``` if given ```element``` is falsy
+ */
+export async function animateAndCommit(element: HTMLElement | undefined | null, keyframes: Keyframe[] | PropertyIndexedKeyframes | null, options?: KeyframeAnimationOptions & { onComplete?: () => void }): Promise<Animation | null> {
+
+    if (!element)
+        return null;
+
+    const animation = element.animate(keyframes, {
+        fill: "both",
+        ...(options ?? {})
+    });
+
+    try {
+        await animation.finished;
+        animation.commitStyles();
+        
+    // might throw AbortError or InvalidStateError, happens when animation is canceled before finished, has no consequences though
+    } catch (e) {
+    }
+    
+    if (options?.onComplete)
+        options.onComplete();
+
+    return animation
+}
+
+/**
+ * Animate element from transparent to solid and set ```display = 'block'```.
+ * 
+ * @param element to fade in
+ * @param options more animation options, see {@link KeyframeAnimationOptions}
+ */
+export async function fadeIn(element: HTMLElement | undefined | null, options?: KeyframeAnimationOptions & { onComplete?: () => void }): Promise<Animation | null> {
+    if (!element)
+        return null;
+
+    const { duration = 100 } = options ?? {};
+
+    element.style.display = "block";
+    return animateAndCommit(
+        element,
+        [
+            { opacity: 0 }, 
+            { opacity: 1 }
+        ],
+        { 
+            duration, 
+            ...(options ?? {})
+        }
+    );
+}
+
+
+/**
+ * Animate element to transparent, then set ```display = 'none'```. Resolves once animation is finished.
+ * 
+ * @param element to fade out
+ * @param options more animation options, see {@link KeyframeAnimationOptions}
+ */
+export async function fadeOut(element: HTMLElement | undefined | null, options?: KeyframeAnimationOptions & { onComplete?: () => void }): Promise<Animation | null> {
+    if (!element)
+        return;
+
+    const { duration = 100, onComplete } = options ?? {};
+
+    const opacity = Number(window.getComputedStyle(element).getPropertyValue("opacity"));
+    return animateAndCommit(
+        element,
+        [
+            { opacity: opacity === -1 ? 1 : opacity }, 
+            { opacity: 0 }
+        ],
+        { 
+            duration,
+            onComplete: () => {
+                if (onComplete)
+                    onComplete();
+                element.style.display = "none";
+            },
+            ...(options || {}) 
+        }
+    );
+}

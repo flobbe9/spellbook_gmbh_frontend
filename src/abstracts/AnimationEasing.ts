@@ -1,0 +1,1 @@
+export type AnimationEasing = "ease" | "ease-in" | "ease-out" | "ease-in-out";
