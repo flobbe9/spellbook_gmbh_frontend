@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Page from "./Page";
-import Navigation from "./Navigation";
 
 /**
  * @since latest

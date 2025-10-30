@@ -19,7 +19,7 @@ import { WpPostType } from "@/abstracts/backendDefinitions/WpPostType";
 export function useWpPage(
     slug: string, 
     postType: WpPostType,
-    cacheConfig?: CustomUseQueryConfig, 
+    cacheConfig?: Omit<CustomUseQueryConfig, "queryKey">, 
     fetchConfig?: FetchConfig
 ): DefinedUseQueryResult<WpPage> {
     const QUERY_KEY = ["page", postType, slug];

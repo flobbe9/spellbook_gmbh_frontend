@@ -1,10 +1,12 @@
 import { WpPostType } from "@/abstracts/backendDefinitions/WpPostType";
+import type { CustomResponseFormat } from "@/abstracts/CustomResponseFormat";
 import type DefaultProps from "@/abstracts/props/DefaultProps";
-import { useWpPage } from "@/hooks/useWpPage";
-import { useParams } from "react-router-dom";
-import ConditionalDiv from "@/components/ConditionalDiv";
 import { getDefaultProps } from "@/abstracts/props/DefaultProps";
-import Overlay from "./Overlay";
+import ConditionalDiv from "@/components/ConditionalDiv";
+import { useWpPage } from "@/hooks/useWpPage";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import _404 from "./_404";
 import Pending from "./Pending";
 
 /**
@@ -13,9 +15,20 @@ import Pending from "./Pending";
 export default function Page(props: DefaultProps<HTMLDivElement>) {
     const { slug } = useParams();
     
-    const { data: wpPage, isPending } = useWpPage(slug ?? '', WpPostType.PAGE);
+    const { data: wpPage, isPending } = useWpPage(slug ?? '', WpPostType.PAGE, {onError: handleError});
+
+    /** Should be `true` if `slug` could not be found */
+    const [is404, set404] = useState(false);
     
     const { ...otherProps } = getDefaultProps("Page", props);
+
+    function handleError(response: CustomResponseFormat): void {
+        if (response.status === 404)
+            set404(true);
+    }
+
+    if (is404)
+        return <_404 />;
 
     return (
         <ConditionalDiv {...otherProps}>

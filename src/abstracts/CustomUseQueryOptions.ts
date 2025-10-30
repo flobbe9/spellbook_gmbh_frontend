@@ -6,5 +6,5 @@ export interface CustomUseQueryConfig {
     
     onError?: (response: CustomResponseFormat) => void, 
     
-    queryKey: string[]
+    queryKey?: string[]
 }
