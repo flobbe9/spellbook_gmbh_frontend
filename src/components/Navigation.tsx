@@ -19,9 +19,9 @@ export default function Navigation(props: DefaultProps<HTMLDivElement>) {
             {navigationMenus?.map(
                 (navigationMenu, i) => (
                     <div key={i}>
-                        Menu: {navigationMenu.label}
+                        <span>Menu: {navigationMenu.label} </span>
                         Items: {navigationMenu.items.map((navigationLink, i) => (
-                            <a href={navigationLink.url} target={navigationLink.linkAttributes.target}>{navigationLink.label}</a>
+                            <a key={i} href={navigationLink.url} target={navigationLink.linkAttributes.target}>{navigationLink.label}</a>
                         ))}
                     </div>
                 ))}

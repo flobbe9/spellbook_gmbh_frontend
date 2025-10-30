@@ -2,6 +2,8 @@ import type DefaultProps from "@/abstracts/props/DefaultProps";
 import Overlay from "./Overlay";
 import { getCssConstant, getCSSValueAsNumber } from "@/helpers/utils";
 import { getDefaultProps } from "@/abstracts/props/DefaultProps";
+import { getRootFontSizePixels } from "@/helpers/projectUtils";
+import { logDebug } from "@/helpers/logUtils";
 
 interface Props extends DefaultProps<HTMLDivElement> {
     /** @see Overlay */
@@ -24,8 +26,7 @@ export default function Pending({
     const componentName = "Pending";
     const { children, ...otherProps } = getDefaultProps(componentName, props);
 
-    const rootFontSize = getCssConstant("fontSize");
-    const rootFontSizeValue = getCSSValueAsNumber(rootFontSize, 2);
+    const rootFontSize = getRootFontSizePixels();
 
     const childrenSizeRem = sizeRem <= .5 ? sizeRem : sizeRem - .5;
 
@@ -39,12 +40,12 @@ export default function Pending({
             {...otherProps}
         >
             <div className={`${componentName}-imageContainer`}>
-                <img className={`${componentName}-dotImage ${componentName}-dotImage-1`} src={"/images/companyNameOTransparent.png"} height={rootFontSizeValue * sizeRem} />
-                <img className={`${componentName}-dotImage ${componentName}-dotImage-2`} src={"/images/companyNameOTransparent.png"} height={rootFontSizeValue * sizeRem} />
-                <img className={`${componentName}-dotImage ${componentName}-dotImage-3`} src={"/images/companyNameOTransparent.png"} height={rootFontSizeValue * sizeRem} />
+                <img className={`${componentName}-dotImage ${componentName}-dotImage-1`} src={"/images/companyNameOTransparent.png"} height={rootFontSize * sizeRem} />
+                <img className={`${componentName}-dotImage ${componentName}-dotImage-2`} src={"/images/companyNameOTransparent.png"} height={rootFontSize * sizeRem} />
+                <img className={`${componentName}-dotImage ${componentName}-dotImage-3`} src={"/images/companyNameOTransparent.png"} height={rootFontSize * sizeRem} />
             </div>
             
-            <div className={`${componentName}-childrenContainer`} style={{fontSize: `${rootFontSizeValue * childrenSizeRem}px`}}>
+            <div className={`${componentName}-childrenContainer`} style={{fontSize: `${rootFontSize * childrenSizeRem}px`}}>
                 {children ?? <div>Lade...</div>}
             </div>
         </Overlay>

@@ -4,10 +4,11 @@
 @forward "@styles/globals";
 @forward "@styles/fonts";
 
+@forward "@styles/components/BlockDimensions";
+@forward "@styles/components/Footer";
+@forward "@styles/components/Navigation";
 @forward "@styles/components/Overlay";
 @forward "@styles/components/Pending";
 @forward "@styles/components/Page";
-@forward "@styles/components/Navigation";
-@forward "@styles/components/Footer";
 
 @forward "@styles/helpers/rootVariables";

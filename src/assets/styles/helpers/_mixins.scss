@@ -1,0 +1,31 @@
+@use "@styles/helpers/variables" as *;
+
+@mixin mobile() {
+    @media (width < $tabletWidth) {
+        @content;
+    }
+}
+
+@mixin tablet() {
+    @media (width >= $tabletWidth) {
+        @content;
+    }
+}
+
+@mixin tabletLandscape() {
+    @media (width >= $tabletLandscapeWidth) {
+        @content;
+    }
+}
+
+@mixin desktop() {
+    @media (width >= $desktopWidth) {
+        @content;
+    }
+}
+
+@mixin desktopMonitor() {
+    @media (width >= $desktopMonitorWidth) {
+        @content;
+    }
+}

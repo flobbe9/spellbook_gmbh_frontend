@@ -1,0 +1,32 @@
+@use "@styles/helpers/mixins" as *;
+@use "@styles/helpers/variables" as *;
+
+.BlockDimensions {
+    &-window-width {
+        width: 100%;
+    }
+
+    &-margin-auto {
+        margin: 0 auto;
+
+        @include mobile() {
+            margin: 0 5px;
+        }
+
+        @include tablet() {
+            width: calc($tabletWidth - 50px);
+        }
+
+        @include tabletLandscape() {
+            width: calc($tabletLandscapeWidth - 150px);
+        }
+        
+        @include desktop() {
+            width: calc($desktopWidth - 150px);
+        }
+
+        @include desktopMonitor() {
+            width: calc($desktopMonitorWidth - 150px);
+        }
+    }
+}

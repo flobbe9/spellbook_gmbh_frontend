@@ -19,6 +19,6 @@ export default interface DefaultProps<T> extends HTMLAttributes<T> {
 export function getDefaultProps<T>(componentName: string, props: DefaultProps<T>): DefaultProps<T> {
     return {
         ...props,
-        className: (componentName ? `${componentName} ` : '') + (props.className ?? '')
+        className: ((componentName ? `${componentName} ` : '') + (props.className ?? '')).trim()
     };
 }

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import _404 from "./_404";
 import Pending from "./Pending";
+import BlockDimensions from "./BlockDimensions";
 
 /**
  * Handle all wordpress pages in here, as well as 404 page if `slug` is invalid.
@@ -36,21 +37,23 @@ export default function Page(props: DefaultProps<HTMLDivElement>) {
         <ConditionalDiv {...otherProps}>
             <Pending isPending={isPending} fitParent={false} />
 
-            <div style={{fontSize: "2em", fontWeight: 300}}>Thin</div>
-            <div style={{fontSize: "2em", fontWeight: 400}}>Regular</div>
+            <BlockDimensions mode="margin-auto">
+                <div style={{fontSize: "2em", fontWeight: 300}}>Thin</div>
+                <div style={{fontSize: "2em", fontWeight: 400}}>Regular</div>
 
-            <div style={{fontSize: "2em", fontWeight: 500}}>Medium</div>
-            <div style={{fontSize: "2em", fontWeight: 600}}>SemiBold</div>
-            <div style={{fontSize: "2em", fontWeight: 700}}>Bold</div>
+                <div style={{fontSize: "2em", fontWeight: 500}}>Medium</div>
+                <div style={{fontSize: "2em", fontWeight: 600}}>SemiBold</div>
+                <div style={{fontSize: "2em", fontWeight: 700}}>Bold</div>
 
-            <h1>h1</h1>
-            <h2>h2</h2>
-            <h3>h3</h3>
-            <h4>h4</h4>
-            <h5>h5</h5>
-            <h6>h6</h6>
+                <h1>h1</h1>
+                <h2>h2</h2>
+                <h3>h3</h3>
+                <h4>h4</h4>
+                <h5>h5</h5>
+                <h6>h6</h6>
 
-            <p>p</p>
+                <p>p</p>
+            </BlockDimensions>
         </ConditionalDiv>
     )
 } 

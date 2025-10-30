@@ -466,3 +466,22 @@ function matchEach(str: string, regexp: RegExp): boolean {
 
     return matches
 }
+
+/**
+ * Insert given ```insertionString``` into given ```targetString``` after given index.
+ * 
+ * I.e: ```insertString("Hello", "X", 1)``` would return ```HXello```.
+ * 
+ * @param targetString string to insert another string into
+ * @param insertionString string to insert 
+ * @param insertionIndex index in ```targetString``` to insert into, i.e ```insertionIndex = 0``` would insert at the start
+ * @returns result string, does not alter ```targetString```
+ */
+export function insertString(targetString: string, insertionString: string, insertionIndex: number): string {
+    let leftHalft = targetString.substring(0, insertionIndex);
+    const rightHalf = targetString.substring(insertionIndex);
+
+    leftHalft += insertionString;
+
+    return leftHalft + rightHalf;
+}

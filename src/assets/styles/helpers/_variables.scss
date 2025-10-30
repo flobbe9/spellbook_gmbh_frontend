@@ -2,6 +2,11 @@
  * Only place sass variables in here
  */
 
-$fontSize: 16px;
 $overlayZIndex: 1;
 $transition: 0.2s;
+
+/** Matches tailwind: https://tailwindcss.com/docs/responsive-design */
+$tabletWidth: 768px; // md
+$tabletLandscapeWidth: 1024px; // lg
+$desktopWidth: 1280px; // xl
+$desktopMonitorWidth: 1536px; // 2xl
