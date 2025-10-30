@@ -2,7 +2,7 @@ import type DefaultProps from "@/abstracts/props/DefaultProps";
 import { getDefaultProps } from "@/abstracts/props/DefaultProps";
 import { forwardRef, useEffect, useImperativeHandle, useRef, type Ref } from "react";
 import ConditionalDiv from "./ConditionalDiv";
-import { animateAndCommit, fadeIn, fadeOut } from "@/helpers/utils";
+import { animateAndCommit, fadeIn, fadeOut, getCssConstant } from "@/helpers/utils";
 
 
 interface Props extends DefaultProps<HTMLDivElement> {
@@ -78,7 +78,7 @@ export default forwardRef(function Overlay(
             easing: "ease-out", 
         };
 
-        fadeOut(background, options);
+        fadeOut(background, {...options, onComplete: () => componentRef.current!.style.zIndex = "-1"});
         fadeOut(children, options);
     }
 
@@ -91,13 +91,14 @@ export default forwardRef(function Overlay(
             easing: "ease-in"
         }
 
+        componentRef.current!.style.zIndex = getCssConstant("overlayZIndex");
         animateAndCommit(
             background,
             { opacity: 0.5 },
             options
         );
 
-        fadeIn(children);
+        fadeIn(children, options);
     }
 
     function handleStateChange(isOverlayVisible: boolean): void {
