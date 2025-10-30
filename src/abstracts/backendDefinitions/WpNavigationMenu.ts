@@ -8,5 +8,5 @@ import type { WpNavigationLink } from "./WpNavigationLink";
 export interface WpNavigationMenu {
     label: string;
 
-    $items: WpNavigationLink[]
+    items: WpNavigationLink[]
 }

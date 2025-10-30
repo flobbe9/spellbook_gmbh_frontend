@@ -10,6 +10,8 @@ import _404 from "./_404";
 import Pending from "./Pending";
 
 /**
+ * Handle all wordpress pages in here, as well as 404 page if `slug` is invalid.
+ * 
  * @since latest
  */
 export default function Page(props: DefaultProps<HTMLDivElement>) {

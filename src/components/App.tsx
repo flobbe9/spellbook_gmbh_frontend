@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Page from "./Page";
+import Navigation from "./Navigation";
+import Footer from "./Footer";
 
 /**
  * @since latest
@@ -8,7 +10,7 @@ export default function App() {
 
     return (
         <BrowserRouter>
-            {/* <Navigation /> */}
+            <Navigation />
 
             <main>
                 <Routes>
@@ -17,7 +19,7 @@ export default function App() {
                 </Routes>
             </main>
 
-            {/* Footer */}
+            <Footer />
         </BrowserRouter>
     )
 }

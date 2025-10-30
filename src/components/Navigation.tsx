@@ -1,17 +1,35 @@
 import type DefaultProps from "@/abstracts/props/DefaultProps";
+import { getDefaultProps } from "@/abstracts/props/DefaultProps";
 import { useWpNavigationLinks } from "@/hooks/useWpNavigationLinks";
 import { useWpNavigationMenus } from "@/hooks/useWpNavigationMenus";
+import ConditionalDiv from "./ConditionalDiv";
 
-
+/**
+ * @since latest
+ */
 export default function Navigation(props: DefaultProps<HTMLDivElement>) {
-
+    const componentName = "Navigation";
+    const { ...otherProps } = getDefaultProps(componentName, props);
+    
     const { data: navigationMenus } = useWpNavigationMenus();
     const { data: navigationLinks } = useWpNavigationLinks();
 
     return (
-        <div>
-            {navigationMenus?.map((navigationMenu, i) => <div key={i}>{navigationMenu.label}</div>)}
-            {navigationLinks?.map((navigationMenu, i) => <div key={i}>{navigationMenu.label}</div>)}
-        </div>
+        <ConditionalDiv {...otherProps}>
+            {navigationMenus?.map(
+                (navigationMenu, i) => (
+                    <div key={i}>
+                        Menu: {navigationMenu.label}
+                        Items: {navigationMenu.items.map((navigationLink, i) => (
+                            <a href={navigationLink.url} target={navigationLink.linkAttributes.target}>{navigationLink.label}</a>
+                        ))}
+                    </div>
+                ))}
+                
+            <span>NavLinks:</span>
+            {navigationLinks?.map((navigationLink, i) => (
+                <a key={i} href={navigationLink.url} target={navigationLink.linkAttributes.target}>{navigationLink.label}</a>
+            ))}
+        </ConditionalDiv>
     )
 }

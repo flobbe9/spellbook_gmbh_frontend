@@ -11,6 +11,7 @@ export default function _404(props: DefaultProps<HTMLDivElement>) {
     return (
         <ConditionalDiv {...otherProps}>
             <h1>404</h1>
+            {children}
         </ConditionalDiv>
     )
 }
