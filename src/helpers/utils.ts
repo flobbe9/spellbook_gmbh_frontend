@@ -106,6 +106,37 @@ export function equalsIgnoreCaseTrim(expected: string | number, actual: string |
 }
 
 /**
+ * @param arr array to search in
+ * @param value string or number to look for
+ * @returns true if value is included in array. Uses {@link equalsIgnoreCase} for comparison instead of ```includes()```.
+ */
+export function includesIgnoreCase(arr: (string | number)[] | string, value: string | number): boolean {
+    // case: arr is string
+    if (typeof arr === "string")
+        return arr.toLowerCase().includes(value.toString().toLowerCase());
+
+    const result = arr.find(val => equalsIgnoreCase(val, value));
+
+    return result ? true : false;
+}
+
+
+/**
+ * @param arr array to search in
+ * @param value string or number to look for
+ * @returns true if value is included in array. Uses {@link equalsIgnoreCaseTrim} for comparison instead of ```includes()```.
+ */
+export function includesIgnoreCaseTrim(arr: (string | number)[] | string, value: string | number): boolean {
+    // case: arr is string
+    if (typeof arr === "string")
+        return arr.trim().toLowerCase().includes(value.toString().trim().toLowerCase());
+
+    const result = arr.find(val => equalsIgnoreCaseTrim(val, value));
+
+    return result ? true : false;
+}
+
+/**
  * Await a promise that resolves after given delay with given ```resolveValue```.
  * 
  * @param delay in ms
