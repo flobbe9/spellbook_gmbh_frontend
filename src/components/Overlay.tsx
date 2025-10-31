@@ -1,5 +1,5 @@
 import type DefaultProps from "@/abstracts/props/DefaultProps";
-import { getDefaultProps } from "@/abstracts/props/DefaultProps";
+import { useDefaultProps } from "@/hooks/useDefaultProps";
 import { forwardRef, useEffect, useImperativeHandle, useRef, type Ref } from "react";
 import ConditionalDiv from "./ConditionalDiv";
 import { animateAndCommit, fadeIn, fadeOut, getCssConstant } from "@/helpers/utils";
@@ -47,7 +47,7 @@ export default forwardRef(function Overlay(
     ref: Ref<HTMLDivElement>
 ) {
     const componentName = "Overlay";
-    const { style, children, ...otherProps } = getDefaultProps(componentName, props);
+    const { style, children, ...otherProps } = useDefaultProps(componentName, props);
 
     const componentRef = useRef<HTMLDivElement>(null);
     const backgroundRef = useRef<HTMLDivElement>(null);

@@ -14,7 +14,7 @@ export const CSRF_HEADER_NAME = "csrf";
 export const CSRF_TOKEN_STORAGE_KEY = "csrf";
 export const FAILED_TO_FETCH_STATUS_CODE = 503;
 
-
+export const CARBON_FIELDS_BLOCK_TYPE_CATEGORY = "carbon-fields";
 
 
 // Sanitizer

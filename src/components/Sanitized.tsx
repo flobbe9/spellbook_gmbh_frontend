@@ -1,5 +1,5 @@
 import type DefaultProps from "@/abstracts/props/DefaultProps";
-import { getDefaultProps } from "@/abstracts/props/DefaultProps";
+import { useDefaultProps } from "@/hooks/useDefaultProps";
 import { includesIgnoreCaseTrim } from "@/helpers/utils";
 import parse, { attributesToProps, Element, type HTMLReactParserOptions } from "html-react-parser";
 import React, { type JSX, type ReactNode } from "react";
@@ -22,6 +22,8 @@ interface Props extends DefaultProps<any> {
 /**
  * Component that sanitizes and parses given html string safely. See default sanizing options here: {@link DEFAULT_HTML_SANTIZER_OPTIONS}
  * 
+ * NOTE: expect one parent only or will have duplicate react keys
+ * 
  * @since 0.0.1
  */
 export default function Sanitized({
@@ -32,8 +34,7 @@ export default function Sanitized({
     rendered = true,
     ...props
 }: Props) {
-
-    const { id, className, style, children } = getDefaultProps("Sanitized", props);
+    const { id, className, style, children, ...otherProps } = useDefaultProps("Sanitized", props);
 
     // add component props to parsed html
     const defaultParserOptions: HTMLReactParserOptions = {
@@ -87,8 +88,8 @@ export default function Sanitized({
         // combine node and component properties
         return {
             ...nodeProps,
-            id: (nodeProps.id || "") + (id || ""),
-            className: (nodeProps.className || "") + " " + (className || ""),
+            id: ((nodeProps.id || "") + (id || "")).trim(),
+            className: ((nodeProps.className || "") + " " + (className || "")).trim(),
             style: {...nodeProps.style, ...style},
             key: childIndex
         }
@@ -123,7 +124,7 @@ export default function Sanitized({
     }
 
     return (
-        <Conditional>
+        <Conditional {...otherProps}>
             {/* InnerHTML */}
             {
                 parse(

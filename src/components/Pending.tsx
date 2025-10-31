@@ -1,5 +1,5 @@
 import type DefaultProps from "@/abstracts/props/DefaultProps";
-import { getDefaultProps } from "@/abstracts/props/DefaultProps";
+import { useDefaultProps } from "@/hooks/useDefaultProps";
 import { getRootFontSizePixels } from "@/helpers/projectUtils";
 import Overlay from "./Overlay";
 
@@ -22,7 +22,7 @@ export default function Pending({
     ...props
 }: Props) {
     const componentName = "Pending";
-    const { children, ...otherProps } = getDefaultProps(componentName, props);
+    const { children, ...otherProps } = useDefaultProps(componentName, props);
 
     const rootFontSize = getRootFontSizePixels();
 

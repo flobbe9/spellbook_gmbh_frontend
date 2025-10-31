@@ -8,17 +8,3 @@ export default interface DefaultProps<T extends HTMLElement = HTMLElement> exten
     /** Components should return `<Fragment />` if `false` (see Conditional.tsx). Default should be `true` */
     rendered?: boolean
 }
-
-/**
- * Add `componentName` to `className`.
- * 
- * @param componentName to add to className
- * @param props passed to this component
- * @returns slightly modified `props`
- */
-export function getDefaultProps<T extends HTMLElement = HTMLElement>(componentName: string, props: DefaultProps<T>): DefaultProps<T> {
-    return {
-        ...props,
-        className: ((componentName ? `${componentName} ` : '') + (props.className ?? '')).trim()
-    };
-}

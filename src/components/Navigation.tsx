@@ -1,5 +1,5 @@
 import type DefaultProps from "@/abstracts/props/DefaultProps";
-import { getDefaultProps } from "@/abstracts/props/DefaultProps";
+import { useDefaultProps } from "@/hooks/useDefaultProps";
 import { useWpNavigationLinks } from "@/hooks/useWpNavigationLinks";
 import { useWpNavigationMenus } from "@/hooks/useWpNavigationMenus";
 import ConditionalDiv from "./ConditionalDiv";
@@ -9,7 +9,7 @@ import ConditionalDiv from "./ConditionalDiv";
  */
 export default function Navigation(props: DefaultProps<HTMLDivElement>) {
     const componentName = "Navigation";
-    const { ...otherProps } = getDefaultProps(componentName, props);
+    const { ...otherProps } = useDefaultProps(componentName, props);
     
     const { data: navigationMenus } = useWpNavigationMenus();
     const { data: navigationLinks } = useWpNavigationLinks();

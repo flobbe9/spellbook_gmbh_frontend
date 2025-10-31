@@ -1,12 +1,12 @@
 import type DefaultProps from "@/abstracts/props/DefaultProps";
 import ConditionalDiv from "./ConditionalDiv";
-import { getDefaultProps } from "@/abstracts/props/DefaultProps";
+import { useDefaultProps } from "@/hooks/useDefaultProps";
 
 /**
  * @since latest
  */
 export default function _404(props: DefaultProps<HTMLDivElement>) {
-    const { children, ...otherProps } = getDefaultProps("_404", props);
+    const { children, ...otherProps } = useDefaultProps("_404", props);
 
     return (
         <ConditionalDiv {...otherProps}>

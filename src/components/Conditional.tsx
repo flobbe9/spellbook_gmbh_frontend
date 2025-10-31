@@ -4,9 +4,9 @@ import { Fragment } from "react/jsx-runtime";
 /**
  * @since latest
  */
-export default function Conditional({ rendered = true, ...props}: DefaultProps<HTMLDivElement>) {
+export default function Conditional({ rendered = true, children }: DefaultProps<HTMLDivElement>) {
     if (!rendered)
         return <Fragment />;
 
-    return props.children;
+    return children;
 }
