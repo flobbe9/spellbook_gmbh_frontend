@@ -1,9 +1,7 @@
 import type DefaultProps from "@/abstracts/props/DefaultProps";
-import Overlay from "./Overlay";
-import { getCssConstant, getCSSValueAsNumber } from "@/helpers/utils";
 import { getDefaultProps } from "@/abstracts/props/DefaultProps";
 import { getRootFontSizePixels } from "@/helpers/projectUtils";
-import { logDebug } from "@/helpers/logUtils";
+import Overlay from "./Overlay";
 
 interface Props extends DefaultProps<HTMLDivElement> {
     /** @see Overlay */

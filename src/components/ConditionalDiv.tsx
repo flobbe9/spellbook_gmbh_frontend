@@ -6,7 +6,7 @@ import Conditional from "./Conditional";
  * @since latest
  */
 export default forwardRef(function ConditionalDiv(
-    {children, ...props}: DefaultProps<HTMLDivElement>,
+    {children, ...props}: DefaultProps,
     ref: Ref<HTMLDivElement>
 ) {
     return (

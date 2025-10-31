@@ -7,8 +7,8 @@ import { useWpPage } from "@/hooks/useWpPage";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import _404 from "./_404";
-import Pending from "./Pending";
 import BlockDimensions from "./BlockDimensions";
+import Pending from "./Pending";
 
 /**
  * Handle all wordpress pages in here, as well as 404 page if `slug` is invalid.
@@ -22,7 +22,7 @@ export default function Page(props: DefaultProps<HTMLDivElement>) {
 
     /** Should be `true` if `slug` could not be found */
     const [is404, set404] = useState(false);
-    
+
     const { ...otherProps } = getDefaultProps("Page", props);
 
     function handleError(response: CustomResponseFormat): void {

@@ -8,5 +8,5 @@ import { getCSSValueAsNumber } from "./utils";
 
 export function getRootFontSizePixels(): number {
     const body = document.documentElement.querySelector("body");
-    return getCSSValueAsNumber(getComputedStyle(body).getPropertyValue("fontSize"), 2);
+    return getCSSValueAsNumber(getComputedStyle(body).getPropertyValue("font-size"), 2);
 }
