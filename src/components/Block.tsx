@@ -8,6 +8,7 @@ import BlockDimensions from "./BlockDimensions";
 import ButtonLinkBlock from "./blocks/ButtonLinkBlock";
 import SpacerBlock from "./blocks/SpacerBlock";
 import TextBlock from "./blocks/TextBlock";
+import SeparatorBlock from "./blocks/SeparatorBlock";
 
 export interface BlockProps extends DefaultProps {
     wpBlock: WPBlock,
@@ -24,6 +25,13 @@ export default function Block({...props}: BlockProps) {
     const { children, ...otherProps } = useDefaultProps(componentName, props);
 
     switch (props.wpBlock.blockName) {
+        case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/trenner`:
+            return (
+                <BlockDimensions mode="margin-auto">
+                    <SeparatorBlock {...otherProps} />
+                </BlockDimensions>
+            );
+
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/leerer-abnschnitt`:
             return (
                 <BlockDimensions mode="margin-auto">

@@ -33,10 +33,8 @@ export default function Page(props: DefaultProps<HTMLDivElement>) {
     }, [wpPage])
 
     function mapBlocks(): JSX.Element[] {
-        return wpPage?.blocks?.map((wpBlock, i) => {
-            logDebug("map", i)
-            return <Block key={i} wpBlock={wpBlock} />;
-        })
+        return wpPage?.blocks?.map((wpBlock, i) => 
+            <Block key={i} wpBlock={wpBlock} />)
     }
 
     function handleError(response: CustomResponseFormat): void {
