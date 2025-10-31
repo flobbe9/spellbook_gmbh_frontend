@@ -1,6 +1,6 @@
 import { assertFalsyOrBlankAndThrow, isBlank } from "@/helpers/utils";
-import type WpBlock from "./WpBlock";
-import { getWpBlockFieldPrefix } from "./WpBlock";
+import type WpBlock from "../WpBlock";
+import { getWpBlockFieldPrefix } from "../WpBlock";
 
 /**
  * @since latest

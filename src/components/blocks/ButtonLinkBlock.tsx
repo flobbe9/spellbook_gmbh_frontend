@@ -1,4 +1,4 @@
-import { parseWpButtonLinkBlock } from "@/abstracts/backendDefinitions/WpButtonLinkBlock";
+import { parseWpButtonLinkBlock } from "@/abstracts/backendDefinitions/blocks/WpButtonLinkBlock";
 import { useBlockProps } from "@/hooks/useBlockProps";
 import type { BlockProps } from "../Block";
 import Conditional from "../Conditional";

@@ -1,4 +1,4 @@
-import { assertFalsyOrBlankAndThrow } from "@/helpers/utils";
+import { isBlank } from "@/helpers/utils";
 
 /**
  * @since latest
@@ -18,11 +18,12 @@ export default class WpBlock {
  * Prepend this to child block field names.
  * 
  * @param wpBlockName in backend it's called "blockType", means the full "blockTypeCategory/blockName", e.g. "carbon-fields/text"
- * @returns parsed name portion (everything after the first "/") to lowercase and replacing "-" with "_". Ends with "_"
+ * @returns parsed name portion (everything after the first "/") to lowercase and replacing "-" with "_". Ends with "_". Return empty string if arg is falsy
  * @see "CustomBlockWrapper::parseName()" in backend
  */
 export function getWpBlockFieldPrefix(wpBlockName: string): string {
-    assertFalsyOrBlankAndThrow(wpBlockName);
+    if (isBlank(wpBlockName))
+        return ''
 
     const wpBlockNameSplit = wpBlockName.split('/');
     if (!wpBlockNameSplit || wpBlockNameSplit.length < 2)

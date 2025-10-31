@@ -1,12 +1,13 @@
 import type WPBlock from "@/abstracts/backendDefinitions/WpBlock";
 import type DefaultProps from "@/abstracts/props/DefaultProps";
-import { useDefaultProps } from "@/hooks/useDefaultProps";
-import { logError } from "@/helpers/logUtils";
-import { Fragment } from "react/jsx-runtime";
 import { CARBON_FIELDS_BLOCK_TYPE_CATEGORY } from "@/helpers/constants";
+import { logError } from "@/helpers/logUtils";
+import { useDefaultProps } from "@/hooks/useDefaultProps";
+import { Fragment } from "react/jsx-runtime";
 import BlockDimensions from "./BlockDimensions";
-import TextBlock from "./blocks/TextBlock";
 import ButtonLinkBlock from "./blocks/ButtonLinkBlock";
+import SpacerBlock from "./blocks/SpacerBlock";
+import TextBlock from "./blocks/TextBlock";
 
 export interface BlockProps extends DefaultProps {
     wpBlock: WPBlock,
@@ -23,6 +24,13 @@ export default function Block({...props}: BlockProps) {
     const { children, ...otherProps } = useDefaultProps(componentName, props);
 
     switch (props.wpBlock.blockName) {
+        case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/leerer-abnschnitt`:
+            return (
+                <BlockDimensions mode="margin-auto">
+                    <SpacerBlock {...otherProps} />
+                </BlockDimensions>
+            );
+
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/button-link`:
             return (
                 <BlockDimensions mode="margin-auto">
