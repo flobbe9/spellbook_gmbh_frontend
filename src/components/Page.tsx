@@ -1,16 +1,16 @@
 import { WpPostType } from "@/abstracts/backendDefinitions/WpPostType";
 import type { CustomResponseFormat } from "@/abstracts/CustomResponseFormat";
 import type DefaultProps from "@/abstracts/props/DefaultProps";
-import { useDefaultProps } from "@/hooks/useDefaultProps";
 import ConditionalDiv from "@/components/ConditionalDiv";
+import { logDebug } from "@/helpers/logUtils";
+import { useDefaultProps } from "@/hooks/useDefaultProps";
 import { useWpPage } from "@/hooks/useWpPage";
-import { useState } from "react";
+import { useEffect, useState, type JSX } from "react";
 import { useParams } from "react-router-dom";
 import _404 from "./_404";
+import Block from "./Block";
 import BlockDimensions from "./BlockDimensions";
 import Pending from "./Pending";
-import Block from "./Block";
-import { logDebug } from "@/helpers/logUtils";
 
 /**
  * Handle all wordpress pages in here, as well as 404 page if `slug` is invalid.
@@ -24,8 +24,20 @@ export default function Page(props: DefaultProps<HTMLDivElement>) {
 
     /** Should be `true` if `slug` could not be found */
     const [is404, set404] = useState(false);
+    const [blocks, setBlocks] = useState<JSX.Element[]>([])
 
     const { ...otherProps } = useDefaultProps("Page", props);
+
+    useEffect(() => {
+        setBlocks(mapBlocks());
+    }, [wpPage])
+
+    function mapBlocks(): JSX.Element[] {
+        return wpPage?.blocks?.map((wpBlock, i) => {
+            logDebug("map", i)
+            return <Block key={i} wpBlock={wpBlock} />;
+        })
+    }
 
     function handleError(response: CustomResponseFormat): void {
         if (response.status === 404)
@@ -39,12 +51,8 @@ export default function Page(props: DefaultProps<HTMLDivElement>) {
         <ConditionalDiv {...otherProps}>
             <Pending isPending={isPending} fitParent={false} />
 
-            {/* TODO: consider state for this */}
-            {wpPage?.blocks?.map((wpBlock, i) => {
-                logDebug("map", i)
-                return <Block key={i} wpBlock={wpBlock} />;
-            })}
-
+            {blocks}
+{/* 
             <BlockDimensions mode="margin-auto">
                 <div style={{fontSize: "2em", fontWeight: 300}}>Thin</div>
                 <div style={{fontSize: "2em", fontWeight: 400}}>Regular</div>
@@ -61,7 +69,7 @@ export default function Page(props: DefaultProps<HTMLDivElement>) {
                 <h6>h6</h6>
 
                 <p>p</p>
-            </BlockDimensions>
+            </BlockDimensions> */}
         </ConditionalDiv>
     )
 } 

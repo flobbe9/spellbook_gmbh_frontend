@@ -3,13 +3,13 @@ import { assertFalsyOrBlankAndThrow } from "@/helpers/utils";
 /**
  * @since latest
  */
-export default class WPBlock {
+export default class WpBlock {
     /** `null` beeing equivalent to a linke break */
     blockName: string | null;
 
     attrs: object;
 
-    innerBlocks: WPBlock[];
+    innerBlocks: WpBlock[];
 
     innerHTML: string;
 }

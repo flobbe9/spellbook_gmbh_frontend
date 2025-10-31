@@ -6,6 +6,7 @@ import { Fragment } from "react/jsx-runtime";
 import { CARBON_FIELDS_BLOCK_TYPE_CATEGORY } from "@/helpers/constants";
 import BlockDimensions from "./BlockDimensions";
 import TextBlock from "./blocks/TextBlock";
+import ButtonLinkBlock from "./blocks/ButtonLinkBlock";
 
 export interface BlockProps extends DefaultProps {
     wpBlock: WPBlock,
@@ -22,6 +23,13 @@ export default function Block({...props}: BlockProps) {
     const { children, ...otherProps } = useDefaultProps(componentName, props);
 
     switch (props.wpBlock.blockName) {
+        case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/button-link`:
+            return (
+                <BlockDimensions mode="margin-auto">
+                    <ButtonLinkBlock {...otherProps} />
+                </BlockDimensions>
+            );
+
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/text`:
             return (
                 <BlockDimensions mode="margin-auto">
