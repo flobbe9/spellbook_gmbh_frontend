@@ -1,0 +1,23 @@
+.BoxBlock {
+    &-background-image, &-simpleBlockDimensions {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+    }
+
+    &-background-image-fixed {
+        background-repeat: repeat;
+        background-attachment: fixed;
+    }
+
+    &-background-color, &-simpleBlockDimensions {
+
+    }
+
+    &-simpleBlockDimensions {
+        padding: 20px;
+    }
+
+    // TODO
+    min-height: 500px;
+}

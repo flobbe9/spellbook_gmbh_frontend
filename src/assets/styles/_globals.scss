@@ -5,7 +5,7 @@ body {
     font-family: 'spellbook';
     font-weight: 300;
     margin: 0;
-    padding-right: 2px; // scroll-bar width, prevent horizontal scroll
+    // padding-right: 2px; // scroll-bar width, prevent horizontal scroll
     position: relative;
     
     @include mobile() {

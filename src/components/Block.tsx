@@ -1,17 +1,18 @@
-import type WPBlock from "@/abstracts/backendDefinitions/WpBlock";
-import type DefaultProps from "@/abstracts/props/DefaultProps";
+import type WpBlock from "@/abstracts/backendDefinitions/WpBlock";
 import { CARBON_FIELDS_BLOCK_TYPE_CATEGORY } from "@/helpers/constants";
 import { logError } from "@/helpers/logUtils";
 import { useDefaultProps } from "@/hooks/useDefaultProps";
 import { Fragment } from "react/jsx-runtime";
-import BlockDimensions from "./BlockDimensions";
+import BlockDimensions, { type BlockDimensionProps } from "./BlockDimensions";
+import BoxBlock from "./blocks/BoxBlock";
 import ButtonLinkBlock from "./blocks/ButtonLinkBlock";
+import SeparatorBlock from "./blocks/SeparatorBlock";
 import SpacerBlock from "./blocks/SpacerBlock";
 import TextBlock from "./blocks/TextBlock";
-import SeparatorBlock from "./blocks/SeparatorBlock";
+import type DefaultProps from "@/abstracts/props/DefaultProps";
 
 export interface BlockProps extends DefaultProps {
-    wpBlock: WPBlock,
+    wpBlock: WpBlock,
     /** * The parent's full `blockName` (blockTypeCategory + bckend blockName). Omit if no parent*/
     parentBlockName?: string,
 }
@@ -20,35 +21,43 @@ export interface BlockProps extends DefaultProps {
  * @returns the specific block component passing `props.children` or just `props.children` if no implementation
  * @since latest
  */
-export default function Block({...props}: BlockProps) {
+export default function Block(props: BlockProps & { blockDimensionProps?: BlockDimensionProps }) {
     const componentName = "Block";
     const { children, ...otherProps } = useDefaultProps(componentName, props);
+    const { mode } = props.blockDimensionProps;
 
     switch (props.wpBlock.blockName) {
+        case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/box`:
+            return (
+                <BlockDimensions mode={mode ?? "window-width"} {...props.blockDimensionProps}>
+                    <BoxBlock {...otherProps} />
+                </BlockDimensions>
+            );
+
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/trenner`:
             return (
-                <BlockDimensions mode="margin-auto">
+                <BlockDimensions mode={mode ?? "margin-auto"} {...props.blockDimensionProps}>
                     <SeparatorBlock {...otherProps} />
                 </BlockDimensions>
             );
 
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/leerer-abnschnitt`:
             return (
-                <BlockDimensions mode="margin-auto">
+                <BlockDimensions mode={mode ?? "margin-auto"} {...props.blockDimensionProps}>
                     <SpacerBlock {...otherProps} />
                 </BlockDimensions>
             );
 
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/button-link`:
             return (
-                <BlockDimensions mode="margin-auto">
+                <BlockDimensions mode={mode ?? "margin-auto"} {...props.blockDimensionProps}>
                     <ButtonLinkBlock {...otherProps} />
                 </BlockDimensions>
             );
 
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/text`:
             return (
-                <BlockDimensions mode="margin-auto">
+                <BlockDimensions mode={mode ?? "margin-auto"} {...props.blockDimensionProps}>
                     <TextBlock {...otherProps} />
                 </BlockDimensions>
             );

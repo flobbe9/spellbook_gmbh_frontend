@@ -2,14 +2,12 @@ import { WpPostType } from "@/abstracts/backendDefinitions/WpPostType";
 import type { CustomResponseFormat } from "@/abstracts/CustomResponseFormat";
 import type DefaultProps from "@/abstracts/props/DefaultProps";
 import ConditionalDiv from "@/components/ConditionalDiv";
-import { logDebug } from "@/helpers/logUtils";
 import { useDefaultProps } from "@/hooks/useDefaultProps";
 import { useWpPage } from "@/hooks/useWpPage";
 import { useEffect, useState, type JSX } from "react";
 import { useParams } from "react-router-dom";
 import _404 from "./_404";
 import Block from "./Block";
-import BlockDimensions from "./BlockDimensions";
 import Pending from "./Pending";
 
 /**
@@ -34,7 +32,7 @@ export default function Page(props: DefaultProps<HTMLDivElement>) {
 
     function mapBlocks(): JSX.Element[] {
         return wpPage?.blocks?.map((wpBlock, i) => 
-            <Block key={i} wpBlock={wpBlock} />)
+            <Block key={i} wpBlock={wpBlock} blockDimensionProps={{mode: null}} />)
     }
 
     function handleError(response: CustomResponseFormat): void {
@@ -47,7 +45,7 @@ export default function Page(props: DefaultProps<HTMLDivElement>) {
 
     return (
         <ConditionalDiv {...otherProps}>
-            <Pending isPending={isPending} fitParent={false} />
+            <Pending isPending={isPending} />
 
             {blocks}
 {/* 

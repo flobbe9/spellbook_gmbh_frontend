@@ -29,4 +29,8 @@
             width: calc($desktopMonitorWidth - 150px);
         }
     }
+
+    &-fit-content {
+        width: fit-content;
+    }
 }
