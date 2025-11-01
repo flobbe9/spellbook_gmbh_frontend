@@ -11,6 +11,7 @@ import SpacerBlock from "./blocks/SpacerBlock";
 import TextBlock from "./blocks/TextBlock";
 import type DefaultProps from "@/abstracts/props/DefaultProps";
 import AccordionBlock from "./blocks/AccordionBlock";
+import SliderBlock from "./blocks/SliderBlock";
 
 export interface BlockProps extends DefaultProps {
     wpBlock: WpBlock,
@@ -35,6 +36,13 @@ export default function Block(props: BlockProps & { blockDimensionProps?: BlockD
                 </BlockDimensions>
             );
 
+        case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/slider`:
+            return (
+                <BlockDimensions {...props.blockDimensionProps} mode={mode ?? "margin-auto"}>
+                    <SliderBlock {...otherProps} />
+                </BlockDimensions>
+            );
+            
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/akkordeon`:
             return (
                 <BlockDimensions {...props.blockDimensionProps} mode={mode ?? "margin-auto"}>
