@@ -10,6 +10,7 @@ import SeparatorBlock from "./blocks/SeparatorBlock";
 import SpacerBlock from "./blocks/SpacerBlock";
 import TextBlock from "./blocks/TextBlock";
 import type DefaultProps from "@/abstracts/props/DefaultProps";
+import AccordionBlock from "./blocks/AccordionBlock";
 
 export interface BlockProps extends DefaultProps {
     wpBlock: WpBlock,
@@ -29,35 +30,42 @@ export default function Block(props: BlockProps & { blockDimensionProps?: BlockD
     switch (props.wpBlock.blockName) {
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/box`:
             return (
-                <BlockDimensions mode={mode ?? "window-width"} {...props.blockDimensionProps}>
+                <BlockDimensions {...props.blockDimensionProps} mode={mode ?? "window-width"}>
                     <BoxBlock {...otherProps} />
+                </BlockDimensions>
+            );
+
+        case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/akkordeon`:
+            return (
+                <BlockDimensions {...props.blockDimensionProps} mode={mode ?? "margin-auto"}>
+                    <AccordionBlock {...otherProps} />
                 </BlockDimensions>
             );
 
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/trenner`:
             return (
-                <BlockDimensions mode={mode ?? "margin-auto"} {...props.blockDimensionProps}>
+                <BlockDimensions {...props.blockDimensionProps} mode={mode ?? "margin-auto"}>
                     <SeparatorBlock {...otherProps} />
                 </BlockDimensions>
             );
 
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/leerer-abnschnitt`:
             return (
-                <BlockDimensions mode={mode ?? "margin-auto"} {...props.blockDimensionProps}>
+                <BlockDimensions {...props.blockDimensionProps} mode={mode ?? "margin-auto"}>
                     <SpacerBlock {...otherProps} />
                 </BlockDimensions>
             );
 
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/button-link`:
             return (
-                <BlockDimensions mode={mode ?? "margin-auto"} {...props.blockDimensionProps}>
+                <BlockDimensions {...props.blockDimensionProps} mode={mode ?? "margin-auto"}>
                     <ButtonLinkBlock {...otherProps} />
                 </BlockDimensions>
             );
 
         case `${CARBON_FIELDS_BLOCK_TYPE_CATEGORY}/text`:
             return (
-                <BlockDimensions mode={mode ?? "margin-auto"} {...props.blockDimensionProps}>
+                <BlockDimensions {...props.blockDimensionProps} mode={mode ?? "margin-auto"}>
                     <TextBlock {...otherProps} />
                 </BlockDimensions>
             );

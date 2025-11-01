@@ -1,81 +1,84 @@
 @use '@styles/helpers/variables' as *;
 @use "@styles/helpers/mixins" as *;
 
-body {
-    font-family: 'spellbook';
-    font-weight: 300;
-    margin: 0;
-    // padding-right: 2px; // scroll-bar width, prevent horizontal scroll
-    position: relative;
-    
-    @include mobile() {
-        font-size: 12px;
-
-        h1, h2, h3, h4, h5, h6 {
-            margin: calc(30px - 1em) 0;
-        }
-    }
-
-    @include tablet() {
-        font-size: 14px;
-
-        h1, h2, h3, h4, h5, h6 {
-            margin: calc(35px - 1em) 0;
-        }
-    }
-
-    @include tabletLandscape() {
-        font-size: 15px;
-
-        h1, h2, h3, h4, h5, h6 {
-            margin: calc(40px - 1em) 0;
-        }
-    }
-    
-    @include desktop() {
-        font-size: 16px;
-
-        h1, h2, h3, h4, h5, h6 {
-            margin: calc(45px - 1em) 0;
-        }
-    }
-
-    @include desktopMonitor() {
-        font-size: 18px;
+html {
+    body {
+        font-family: 'spellbook';
+        font-weight: 300;
+        line-height: normal;
+        margin: 0;
+        // padding-right: 2px; // scroll-bar width, prevent horizontal scroll
+        position: relative;
         
-        h1, h2, h3, h4, h5, h6 {
-            margin: calc(50px - 1em) 0;
+        @include mobile() {
+            font-size: 12px;
+
+            h1, h2, h3, h4, h5, h6 {
+                margin: calc(30px - 1em) 0;
+            }
         }
-    }
 
-    h1 {
-        font-size: 3em;
-        font-weight: 700;
-    }
+        @include tablet() {
+            font-size: 14px;
 
-    h2 {
-        font-size: 2.3em;
-        font-weight: 600;
-        margin: 25px 0;
-    }
+            h1, h2, h3, h4, h5, h6 {
+                margin: calc(35px - 1em) 0;
+            }
+        }
 
-    h3 {
-        font-size: 2em;
-        font-weight: 500;
-    }
+        @include tabletLandscape() {
+            font-size: 15px;
 
-    h4 {
-        font-size: 1.7em;
-        font-weight: 400;
-    }
+            h1, h2, h3, h4, h5, h6 {
+                margin: calc(40px - 1em) 0;
+            }
+        }
+        
+        @include desktop() {
+            font-size: 16px;
 
-    h5 {
-        font-size: 1.5em;
-        font-weight: 400;
-    }
+            h1, h2, h3, h4, h5, h6 {
+                margin: calc(45px - 1em) 0;
+            }
+        }
 
-    h6 {
-        font-size: 1.3em;
-        font-weight: 400;
+        @include desktopMonitor() {
+            font-size: 18px;
+            
+            h1, h2, h3, h4, h5, h6 {
+                margin: calc(50px - 1em) 0;
+            }
+        }
+
+        h1 {
+            font-size: 3em;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2.3em;
+            font-weight: 600;
+            margin: 25px 0;
+        }
+
+        h3 {
+            font-size: 2em;
+            font-weight: 500;
+        }
+
+        h4 {
+            font-size: 1.7em;
+            font-weight: 400;
+        }
+
+        h5 {
+            font-size: 1.5em;
+            font-weight: 400;
+        }
+
+        h6 {
+            font-size: 1.3em;
+            font-weight: 400;
+        }
     }
 }

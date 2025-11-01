@@ -30,6 +30,9 @@ export default function BoxBlock(props: BlockProps) {
      * Style the `<BlockDimensionProps>` of every simple block as block wrapper, passing background color etc
      */
     function mapSimpleBlocks(): JSX.Element[] {
+        if (!parsedWpBlock?.simpleBlocks)
+            return [];
+        
         return parsedWpBlock.simpleBlocks
             .map((wpSimpleBlock, i) => { 
                 // for the direct block parent
