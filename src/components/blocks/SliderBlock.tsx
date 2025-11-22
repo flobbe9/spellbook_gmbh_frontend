@@ -1,13 +1,11 @@
 import { parseWpSliderBlock } from "@/abstracts/backendDefinitions/blocks/WpSliderBlock";
 import { useBlockProps } from "@/hooks/useBlockProps";
 import { useWindowWidth } from "@/hooks/useWindowWidth";
-import { type JSX, useEffect, useRef, useState } from "react";
+import { type JSX, useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import type { BlockProps } from "../Block";
 import ConditionalDiv from "../ConditionalDiv";
 import Sanitized from "../Sanitized";
-import { logDebug } from "@/helpers/logUtils";
-import { useHasComponentMounted } from "@/hooks/useHasComponentMounted";
 import SliderVideo from "../SliderVideo";
 
 /**

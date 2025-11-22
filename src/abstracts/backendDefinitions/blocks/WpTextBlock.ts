@@ -26,7 +26,25 @@ export function parseWpTextBlock(wpBlock: WPBlock, parentBlockName?: string): Wp
     const rawFieldName = "text_rich_text";
     const fieldName = !isBlank(parentBlockName) ? getWpBlockFieldPrefix(parentBlockName) + rawFieldName : rawFieldName;
 
+    let html: string = data[fieldName] ?? '';
+
+    // "read more"
+    html = html.replace(
+        "<!--more-->", 
+        `
+            <div class='TextBlock-read-more'>
+                <hr>
+                <span class='TextBlock-read-more-label'>MORE</span>
+            </div>      
+        `
+    );
+
+    // fucked up <caption>
+    html = html.replaceAll("[caption", "<figcaption");
+    html = html.replaceAll("[/caption]", "</figcaption>");
+    html = html.replaceAll("]", ">");
+
     return { 
-        html: data[fieldName] ?? ''
+        html
     }
 }

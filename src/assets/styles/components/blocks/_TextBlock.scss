@@ -1,0 +1,25 @@
+.TextBlock {
+    img {
+        margin-top: 0;
+        vertical-align: bottom;
+    }
+
+    &-read-more {
+        position: relative;
+
+        &-label {
+            background-color: white;
+            color: gray;
+            left: 45%;
+            padding: 0 5px;
+            position: absolute;
+            top: -.6em;
+        }
+
+        hr {
+            border-top-style: dashed;
+            border-top-width: 2px;
+            width: 100%;
+        }
+    }
+}

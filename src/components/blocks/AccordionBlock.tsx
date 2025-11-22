@@ -5,6 +5,7 @@ import { Accordion } from "react-bootstrap";
 import type { BlockProps } from "../Block";
 import ConditionalDiv from "../ConditionalDiv";
 import Sanitized from "../Sanitized";
+import TextBlock from "./TextBlock";
 
 /**
  * @since latest
@@ -28,11 +29,33 @@ export default function AccordionBlock(props: BlockProps) {
             .map(({header, body}, i) => (
                 <Accordion.Item eventKey={String(i)} key={i}>
                     <Accordion.Header as="div">
-                        <Sanitized dirtyHTML={header} />    
+                        <TextBlock
+                            wpBlock={{
+                                attrs: {
+                                    data: {
+                                        text_rich_text: header
+                                    }
+                                },
+                                blockName: null,
+                                innerBlocks: [],
+                                innerHTML: ''
+                            }}
+                        />  
                     </Accordion.Header>
 
                     <Accordion.Body>
-                        <Sanitized dirtyHTML={body} />
+                        <TextBlock 
+                            wpBlock={{
+                                attrs: {
+                                    data: {
+                                        text_rich_text: body
+                                    }
+                                },
+                                blockName: null,
+                                innerBlocks: [],
+                                innerHTML: ''
+                            }}
+                        />
                     </Accordion.Body>
                 </Accordion.Item>
             ));
