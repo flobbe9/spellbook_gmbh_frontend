@@ -31,7 +31,7 @@
             }
         }
 
-        @include tabletLandscape() {
+        @include atLeastTabletLandscape() {
             padding-top: $minBlockDimensionMarginTabletLandscape;
 
             &-simpleBlockDimension {
@@ -39,7 +39,7 @@
             }
         }
         
-        @include desktop() {
+        @include atLeastDesktop() {
             padding-top: $minBlockDimensionMarginDesktop;
             
             &-simpleBlockDimension {

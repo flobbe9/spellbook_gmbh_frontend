@@ -1,0 +1,53 @@
+.SliderBlock {
+    .carousel.slide {
+        .carousel-inner {
+            .carousel-item {
+                height: 66vh;
+                max-height: 500px;
+
+                .SliderBlock-slide {
+                    &-image {
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                        background-position: center;
+                        width: 100%;
+                        height: 100%;
+                    }
+                    &-video {
+                        
+                    }
+                }
+            }
+        }
+
+        .carousel-control {
+            $arrowButtonWidth: 5%;
+
+            &-prev, &-next {
+                border: 1px solid black;
+                width: $arrowButtonWidth;
+
+                // svg
+                &-icon {
+                    filter: invert(1); // black
+                }
+            }
+
+            &-prev {
+                // move outside of block dimension
+                left: -$arrowButtonWidth;
+            }
+
+            &-next {
+                // move outside of block dimension
+                right: -$arrowButtonWidth;
+            }
+        }
+
+        .carousel-indicators {
+            button {
+                background-color: black;
+            }
+        }
+    }
+}

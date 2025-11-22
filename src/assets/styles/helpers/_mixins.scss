@@ -7,18 +7,33 @@
 }
 
 @mixin tablet() {
+    @media (width >= $tabletWidth) and (width < $tabletLandscapeWidth) {
+        @content;
+    }
+}
+@mixin atLeastTablet() {
     @media (width >= $tabletWidth) {
         @content;
     }
 }
 
 @mixin tabletLandscape() {
+    @media (width >= $tabletLandscapeWidth) and (width < $desktopWidth) {
+        @content;
+    }
+}
+@mixin atLeastTabletLandscape() {
     @media (width >= $tabletLandscapeWidth) {
         @content;
     }
 }
 
 @mixin desktop() {
+    @media (width >= $desktopWidth) and (width < $desktopMonitorWidth) {
+        @content;
+    }
+}
+@mixin atLeastDesktop() {
     @media (width >= $desktopWidth) {
         @content;
     }

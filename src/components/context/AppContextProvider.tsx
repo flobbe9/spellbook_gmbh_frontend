@@ -13,7 +13,9 @@ export default function AppContextProvider({children}: {children: ReactNode}) {
     };
 
     useEffect(() => {
-        window.addEventListener("resize", handleWindowResize)
+        window.addEventListener("resize", handleWindowResize);
+        // initialize window size once
+        handleWindowResize();
 
         return () => {
             window.removeEventListener("resize", handleWindowResize);

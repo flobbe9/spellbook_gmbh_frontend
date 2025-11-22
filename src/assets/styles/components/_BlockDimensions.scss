@@ -13,15 +13,15 @@
             margin: 0 $blockDimensionMarginMobile;
         }
 
-        @include tablet() {
+        @include atLeastTablet() {
             width: calc($tabletWidth - $minBlockDimensionMarginTablet * 2);
         }
 
-        @include tabletLandscape() {
+        @include atLeastTabletLandscape() {
             width: calc($tabletLandscapeWidth - $minBlockDimensionMarginTabletLandscape * 2);
         }
         
-        @include desktop() {
+        @include atLeastDesktop() {
             width: calc($desktopWidth - $minBlockDimensionMarginDesktop * 2);
         }
 
