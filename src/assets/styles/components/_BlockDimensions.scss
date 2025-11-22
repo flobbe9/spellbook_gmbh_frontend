@@ -10,23 +10,23 @@
         margin: 0 auto;
 
         @include mobile() {
-            margin: 0 5px;
+            margin: 0 $blockDimensionMarginMobile;
         }
 
         @include tablet() {
-            width: calc($tabletWidth - 50px);
+            width: calc($tabletWidth - $minBlockDimensionMarginTablet * 2);
         }
 
         @include tabletLandscape() {
-            width: calc($tabletLandscapeWidth - 150px);
+            width: calc($tabletLandscapeWidth - $minBlockDimensionMarginTabletLandscape * 2);
         }
         
         @include desktop() {
-            width: calc($desktopWidth - 150px);
+            width: calc($desktopWidth - $minBlockDimensionMarginDesktop * 2);
         }
 
         @include desktopMonitor() {
-            width: calc($desktopMonitorWidth - 150px);
+            width: calc($desktopMonitorWidth - $minBlockDimensionMarginDesktopMonitor * 2);
         }
     }
 

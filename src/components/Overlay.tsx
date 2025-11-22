@@ -144,7 +144,7 @@ export default forwardRef(function Overlay(
         >
             <div className={`${componentName}-background`} ref={backgroundRef}></div>
             <div 
-                className={`${componentName}-childrenContainer flex justify-center items-center`}
+                className={`${componentName}-childrenContainer d-flex justify-content-center align-items-center`}
                 ref={childrenRef}
             >
                 {children}

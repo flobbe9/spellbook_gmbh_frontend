@@ -5,8 +5,16 @@
 $overlayZIndex: 1;
 $transition: 0.2s;
 
-/** Matches tailwind: https://tailwindcss.com/docs/responsive-design */
+// https://getbootstrap.com/docs/5.3/layout/grid/
 $tabletWidth: 768px; // md
-$tabletLandscapeWidth: 1024px; // lg
-$desktopWidth: 1280px; // xl
-$desktopMonitorWidth: 1536px; // 2xl
+$tabletLandscapeWidth: 992px; // lg
+$desktopWidth: 1200px; // xl
+$desktopMonitorWidth: 1400px; // 2xl
+
+$blockDimensionMarginMobile: 10px;
+$minBlockDimensionMarginTablet: 35px;
+$minBlockDimensionMarginTabletLandscape: 45px;
+$minBlockDimensionMarginDesktop: 65px;
+$minBlockDimensionMarginDesktopMonitor: 75px;
+
+$pMargin: 1em;

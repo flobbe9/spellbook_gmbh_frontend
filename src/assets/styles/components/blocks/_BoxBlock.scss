@@ -1,5 +1,8 @@
+@use "@styles/helpers/mixins" as *;
+@use "@styles/helpers/variables" as *;
+
 .BoxBlock {
-    &-background-image, &-simpleBlockDimensions {
+    &-background-image, &-simpleBlocksDimension-simpleBlockDimension {
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center center;
@@ -10,14 +13,62 @@
         background-attachment: fixed;
     }
 
-    &-background-color, &-simpleBlockDimensions {
+    &-simpleBlocksDimension {
+        @include mobile() {
+            padding-top: $blockDimensionMarginMobile;
 
+            &-simpleBlockDimension {
+                // TODO: consider space-between
+                margin-bottom: $blockDimensionMarginMobile;
+            }
+        }
+        
+        @include tablet() {
+            padding-top: $minBlockDimensionMarginTablet;
+
+            &-simpleBlockDimension {
+                margin-bottom: $minBlockDimensionMarginTablet;
+            }
+        }
+
+        @include tabletLandscape() {
+            padding-top: $minBlockDimensionMarginTabletLandscape;
+
+            &-simpleBlockDimension {
+                margin-bottom: $minBlockDimensionMarginTabletLandscape;
+            }
+        }
+        
+        @include desktop() {
+            padding-top: $minBlockDimensionMarginDesktop;
+            
+            &-simpleBlockDimension {
+                margin-bottom: $minBlockDimensionMarginDesktop;
+            }
+        }
+        
+        @include desktopMonitor() {
+            padding-top: $minBlockDimensionMarginDesktopMonitor;
+            
+            &-simpleBlockDimension {
+                margin-bottom: $minBlockDimensionMarginDesktopMonitor;
+            }
+        }
+
+        // give all elements margin y and make blockDimension's padding adjust
+        &-simpleBlockDimension {
+            $padding: $pMargin;
+            $morePadding: 4em; 
+
+            padding: calc($padding - $pMargin) $padding;
+
+            &-morePadding {
+                padding: calc($morePadding - $pMargin) $morePadding;
+            }
+
+            ul, ol, span, img, button {
+                margin: $pMargin 0;
+            }
+        }
     }
-
-    &-simpleBlockDimensions {
-        padding: 20px;
-    }
-
-    // TODO
-    min-height: 500px;
 }

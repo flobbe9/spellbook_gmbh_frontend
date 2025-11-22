@@ -34,7 +34,9 @@ export const DEFAULT_HTML_SANTIZER_OPTIONS: sanitize.IOptions = {
         "img",
         "input",
         "kbd",
+        "li",
         "mark",
+        "ol",
         "p",
         "pre",
         "s",
@@ -43,6 +45,7 @@ export const DEFAULT_HTML_SANTIZER_OPTIONS: sanitize.IOptions = {
         "sub",
         "sup",
         "svg",
+        "ul"
     ],
     allowedAttributes: {
         "a": ["href", "alt", "target", "rel", ...ALLOWED_TAG_ATTRIBUTES],
@@ -58,9 +61,12 @@ export const DEFAULT_HTML_SANTIZER_OPTIONS: sanitize.IOptions = {
         "i": [...ALLOWED_TAG_ATTRIBUTES],
         "img": ["src", "alt", ...ALLOWED_TAG_ATTRIBUTES],
         "input": ["placeholder", "value", "defaultValue", ...ALLOWED_TAG_ATTRIBUTES],
+        "li": [...ALLOWED_TAG_ATTRIBUTES],
         "mark": ["alt", "color", ...ALLOWED_TAG_ATTRIBUTES],
+        "ol": [...ALLOWED_TAG_ATTRIBUTES],
         "p": [...ALLOWED_TAG_ATTRIBUTES],
         "span": [...ALLOWED_TAG_ATTRIBUTES],
+        "ul": [...ALLOWED_TAG_ATTRIBUTES]
     },
     parseStyleAttributes: false
 }
