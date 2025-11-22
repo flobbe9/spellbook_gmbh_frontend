@@ -41,10 +41,11 @@ export default function BoxBlock(props: BlockProps) {
                     style: {
                         backgroundColor: wpSimpleBlock.box_background_type === "color" ? wpSimpleBlock.box_background_color : undefined,
                         backgroundImage: wpSimpleBlock.box_background_type === "image" ? `url(${wpSimpleBlock.box_background_image_url})` : undefined,
-                        padding: wpSimpleBlock.box_more_padding ? '30px' : undefined,
                         width: wpSimpleBlock.box_width,
                     },
-                    className: `${componentName}-simpleBlockDimensions`
+                    className: `${componentName}-simpleBlocksDimension-simpleBlockDimension ${
+                        wpSimpleBlock.box_more_padding ? `${componentName}-simpleBlocksDimension-simpleBlockDimension-morePadding` : ''
+                        } d-flex align-items-center`
                 }
 
                 // for parsing functions to work properly
@@ -82,9 +83,9 @@ export default function BoxBlock(props: BlockProps) {
             {/* "box" */}
             <BlockDimensions 
                 className={`${
-                    componentName}-simpleBlocksWrapper flex ${
-                    display_flex ? "justify" : "items"}-${justify_content} ${
-                    display_flex ? "flex-row" : "flex-col"}`
+                    componentName}-simpleBlocksDimension d-flex ${
+                    display_flex ? "justify-content" : "align-items"}-${justify_content} ${
+                    display_flex ? "flex-row" : "flex-column"}`
                 }
                 mode="margin-auto" 
             >

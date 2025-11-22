@@ -19,12 +19,13 @@ export default function Page(props: DefaultProps<HTMLDivElement>) {
     const { slug } = useParams();
     
     const { data: wpPage, isPending } = useWpPage(slug ?? '', WpPostType.PAGE, {onError: handleError});
-
+    
     /** Should be `true` if `slug` could not be found */
     const [is404, set404] = useState(false);
     const [blocks, setBlocks] = useState<JSX.Element[]>([])
-
-    const { ...otherProps } = useDefaultProps("Page", props);
+    
+    const componentName = "Page";
+    const { ...otherProps } = useDefaultProps(componentName, props);
 
     useEffect(() => {
         setBlocks(mapBlocks());
@@ -32,7 +33,14 @@ export default function Page(props: DefaultProps<HTMLDivElement>) {
 
     function mapBlocks(): JSX.Element[] {
         return wpPage?.blocks?.map((wpBlock, i) => 
-            <Block key={i} wpBlock={wpBlock} blockDimensionProps={{mode: null}} />)
+            <Block 
+                key={i} 
+                wpBlock={wpBlock} 
+                blockDimensionProps={{
+                    mode: null,
+                }} 
+            />
+        )
     }
 
     function handleError(response: CustomResponseFormat): void {
