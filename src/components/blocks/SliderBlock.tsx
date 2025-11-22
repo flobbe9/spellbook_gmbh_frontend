@@ -1,10 +1,14 @@
 import { parseWpSliderBlock } from "@/abstracts/backendDefinitions/blocks/WpSliderBlock";
 import { useBlockProps } from "@/hooks/useBlockProps";
-import { type JSX, useEffect, useState } from "react";
+import { useWindowWidth } from "@/hooks/useWindowWidth";
+import { type JSX, useEffect, useRef, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import type { BlockProps } from "../Block";
-import Conditional from "../Conditional";
+import ConditionalDiv from "../ConditionalDiv";
 import Sanitized from "../Sanitized";
+import { logDebug } from "@/helpers/logUtils";
+import { useHasComponentMounted } from "@/hooks/useHasComponentMounted";
+import SliderVideo from "../SliderVideo";
 
 /**
  * @since latest
@@ -12,6 +16,8 @@ import Sanitized from "../Sanitized";
 export default function SliderBlock(props: BlockProps) {
     const componentName = "SliderBlock";
     const { children, wpBlock, parsedWpBlock, ...otherProps } = useBlockProps(componentName, props, parseWpSliderBlock);
+
+    const { isMobileWidth } = useWindowWidth();
 
     const [slides, setSlides] = useState<JSX.Element[]>([]);
 
@@ -27,11 +33,16 @@ export default function SliderBlock(props: BlockProps) {
             .map(({type, ...slide}, i) => (
                 <Carousel.Item key={i}>
                     {type === "image" &&
-                        <img src={slide.image_url} alt="" />
+                        <div
+                            className={`${componentName}-slide-image`}
+                            style={{
+                                backgroundImage: `url(${slide.image_url})`,
+                            }}
+                        ></div>
                     }
 
                     {type === "video" && 
-                        <img src={slide.video_url} alt="" />
+                        <SliderVideo url={slide.video_url} className={`${componentName}-slide-video`} />
                     }
 
                     {type === "text" && 
@@ -42,10 +53,10 @@ export default function SliderBlock(props: BlockProps) {
     }
 
     return (
-        <Conditional {...otherProps}>
-            <Carousel interval={null}>
+        <ConditionalDiv {...otherProps}>
+            <Carousel interval={null} controls={!isMobileWidth}>
                 {slides}
             </Carousel>
-        </Conditional>
+        </ConditionalDiv>
     )
 }
