@@ -6,4 +6,8 @@
 
 :root {
     --overlayZIndex: #{$overlayZIndex};
+
+    --tabletWidth: #{$tabletWidth};
+    --desktopWidth: #{$desktopWidth};
+    --desktopMonitorWidth: #{$desktopMonitorWidth};
 }
