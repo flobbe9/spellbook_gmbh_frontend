@@ -3,8 +3,7 @@ import { CustomResponseFormat } from "@/abstracts/CustomResponseFormat";
 import type { CustomUseQueryConfig } from "@/abstracts/CustomUseQueryOptions";
 import { CONTENT_TYPE_APPLICATION_JSON, CONTENT_TYPE_TEXT_PLAIN } from "@/helpers/constants";
 import { fetchAny, hasCacheBeenInitialized, isHttpResponseNotAlright } from "@/helpers/fetchUtils";
-import { logTrace } from "@/helpers/logUtils";
-import { assertFalsyOrBlankAndThrow } from "@/helpers/utils";
+import { assertFalsyOrBlankAndThrow, isFalsy } from "@/helpers/utils";
 import { useHasComponentMounted } from "@/hooks/useHasComponentMounted";
 import { useQuery, useQueryClient, type DefinedUseQueryResult } from "@tanstack/react-query";
 
@@ -27,20 +26,21 @@ export function useBackendApi<T>(
     const queryClient = useQueryClient();
 
     const hasMounted = useHasComponentMounted();
-    const { fetchOnMount = true, onError, queryKey } = cacheOptions;
+    const { fetchOnMount = true, fetchOnMountIfCacheIsEmpty = true, onError, queryKey } = cacheOptions;
 
     const queryResult = useQuery<T>({
         queryKey: queryKey,
         queryFn: fetchData,
-        initialData: queryClient.getQueryData(queryKey)
+        initialData: queryClient.getQueryData(queryKey),
+        retryOnMount: false,
+        retry: false
     })
 
     async function fetchData(): Promise<T> {
         const cachedData: T = queryClient.getQueryData(queryKey);
         
         // case: don't want to refetch on mount
-        if (!hasMounted && !fetchOnMount) {
-            logTrace("still mounting...", fetchConfig.url);
+        if (!hasMounted && (!fetchOnMount && !(isCacheEmmpty() && fetchOnMountIfCacheIsEmpty))) { 
             if (hasCacheBeenInitialized(queryClient, queryKey))
                 return cachedData;
                 
@@ -78,6 +78,10 @@ export function useBackendApi<T>(
 
     function hasThisCacheBeenInitialized(): boolean {
         return hasCacheBeenInitialized(queryClient, queryKey);
+    }
+
+    function isCacheEmmpty(): boolean {
+        return isFalsy(queryClient.getQueryData(queryKey))
     }
 
     return queryResult;

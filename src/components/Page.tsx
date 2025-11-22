@@ -18,7 +18,7 @@ import Pending from "./Pending";
 export default function Page(props: DefaultProps<HTMLDivElement>) {
     const { slug } = useParams();
     
-    const { data: wpPage, isPending } = useWpPage(slug ?? '', WpPostType.PAGE, {onError: handleError});
+    const { data: wpPage, isFetching } = useWpPage(slug ?? '', WpPostType.PAGE, {onError: handleError});
     
     /** Should be `true` if `slug` could not be found */
     const [is404, set404] = useState(false);
@@ -53,7 +53,7 @@ export default function Page(props: DefaultProps<HTMLDivElement>) {
 
     return (
         <ConditionalDiv {...otherProps}>
-            <Pending isPending={isPending} />
+            <Pending isPending={isFetching} />
 
             {blocks}
 {/* 
