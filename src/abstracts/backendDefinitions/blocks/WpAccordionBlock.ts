@@ -1,7 +1,6 @@
 import { assertFalsyOrBlankAndThrow } from "@/helpers/utils";
 import type WpBlock from "../WpBlock";
 import { getWpBlockFieldPrefix } from "../WpBlock";
-import { logDebug } from "@/helpers/logUtils";
 
 /**
  * @since latest
@@ -24,8 +23,6 @@ export function parseWpAccordionBlock(wpBlock: WpBlock, parentBlockName?: string
 
     const data = wpBlock.attrs["data"];
     const fieldNamePrefix = getWpBlockFieldPrefix(parentBlockName);
-
-    logDebug("accordion data", data)
 
     const header_bodies = (data[`${fieldNamePrefix}accordion_header_bodies`] as object[])
         .map(header_body => ({

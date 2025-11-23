@@ -1,4 +1,4 @@
-import type { WpBackgroundType } from "../WpBackgroundType";
+import type { WpBlockWithBackground } from "../WpBlockWithBackground";
 
 
 /**
@@ -6,20 +6,12 @@ import type { WpBackgroundType } from "../WpBackgroundType";
  * 
  * @since latest
  */
-export interface WpSimpleBoxBlock {
+export interface WpSimpleBoxBlock extends WpBlockWithBackground { // NOTE: background fields actually have "box_" prefix!!
     /** Adds an fixed amount of padding. Default should be `false` */
     box_more_padding: boolean,
 
     /** Valid css string */
     box_width: string,
-
-    box_background_type: WpBackgroundType
-
-    /** Absolute url */
-    box_background_image_url: string,
-
-    /** Valid css string */
-    box_background_color: string,
 
     /** The full `blockName` of the simple block */
     box_simple_block_type: string

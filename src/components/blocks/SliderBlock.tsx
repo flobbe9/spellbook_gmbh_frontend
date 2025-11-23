@@ -5,8 +5,8 @@ import { type JSX, useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import type { BlockProps } from "../Block";
 import ConditionalDiv from "../ConditionalDiv";
-import Sanitized from "../Sanitized";
 import SliderVideo from "../SliderVideo";
+import TextBlock from "./TextBlock";
 
 /**
  * @since latest
@@ -44,7 +44,18 @@ export default function SliderBlock(props: BlockProps) {
                     }
 
                     {type === "text" && 
-                        <Sanitized dirtyHTML={slide.html} />
+                        <TextBlock 
+                            wpBlock={{
+                                attrs: {
+                                    data: {
+                                        text_rich_text: slide.html
+                                    }
+                                },
+                                blockName: null,
+                                innerBlocks: [],
+                                innerHTML: ''
+                            }}                        
+                        />
                     }
                 </Carousel.Item>
             ));

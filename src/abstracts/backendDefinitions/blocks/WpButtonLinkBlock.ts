@@ -1,6 +1,7 @@
 import { assertFalsyOrBlankAndThrow, isBlank } from "@/helpers/utils";
 import type WpBlock from "../WpBlock";
 import { getWpBlockFieldPrefix } from "../WpBlock";
+import type { WpBackgroundTypeColor } from "../WpBackgroundType";
 
 /**
  * @since latest
@@ -17,7 +18,7 @@ export interface WpButtonLinkBlock {
     /** Should default to `false` */
     open_in_new_tab: boolean;
     /** Valid css value */
-    background_color: string;
+    background_color: WpBackgroundTypeColor;
 }
 
 export function parseWpButtonLinkBlock(wpBlock: WpBlock, parentBlockName?: string): WpButtonLinkBlock {

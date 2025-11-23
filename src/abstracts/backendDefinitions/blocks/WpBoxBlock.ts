@@ -1,19 +1,13 @@
 import { assertFalsyOrBlankAndThrow } from "@/helpers/utils";
-import type { WpBackgroundType } from "../WpBackgroundType";
 import type WpBlock from "../WpBlock";
+import type { WpBlockWithBackground } from "../WpBlockWithBackground";
 import type { WpSimpleBoxBlock } from "./WpSimpleBoxBlock";
 
 /**
  * @since latest
  */
-export interface WpBoxBlock {
-    background_type: WpBackgroundType,
-
-    background_image_url: string,
-
+export interface WpBoxBlock extends WpBlockWithBackground {
     background_image_fixed: boolean,
-
-    background_color: string,
 
     display_flex: false,
 
