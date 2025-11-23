@@ -11,7 +11,7 @@ export interface WpSimpleBoxBlock extends WpBlockWithBackground { // NOTE: backg
     box_more_padding: boolean,
 
     /** Valid css string */
-    box_width: string,
+    box_width: "100%" | "66%" | "fit-content",
 
     /** The full `blockName` of the simple block */
     box_simple_block_type: string

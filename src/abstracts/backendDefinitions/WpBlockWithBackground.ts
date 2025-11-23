@@ -1,6 +1,8 @@
 import type { WpBackgroundType } from "./WpBackgroundType";
 
 /**
+ * Possibly needs a parentBlockName as prefix.
+ * 
  * @since latest
  */
 export interface WpBlockWithBackground {

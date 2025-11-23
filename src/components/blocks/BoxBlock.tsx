@@ -1,5 +1,6 @@
 import { parseWpBoxBlock } from "@/abstracts/backendDefinitions/blocks/WpBoxBlock";
 import type WpBlock from "@/abstracts/backendDefinitions/WpBlock";
+import type { WpBlockWithBackground } from "@/abstracts/backendDefinitions/WpBlockWithBackground";
 import { CARBON_FIELDS_BLOCK_TYPE_CATEGORY } from "@/helpers/constants";
 import { getCssConstant, isBlank } from "@/helpers/utils";
 import { useBlockProps } from "@/hooks/useBlockProps";
@@ -9,8 +10,6 @@ import Block from "../Block";
 import BlockDimensions, { type BlockDimensionProps } from "../BlockDimensions";
 import ConditionalDiv from "../ConditionalDiv";
 import Sanitized from "../Sanitized";
-import type { WpBlockWithBackground } from "@/abstracts/backendDefinitions/WpBlockWithBackground";
-import { logDebug } from "@/helpers/logUtils";
 
 /**
  * Cannot be nested.
@@ -38,7 +37,6 @@ export default function BoxBlock(props: BlockProps) {
         
         return parsedWpBlock.simpleBlocks
             .map((wpSimpleBlock, i) => { 
-                logDebug(wpSimpleBlock)
                 // for the direct block parent
                 const blockDimensionProps: BlockDimensionProps = {
                     mode: "fit-content",
@@ -110,7 +108,7 @@ export default function BoxBlock(props: BlockProps) {
             {/* "box" */}
             <BlockDimensions 
                 className={`${
-                    componentName}-simpleBlocksDimension d-flex ${
+                    componentName}-simpleBlocksDimension d-flex flex-wrap flex-lg-nowrap ${
                     display_flex ? "justify-content" : "align-items"}-${justify_content} ${
                     display_flex ? "flex-row" : "flex-column"}`
                 }

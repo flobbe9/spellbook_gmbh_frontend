@@ -13,6 +13,7 @@ export interface WpBoxBlock extends WpBlockWithBackground {
 
     justify_content: string,
 
+    /** 3 at most */
     simpleBlocks: WpSimpleBoxBlock[]
 }
 

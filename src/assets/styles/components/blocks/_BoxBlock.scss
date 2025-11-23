@@ -18,8 +18,8 @@
             padding-top: $blockDimensionMarginMobile;
 
             &-simpleBlockDimension {
-                // TODO: consider space-between
                 margin-bottom: $blockDimensionMarginMobile;
+                margin-right: $blockDimensionMarginMobile;
             }
         }
         
@@ -28,6 +28,7 @@
 
             &-simpleBlockDimension {
                 margin-bottom: $minBlockDimensionMarginTablet;
+                margin-right: $minBlockDimensionMarginTablet;
             }
         }
 
@@ -36,6 +37,7 @@
 
             &-simpleBlockDimension {
                 margin-bottom: $minBlockDimensionMarginTabletLandscape;
+                margin-right: $minBlockDimensionMarginTabletLandscape;
             }
         }
         
@@ -44,6 +46,7 @@
             
             &-simpleBlockDimension {
                 margin-bottom: $minBlockDimensionMarginDesktop;
+                margin-right: $minBlockDimensionMarginDesktop;
             }
         }
         
@@ -52,6 +55,7 @@
             
             &-simpleBlockDimension {
                 margin-bottom: $minBlockDimensionMarginDesktopMonitor;
+                margin-right: $minBlockDimensionMarginDesktopMonitor;
             }
         }
 
@@ -59,6 +63,13 @@
         &-simpleBlockDimension {
             $padding: $pMargin;
             $morePadding: 4em; 
+
+            // the width where no-wrap starts
+            @include atLeastTabletLandscape() {
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
 
             padding: calc($padding - $pMargin) $padding;
 
