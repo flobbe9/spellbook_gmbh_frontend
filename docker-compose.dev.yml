@@ -4,7 +4,7 @@ services:
     build:
       context: .
       args:
-        HTTPS: true
+        HTTPS: false
         NODE_VERSION: ${NODE_VERSION}
     environment:
       REACT_APP_CRYPTO_KEY: 6Le0DgMTAAAAANokdEEial
